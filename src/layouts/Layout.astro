@@ -1,0 +1,199 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = 'Freedom Mobility NY | Home Accessibility Experts',
+  description = 'Locally owned and operated. Serving the greater Rochester, Buffalo, and Syracuse areas with stairlifts, ramps, vertical platform lifts, and home accessibility solutions. Schedule your free in-home consultation today.',
+  image = '/images/FM_NYS.png',
+} = Astro.props;
+
+const phone = '(585) 488-0771';
+const phoneHref = 'tel:5854880771';
+const email = 'info@freedommobilityny.com';
+const location = 'Rochester, NY';
+const navLinks = [
+  { href: '/stairlifts', label: 'Stairlifts' },
+  { href: '/ramps', label: 'Ramps' },
+  { href: '/vertical-platform-lifts', label: 'Vertical Lifts' },
+  { href: '/service', label: 'Service' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>{title}</title>
+  </head>
+  <body class="bg-white text-slate-900 font-sans antialiased">
+    <!-- Top contact bar -->
+    <div class="bg-slate-900 text-white text-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-1">
+          <span class="flex items-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314-11.314z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            {location} • Serving Buffalo & Syracuse
+          </span>
+          <a href={phoneHref} class="flex items-center gap-1.5 hover:text-sky-400 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2 3 3 0 013 3v1m0 0v1a2 2 0 01-2 2 2 2 0 01-2-2V8m6 4l4-4m-4 4l-4-4" />
+            </svg>
+            {phone}
+          </a>
+          <span class="hidden md:inline text-slate-400">Mon–Fri 8AM–5PM</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href={`mailto:${email}`} class="hover:text-sky-400 transition-colors flex items-center gap-1.5 text-xs sm:text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2.01 2.01 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            Email Us
+          </a>
+          <a href="/contact" class="bg-sky-500 hover:bg-sky-600 transition-colors text-white text-xs font-semibold px-3 py-1 rounded">FREE CONSULTATION</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main nav -->
+    <header class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo -->
+          <a href="/" class="flex items-center gap-3 group">
+            <img src="/images/logo.png" alt="Freedom Mobility NY Logo" class="h-9 w-auto" />
+            <div>
+              <span class="font-bold text-xl tracking-tight text-slate-900 group-hover:text-sky-700 transition-colors">Freedom Mobility</span>
+              <span class="text-sky-600 font-semibold text-sm align-super ml-0.5">NY</span>
+            </div>
+          </a>
+
+          <!-- Desktop Nav -->
+          <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+            {navLinks.map(link => (
+              <a href={link.href} class="text-slate-700 hover:text-sky-600 transition-colors">{link.label}</a>
+            ))}
+          </nav>
+
+          <!-- CTA -->
+          <div class="hidden md:block">
+            <a href="/contact" 
+               class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all active:scale-[0.985]">
+              Schedule Free Consultation
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7-7 7M5 12h14" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Mobile menu button -->
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-slate-900" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Nav -->
+      <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white">
+        <div class="px-4 py-4 flex flex-col gap-1 text-sm">
+          {navLinks.map(link => (
+            <a href={link.href} class="py-2 px-2 text-slate-700 hover:bg-slate-50 hover:text-sky-600 rounded">{link.label}</a>
+          ))}
+          <a href="/contact" class="mt-3 inline-flex justify-center bg-slate-900 text-white px-5 py-2.5 rounded-lg text-sm font-semibold">
+            Schedule Free Consultation
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <slot />
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <img src="/images/logo.png" alt="Logo" class="h-8 w-auto brightness-0 invert" />
+              <span class="font-bold text-white text-lg">Freedom Mobility NY</span>
+            </div>
+            <p class="text-sm">Your local home accessibility experts. Serving Rochester, Buffalo, and Syracuse, NY.</p>
+          </div>
+          <div>
+            <div class="font-semibold text-white mb-3">Products &amp; Services</div>
+            <ul class="space-y-1.5 text-sm">
+              <li><a href="/stairlifts" class="hover:text-white">Stairlifts</a></li>
+              <li><a href="/ramps" class="hover:text-white">Ramps</a></li>
+              <li><a href="/vertical-platform-lifts" class="hover:text-white">Vertical Platform Lifts</a></li>
+              <li><a href="/service" class="hover:text-white">Service &amp; Repair</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="font-semibold text-white mb-3">Company</div>
+            <ul class="space-y-1.5 text-sm">
+              <li><a href="/about" class="hover:text-white">About Us</a></li>
+              <li><a href="/contact" class="hover:text-white">Contact</a></li>
+              <li><a href="/contact" class="hover:text-white">Free Consultation</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="font-semibold text-white mb-3">Get In Touch</div>
+            <a href={phoneHref} class="block text-xl font-semibold text-white hover:text-sky-400 mb-1">{phone}</a>
+            <a href={`mailto:${email}`} class="block hover:text-white mb-3">{email}</a>
+            <p class="text-sm">Rochester, NY<br />Mon–Fri 8:00 AM – 5:00 PM</p>
+          </div>
+        </div>
+        <div class="mt-10 pt-6 border-t border-slate-800 text-xs text-slate-500 flex flex-col sm:flex-row gap-2 items-center justify-between">
+          <div>© {new Date().getFullYear()} Freedom Mobility NY. All rights reserved. Locally owned &amp; operated.</div>
+          <div class="flex gap-4">
+            <a href="/contact" class="hover:text-slate-400">Privacy</a>
+            <a href="/contact" class="hover:text-slate-400">Accessibility</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      const btn = document.getElementById('mobile-menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      if (btn && menu) {
+        btn.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+          const isOpen = !menu.classList.contains('hidden');
+          btn.innerHTML = isOpen 
+            ? '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>'
+            : '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>';
+        });
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  /* Additional global tweaks */
+  :global(a) {
+    transition: color 0.1s ease;
+  }
+</style>

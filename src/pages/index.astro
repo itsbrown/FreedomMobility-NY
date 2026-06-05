@@ -1,0 +1,189 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Freedom Mobility NY | Home Accessibility Experts in Rochester, Buffalo & Syracuse"
+  description="Locally owned and operated home accessibility experts. Professional stairlifts, ramps, vertical platform lifts, and mobility solutions across Western and Central New York. Free in-home consultations."
+>
+  <!-- Hero -->
+  <section class="relative bg-slate-950 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(#1e2937_0.8px,transparent_1px)] bg-[length:4px_4px] opacity-40"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative pt-16 pb-20 md:pt-20 md:pb-28">
+      <div class="grid md:grid-cols-12 gap-10 items-center">
+        <div class="md:col-span-7">
+          <div class="inline-flex items-center gap-2 bg-white/10 text-white text-xs tracking-[1.5px] font-semibold px-4 py-1 rounded-full mb-6 border border-white/20">
+            ROCHESTER • BUFFALO • SYRACUSE
+          </div>
+          
+          <h1 class="text-5xl md:text-6xl font-bold tracking-tighter leading-none mb-6">
+            Home accessibility<br />experts you can trust.
+          </h1>
+          <p class="max-w-lg text-xl text-slate-300 mb-8">
+            Locally owned and operated. Helping Western and Central New Yorkers regain independence with stairlifts, ramps, lifts, and more.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="/contact" 
+               class="inline-flex items-center justify-center gap-2 bg-white text-slate-950 hover:bg-slate-100 font-semibold px-8 py-3.5 rounded-xl text-base transition-all active:scale-[0.985]">
+              Schedule Your Free Consultation
+            </a>
+            <a href="tel:5854880771" 
+               class="inline-flex items-center justify-center gap-2 border border-white/70 hover:bg-white/10 font-semibold px-8 py-3.5 rounded-xl text-base transition-all">
+              Call {`(585) 488-0771`}
+            </a>
+          </div>
+          <p class="mt-4 text-sm text-slate-400">Free in-home consultations • 18-month Gold Star warranty on installations</p>
+        </div>
+
+        <div class="md:col-span-5 relative">
+          <img 
+            src="/images/FM_NYS.png" 
+            alt="Freedom Mobility NY - Serving New York State" 
+            class="rounded-2xl shadow-2xl w-full object-cover border border-white/10" 
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust bar -->
+  <div class="border-b border-slate-200 bg-slate-50 py-3">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs sm:text-sm text-slate-600 flex flex-wrap justify-center gap-x-8 gap-y-1 font-medium">
+      <span>✓ Locally Owned & Operated</span>
+      <span>✓ Free In-Home Consultations</span>
+      <span>✓ Professional Installation</span>
+      <span>✓ 18-Month Service Warranty</span>
+      <span>✓ All Major Brands</span>
+    </div>
+  </div>
+
+  <!-- About / Intro -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+    <div class="max-w-3xl mx-auto text-center mb-12">
+      <div class="uppercase tracking-[2px] text-sky-600 text-sm font-semibold mb-3">Since serving NY families</div>
+      <h2 class="text-4xl font-bold tracking-tight">Your local home accessibility experts</h2>
+      <p class="mt-4 text-lg text-slate-600">
+        At Freedom Mobility NY, we believe everyone deserves the freedom to move comfortably and safely in their own home. 
+        Based in Rochester, we proudly serve the greater Rochester, Buffalo, and Syracuse areas.
+      </p>
+    </div>
+
+    <div class="prose prose-slate max-w-3xl mx-auto text-[15px] text-center text-slate-600">
+      <p>
+        Freedom Mobility is a leading provider of stairlifts, ramps, platform lifts, home modifications, bathroom safety, and more. 
+        We start with a <strong>free in-home consultation</strong> so we can learn about your needs. Our experts assess areas of concern, 
+        take measurements, and fully understand your mobility goals. As a locally owned company, you can rest easy knowing we are only a phone call away.
+      </p>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="bg-slate-50 py-16 md:py-20 border-t border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <div class="text-sky-600 font-semibold tracking-widest text-sm">OUR SOLUTIONS</div>
+          <h3 class="text-3xl font-bold tracking-tight">Products that restore freedom</h3>
+        </div>
+        <a href="/contact" class="hidden sm:block text-sm font-medium text-sky-600 hover:text-sky-700">View all solutions →</a>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Stairlifts -->
+        <a href="/stairlifts" class="group block bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-all">
+          <div class="h-52 bg-slate-100 overflow-hidden">
+            <img src="/images/stairlift-curved.jpg" alt="Curved stairlift installed in home" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          </div>
+          <div class="p-6">
+            <div class="font-semibold text-xl mb-2 group-hover:text-sky-600">Stairlifts</div>
+            <p class="text-slate-600 text-sm line-clamp-3">
+              Glide effortlessly up and down your stairs. Smooth start/stop, blends seamlessly into your home. 
+              Ideal for straight or curved staircases.
+            </p>
+            <div class="mt-4 inline-flex text-sky-600 text-sm font-medium items-center gap-1 group-hover:gap-2 transition-all">
+              Learn more <span aria-hidden="true">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Ramps -->
+        <a href="/ramps" class="group block bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-all">
+          <div class="h-52 bg-slate-100 overflow-hidden">
+            <img src="/images/ramp_flag.jpeg" alt="Portable and permanent access ramps" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          </div>
+          <div class="p-6">
+            <div class="font-semibold text-xl mb-2 group-hover:text-sky-600">Ramps</div>
+            <p class="text-slate-600 text-sm line-clamp-3">
+              Expert guidance for portable and permanent ramps. Custom solutions for safe, durable access 
+              to your home — indoors or outdoors.
+            </p>
+            <div class="mt-4 inline-flex text-sky-600 text-sm font-medium items-center gap-1 group-hover:gap-2 transition-all">
+              Learn more <span aria-hidden="true">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Vertical Lifts -->
+        <a href="/vertical-platform-lifts" class="group block bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-all">
+          <div class="h-52 bg-slate-100 overflow-hidden flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
+            <img src="/images/HA_SL300_Lifestyle-UpStairs.png" alt="Vertical platform lift for wheelchair access" class="max-h-44 object-contain" />
+          </div>
+          <div class="p-6">
+            <div class="font-semibold text-xl mb-2 group-hover:text-sky-600">Vertical Platform Lifts</div>
+            <p class="text-slate-600 text-sm line-clamp-3">
+              Safe, reliable vertical lifts for wheelchairs and power chairs. Perfect for porches, decks, 
+              and multi-level access in residential or light commercial settings.
+            </p>
+            <div class="mt-4 inline-flex text-sky-600 text-sm font-medium items-center gap-1 group-hover:gap-2 transition-all">
+              Learn more <span aria-hidden="true">→</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="/contact" class="text-sm underline text-slate-500 hover:text-slate-700">Plus home modifications, bathroom safety &amp; more →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+    <div class="text-center mb-10">
+      <div class="text-sky-600 font-semibold tracking-widest text-sm mb-2">WHY FAMILIES CHOOSE US</div>
+      <h3 class="text-3xl font-bold tracking-tight">Freedom Mobility is here to help</h3>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-white p-7 rounded-2xl border border-slate-200">
+        <div class="text-3xl mb-4">🏠</div>
+        <h4 class="font-semibold text-xl mb-2">Free In-Home Consultation</h4>
+        <p class="text-slate-600">Our experts visit your home, assess your needs, take measurements, and provide personalized recommendations at no cost or obligation.</p>
+      </div>
+      <div class="bg-white p-7 rounded-2xl border border-slate-200">
+        <div class="text-3xl mb-4">🛡️</div>
+        <h4 class="font-semibold text-xl mb-2">18-Month Gold Star Warranty</h4>
+        <p class="text-slate-600">We stand behind every new installation with our Gold Star Service Warranty — 18 months of coverage on parts and labor (terms apply).</p>
+      </div>
+      <div class="bg-white p-7 rounded-2xl border border-slate-200">
+        <div class="text-3xl mb-4">⭐</div>
+        <h4 class="font-semibold text-xl mb-2">Highest Quality Products &amp; Service</h4>
+        <p class="text-slate-600">We only offer trusted, top-tier accessibility solutions. Our team is highly trained and committed to exceptional, friendly local service.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="bg-sky-600 text-white">
+    <div class="max-w-5xl mx-auto px-4 py-14 text-center">
+      <h3 class="text-3xl md:text-4xl font-bold tracking-tight mb-3">Ready to improve your mobility at home?</h3>
+      <p class="text-sky-100 mb-8 text-lg">Contact us today to schedule your free in-home consultation.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="/contact" class="inline-block bg-white text-sky-700 hover:bg-slate-100 font-semibold px-9 py-3.5 rounded-xl text-base">Request Free Consultation</a>
+        <a href="tel:5854880771" class="inline-block border-2 border-white/70 hover:bg-white/10 font-semibold px-9 py-3.5 rounded-xl text-base">Call {`(585) 488-0771`}</a>
+      </div>
+      <p class="mt-6 text-sm text-sky-200">Serving Rochester, Buffalo, Syracuse and surrounding communities in New York.</p>
+    </div>
+  </section>
+</Layout>

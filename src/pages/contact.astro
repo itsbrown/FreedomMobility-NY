@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Contact Us | Freedom Mobility NY"
+  description="Schedule your free in-home consultation with Freedom Mobility NY. Serving Rochester, Buffalo & Syracuse. Call (585) 488-0771 or fill out the form."
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <div class="grid lg:grid-cols-5 gap-12">
+      <!-- Form -->
+      <div class="lg:col-span-3">
+        <h1 class="text-4xl font-bold tracking-tight mb-2">Contact Us</h1>
+        <p class="text-lg text-slate-600 mb-8">Ready to improve your mobility? Get in touch with Freedom Mobility NY today. One of our team members will reach out to schedule your free in-home consultation.</p>
+
+        <form id="contact-form" class="space-y-5" onsubmit="handleSubmit(event)">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-sm font-medium mb-1.5 text-slate-700">Full Name</label>
+              <input type="text" name="name" required class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" placeholder="Jane Smith" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5 text-slate-700">Phone Number</label>
+              <input type="tel" name="phone" required class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" placeholder="(585) 555-1234" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1.5 text-slate-700">Email Address</label>
+            <input type="email" name="email" required class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" placeholder="you@example.com" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1.5 text-slate-700">What are you interested in? (optional)</label>
+            <select name="interest" class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm bg-white">
+              <option value="">Please select...</option>
+              <option>Stairlift</option>
+              <option>Ramp</option>
+              <option>Vertical Platform Lift</option>
+              <option>Service / Repair</option>
+              <option>Other / Home Modification</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1.5 text-slate-700">Message / Additional Details</label>
+            <textarea name="message" rows="4" class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" placeholder="Tell us about your staircase, entryway, or current equipment..."></textarea>
+          </div>
+
+          <button type="submit" 
+                  class="w-full sm:w-auto bg-slate-900 hover:bg-black active:bg-slate-950 transition text-white px-10 py-3 rounded-xl font-semibold">
+            Submit Request
+          </button>
+
+          <p class="text-xs text-slate-500">We typically respond within 1 business day. Your information is kept confidential.</p>
+        </form>
+
+        <div id="form-success" class="hidden mt-6 rounded-2xl bg-emerald-50 border border-emerald-200 p-5 text-emerald-800">
+          <strong>Thank you!</strong> Your consultation request has been received. A member of our team will contact you shortly to confirm your free in-home visit.
+        </div>
+      </div>
+
+      <!-- Sidebar info -->
+      <div class="lg:col-span-2 pt-2">
+        <div class="sticky top-20 space-y-6 text-sm">
+          <div>
+            <div class="font-semibold mb-1">Call or Text Us</div>
+            <a href="tel:5854880771" class="text-3xl font-semibold tracking-tighter text-sky-600 hover:text-sky-700">(585) 488-0771</a>
+          </div>
+
+          <div>
+            <div class="font-semibold mb-1">Email</div>
+            <a href="mailto:info@freedommobilityny.com" class="text-slate-700 hover:underline">info@freedommobilityny.com</a>
+          </div>
+
+          <div>
+            <div class="font-semibold mb-1">Service Area</div>
+            <div class="text-slate-600">Rochester, NY (primary)<br />Buffalo • Syracuse • Surrounding areas</div>
+          </div>
+
+          <div>
+            <div class="font-semibold mb-1">Hours</div>
+            <div class="text-slate-600">Monday – Friday: 8:00 AM – 5:00 PM<br />Evenings &amp; weekends by appointment</div>
+          </div>
+
+          <div class="pt-3 border-t">
+            <a href="/contact" class="text-xs px-3 py-1 rounded bg-white border inline-block">Download our brochure (PDF)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('contact-form');
+      const success = document.getElementById('form-success');
+      
+      // Simulate submission
+      setTimeout(() => {
+        form.classList.add('hidden');
+        success.classList.remove('hidden');
+        // In a real site this would POST to a form handler / Netlify / Formspree etc.
+        console.log('%c[Freedom Mobility] Contact form submitted (demo mode - no backend)', 'color:#64748b');
+      }, 420);
+    }
+  </script>
+</Layout>

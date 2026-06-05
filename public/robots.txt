@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://freedommobilityny.com/sitemap-index.xml
+
+# Note: Update sitemap URL if self-hosting or using different domain.
+# For static hosts that generate sitemap (Netlify, Vercel, Cloudflare), this helps.

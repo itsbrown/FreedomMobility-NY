@@ -13,7 +13,7 @@ import Layout from '../layouts/Layout.astro';
         <h1 class="text-4xl font-bold tracking-tight mb-2">Contact Us</h1>
         <p class="text-lg text-slate-600 mb-8">Ready to improve your mobility? Get in touch with Freedom Mobility NY today. One of our team members will reach out to schedule your free in-home consultation.</p>
 
-        <form id="contact-form" class="space-y-5" onsubmit="handleSubmit(event)">
+        <form id="contact-form" class="space-y-5">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label class="block text-sm font-medium mb-1.5 text-slate-700">Full Name</label>
@@ -83,8 +83,8 @@ import Layout from '../layouts/Layout.astro';
             <div class="text-slate-600">Monday – Friday: 8:00 AM – 5:00 PM<br />Evenings &amp; weekends by appointment</div>
           </div>
 
-          <div class="pt-3 border-t">
-            <a href="/contact" class="text-xs px-3 py-1 rounded bg-white border inline-block">Download our brochure (PDF)</a>
+          <div class="pt-3 border-t text-xs text-slate-500">
+            Ask about our printed brochure or site assessment during your free consultation.
           </div>
         </div>
       </div>
@@ -92,18 +92,26 @@ import Layout from '../layouts/Layout.astro';
   </div>
 
   <script>
-    function handleSubmit(e) {
-      e.preventDefault();
-      const form = document.getElementById('contact-form');
-      const success = document.getElementById('form-success');
-      
-      // Simulate submission
-      setTimeout(() => {
-        form.classList.add('hidden');
-        success.classList.remove('hidden');
-        // In a real site this would POST to a form handler / Netlify / Formspree etc.
-        console.log('%c[Freedom Mobility] Contact form submitted (demo mode - no backend)', 'color:#64748b');
-      }, 420);
+    // Robust form handler (avoids inline onsubmit + strict TS issues)
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const success = document.getElementById('form-success') as HTMLDivElement | null;
+
+    if (form) {
+      form.addEventListener('submit', (e: SubmitEvent) => {
+        e.preventDefault();
+
+        if (!success) return;
+
+        // In production: replace with fetch() to your endpoint (Netlify Forms, Formspree, custom API, etc.)
+        // Example: const data = new FormData(form); await fetch('/api/contact', { method: 'POST', body: data });
+        setTimeout(() => {
+          form.classList.add('hidden');
+          success.classList.remove('hidden');
+          // For demo only
+          console.log('%c[Freedom Mobility] Contact form submitted (demo mode - no backend)', 'color:#64748b', Object.fromEntries(new FormData(form)));
+          // Optional: form.reset();
+        }, 420);
+      });
     }
   </script>
 </Layout>

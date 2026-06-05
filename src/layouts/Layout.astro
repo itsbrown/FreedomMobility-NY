@@ -21,7 +21,7 @@ const navLinks = [
   { href: '/vertical-platform-lifts', label: 'Vertical Lifts' },
   { href: '/service', label: 'Service' },
   { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/contact', label: 'Contact Us' },
 ];
 ---
 
@@ -40,8 +40,6 @@ const navLinks = [
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <title>{title}</title>
   </head>
   <body class="bg-white text-slate-900 font-sans antialiased">
@@ -50,14 +48,14 @@ const navLinks = [
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
         <div class="flex flex-wrap items-center gap-x-6 gap-y-1">
           <span class="flex items-center gap-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314-11.314z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             {location} • Serving Buffalo & Syracuse
           </span>
           <a href={phoneHref} class="flex items-center gap-1.5 hover:text-sky-400 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2 3 3 0 013 3v1m0 0v1a2 2 0 01-2 2 2 2 0 01-2-2V8m6 4l4-4m-4 4l-4-4" />
             </svg>
             {phone}
@@ -66,7 +64,7 @@ const navLinks = [
         </div>
         <div class="flex items-center gap-4">
           <a href={`mailto:${email}`} class="hover:text-sky-400 transition-colors flex items-center gap-1.5 text-xs sm:text-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2.01 2.01 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2.01 2.01 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
             Email Us
           </a>
           <a href="/contact" class="bg-sky-500 hover:bg-sky-600 transition-colors text-white text-xs font-semibold px-3 py-1 rounded">FREE CONSULTATION</a>
@@ -80,7 +78,7 @@ const navLinks = [
         <div class="flex items-center justify-between h-16">
           <!-- Logo -->
           <a href="/" class="flex items-center gap-3 group">
-            <img src="/images/logo.png" alt="Freedom Mobility NY Logo" class="h-9 w-auto" />
+            <img src="/logos/Color logo - no background.svg" alt="Freedom Mobility NY Logo" class="h-9 w-auto" />
             <div>
               <span class="font-bold text-xl tracking-tight text-slate-900 group-hover:text-sky-700 transition-colors">Freedom Mobility</span>
               <span class="text-sky-600 font-semibold text-sm align-super ml-0.5">NY</span>
@@ -99,7 +97,7 @@ const navLinks = [
             <a href="/contact" 
                class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all active:scale-[0.985]">
               Schedule Free Consultation
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7-7 7M5 12h14" />
               </svg>
             </a>
@@ -107,7 +105,7 @@ const navLinks = [
 
           <!-- Mobile menu button -->
           <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-slate-900" aria-label="Toggle menu">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
@@ -135,7 +133,7 @@ const navLinks = [
         <div class="grid md:grid-cols-4 gap-8">
           <div>
             <div class="flex items-center gap-2 mb-3">
-              <img src="/images/logo.png" alt="Logo" class="h-8 w-auto brightness-0 invert" />
+              <img src="/logos/White logo - no background.svg" alt="Freedom Mobility NY" class="h-8 w-auto" />
               <span class="font-bold text-white text-lg">Freedom Mobility NY</span>
             </div>
             <p class="text-sm">Your local home accessibility experts. Serving Rochester, Buffalo, and Syracuse, NY.</p>
@@ -153,7 +151,7 @@ const navLinks = [
             <div class="font-semibold text-white mb-3">Company</div>
             <ul class="space-y-1.5 text-sm">
               <li><a href="/about" class="hover:text-white">About Us</a></li>
-              <li><a href="/contact" class="hover:text-white">Contact</a></li>
+              <li><a href="/contact" class="hover:text-white">Contact Us</a></li>
               <li><a href="/contact" class="hover:text-white">Free Consultation</a></li>
             </ul>
           </div>
@@ -167,8 +165,8 @@ const navLinks = [
         <div class="mt-10 pt-6 border-t border-slate-800 text-xs text-slate-500 flex flex-col sm:flex-row gap-2 items-center justify-between">
           <div>© {new Date().getFullYear()} Freedom Mobility NY. All rights reserved. Locally owned &amp; operated.</div>
           <div class="flex gap-4">
-            <a href="/contact" class="hover:text-slate-400">Privacy</a>
-            <a href="/contact" class="hover:text-slate-400">Accessibility</a>
+            <span class="hover:text-slate-400 cursor-default" title="Contact us for policy details">Privacy</span>
+            <span class="hover:text-slate-400 cursor-default" title="Contact us for accessibility info">Accessibility</span>
           </div>
         </div>
       </div>

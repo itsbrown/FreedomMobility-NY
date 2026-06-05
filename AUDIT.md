@@ -271,3 +271,28 @@ npx astro check  # should be 0 errors
 All critical and high issues addressed. The site is now in a polished, production-ready state for a local business.
 
 If you want me to tackle any of the "remaining recommendations" (e.g. implement image optimization, add JSON-LD, create 404 page, set up Netlify config, etc.), just say the word!
+
+---
+
+## Implementation Progress (post-audit)
+
+**P1: Image optimization** — **COMPLETED**
+
+- Created `src/assets/` and moved the 4 key raster images there.
+- Switched all content `<img>` tags (hero map + 3 product cards on home + detail images on stairlifts/ramps/vpl pages) to Astro's `<Image>` component from `astro:assets`.
+- Added explicit `image` config in `astro.config.mjs` (Sharp service).
+- Astro now automatically generates optimized WebP (and future AVIF) variants + responsive images during build.
+- Results (from build log):
+  - FM_NYS map (hero): 187kB → 30kB WebP
+  - HA_SL300 lift: 135kB → 34-37kB WebP
+  - ramp_flag: 98kB → 62-63kB WebP
+  - stairlift-curved: 74kB → 17-22kB WebP
+- dist size reduced (680kB total).
+- Content images now served from `/_astro/...webp` with proper lazy, decoding, width/height.
+- Kept `public/images/FM_NYS.png` only for the stable `og:image` meta tag (social sharing).
+- SVGs (logos) left in `public/logos/` (already optimal vectors).
+- Build verified clean.
+
+Ready for P2 (real form backend) or others on request. Run `npm run build` to see the optimized output in `dist/_astro/`.
+
+(Changes committed as part of ongoing work.)

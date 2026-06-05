@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import rampImg from '../assets/ramp_flag.jpeg';
 ---
 
 <Layout 
@@ -46,7 +48,7 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <div>
-        <img src="/images/ramp_flag.jpeg" alt="Access ramp with American flag" class="rounded-3xl border shadow-sm w-full" loading="lazy" width="1200" height="630" decoding="async" />
+        <Image src={rampImg} alt="Access ramp with American flag" class="rounded-3xl border shadow-sm w-full" width="1200" height="630" loading="lazy" decoding="async" />
         <p class="text-xs text-center mt-3 text-slate-500">Safe, code-compliant ramp solutions installed by our team.</p>
       </div>
     </div>

@@ -1,5 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+import fmMap from '../assets/FM_NYS.png';
+import stairliftImg from '../assets/stairlift-curved.jpg';
+import rampImg from '../assets/ramp_flag.jpeg';
+import vplImg from '../assets/HA_SL300_Lifestyle-UpStairs.png';
 ---
 
 <Layout 
@@ -37,8 +43,8 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="md:col-span-5 relative">
-          <img 
-            src="/images/FM_NYS.png" 
+          <Image 
+            src={fmMap} 
             alt="Freedom Mobility NY - Serving New York State" 
             class="rounded-2xl shadow-2xl w-full object-cover border border-white/10"
             width="1216"
@@ -97,7 +103,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- Stairlifts -->
         <a href="/stairlifts" class="group block bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-all">
           <div class="h-52 bg-slate-100 overflow-hidden">
-            <img src="/images/stairlift-curved.jpg" alt="Curved stairlift installed in home" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" decoding="async" />
+            <Image src={stairliftImg} alt="Curved stairlift installed in home" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="800" height="400" loading="lazy" decoding="async" />
           </div>
           <div class="p-6">
             <div class="font-semibold text-xl mb-2 group-hover:text-sky-600">Stairlifts</div>
@@ -114,7 +120,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- Ramps -->
         <a href="/ramps" class="group block bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-all">
           <div class="h-52 bg-slate-100 overflow-hidden">
-            <img src="/images/ramp_flag.jpeg" alt="Portable and permanent access ramps" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" decoding="async" />
+            <Image src={rampImg} alt="Portable and permanent access ramps" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" width="800" height="400" loading="lazy" decoding="async" />
           </div>
           <div class="p-6">
             <div class="font-semibold text-xl mb-2 group-hover:text-sky-600">Ramps</div>
@@ -131,7 +137,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- Vertical Lifts -->
         <a href="/vertical-platform-lifts" class="group block bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-all">
           <div class="h-52 bg-slate-100 overflow-hidden flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
-            <img src="/images/HA_SL300_Lifestyle-UpStairs.png" alt="Vertical platform lift for wheelchair access" class="max-h-44 object-contain" loading="lazy" decoding="async" />
+            <Image src={vplImg} alt="Vertical platform lift for wheelchair access" class="max-h-44 object-contain" width="600" height="480" loading="lazy" decoding="async" />
           </div>
           <div class="p-6">
             <div class="font-semibold text-xl mb-2 group-hover:text-sky-600">Vertical Platform Lifts</div>

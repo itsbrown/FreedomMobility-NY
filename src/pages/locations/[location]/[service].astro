@@ -1,0 +1,98 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getLocationBySlug, getAllLocationSlugs, type Location } from '../../../data/locations';
+
+export async function getStaticPaths() {
+  const validServices = [
+    { slug: 'stairlifts', name: 'Stairlifts', page: '/stairlifts' },
+    { slug: 'ramps', name: 'Ramps', page: '/ramps' },
+    { slug: 'vertical-platform-lifts', name: 'Vertical Platform Lifts', page: '/vertical-platform-lifts' },
+    { slug: 'service', name: 'Service & Repair', page: '/service' },
+  ];
+
+  const locationSlugs = getAllLocationSlugs();
+  const paths: any[] = [];
+
+  locationSlugs.forEach(locSlug => {
+    validServices.forEach(svc => {
+      paths.push({
+        params: { location: locSlug, service: svc.slug },
+        props: { 
+          location: getLocationBySlug(locSlug)!,
+          service: svc 
+        }
+      });
+    });
+  });
+
+  return paths;
+}
+
+interface Props {
+  location: Location;
+  service: { slug: string; name: string; page: string };
+}
+
+const { location, service } = Astro.props;
+
+const title = `${service.name} in ${location.fullName} | Freedom Mobility NY`;
+const description = `Professional ${service.name.toLowerCase()} installation and service in ${location.fullName}. Free in-home consultations tailored to local homes in ${location.name}.`;
+
+// Example local content for the combo (can be expanded per service/location)
+const comboContent = {
+  stairlifts: `Many homes in ${location.name} have narrow or curved staircases typical of the region's architecture. Our stairlifts are custom-fitted for these conditions with minimal disruption.`,
+  ramps: `Whether you need a temporary portable ramp for a ${location.name} event or a permanent solution for your home, we design for local terrain and weather.`,
+  'vertical-platform-lifts': `For multi-level access in ${location.name} properties, including older buildings and new construction, vertical platform lifts provide reliable wheelchair access.`,
+  service: `We maintain and repair equipment from all major brands across ${location.name} and surrounding areas, with fast response for local customers.`
+};
+
+const localNote = comboContent[service.slug as keyof typeof comboContent] || `Our ${service.name.toLowerCase()} solutions are available throughout ${location.fullName}.`;
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <nav class="text-sm mb-8 text-slate-500">
+      <a href="/" class="hover:text-slate-700">Home</a>
+      <span class="mx-1">/</span>
+      <a href="/locations" class="hover:text-slate-700">Locations</a>
+      <span class="mx-1">/</span>
+      <a href={`/locations/${location.slug}`} class="hover:text-slate-700">{location.fullName}</a>
+      <span class="mx-1">/</span>
+      <span class="text-slate-700">{service.name}</span>
+    </nav>
+
+    <div class="max-w-3xl">
+      <span class="uppercase tracking-widest text-sky-600 text-sm font-semibold">{location.fullName.toUpperCase()} • {service.name.toUpperCase()}</span>
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tighter mt-3 mb-4">
+        {service.name} in {location.fullName}
+      </h1>
+      <p class="text-xl text-slate-600 mb-8">
+        Expert {service.name.toLowerCase()} solutions designed for homes in the {location.name} area. 
+        Locally owned and operated with free consultations.
+      </p>
+    </div>
+
+    <div class="prose prose-slate max-w-3xl mb-10">
+      <p>{localNote}</p>
+      <p>
+        Our team understands the unique needs of {location.name} residents. 
+        From historic properties to modern homes, we provide safe, reliable mobility equipment with professional installation.
+      </p>
+    </div>
+
+    <div class="flex flex-wrap gap-4 mb-12">
+      <a href="/contact" class="inline-flex items-center bg-slate-900 hover:bg-black text-white px-8 py-3.5 rounded-xl font-semibold transition">
+        Get a Free {service.name} Consultation in {location.name}
+      </a>
+      <a href="tel:5854880771" class="inline-flex items-center border border-slate-300 hover:bg-slate-50 px-8 py-3.5 rounded-xl font-semibold transition">
+        Call (585) 488-0771
+      </a>
+    </div>
+
+    <div class="bg-slate-50 rounded-2xl p-8">
+      <h2 class="text-2xl font-semibold mb-4">Ready for {service.name} in {location.name}?</h2>
+      <p class="mb-4">Contact us today to discuss your needs. We serve {location.fullName} with the same high standards as our primary Rochester area.</p>
+      <a href={service.page} class="text-sky-600 hover:underline font-medium">Learn more about our general {service.name.toLowerCase()} offerings →</a>
+    </div>
+  </div>
+</Layout>

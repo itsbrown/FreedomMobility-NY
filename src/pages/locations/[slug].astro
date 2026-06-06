@@ -20,14 +20,43 @@ const title = location.metaTitle || `${location.name} Home Accessibility | Stair
 const description = location.metaDescription || `Expert stairlifts, ramps, vertical platform lifts and home modifications in ${location.fullName}. Free in-home consultations from Freedom Mobility NY.`;
 
 const services = [
-  { name: 'Stairlifts', href: '/stairlifts', desc: 'Straight and curved stairlifts for indoor and outdoor use.' },
-  { name: 'Ramps', href: '/ramps', desc: 'Portable and permanent access ramps tailored to your home.' },
-  { name: 'Vertical Platform Lifts', href: '/vertical-platform-lifts', desc: 'Wheelchair and power chair access to porches, decks and raised areas.' },
-  { name: 'Service & Repair', href: '/service', desc: 'Maintenance and repairs for all major brands of mobility equipment.' },
+  { name: 'Stairlifts', href: `/locations/${location.slug}/stairlifts`, desc: 'Straight and curved stairlifts for indoor and outdoor use.' },
+  { name: 'Ramps', href: `/locations/${location.slug}/ramps`, desc: 'Portable and permanent access ramps tailored to your home.' },
+  { name: 'Vertical Platform Lifts', href: `/locations/${location.slug}/vertical-platform-lifts`, desc: 'Wheelchair and power chair access to porches, decks and raised areas.' },
+  { name: 'Service & Repair', href: `/locations/${location.slug}/service`, desc: 'Maintenance and repairs for all major brands of mobility equipment.' },
 ];
+
+// Tailored structured data for this specific location (enhances local SEO)
+const locationStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": `Freedom Mobility NY - ${location.name}`,
+  "description": location.description,
+  "url": `https://freedommobilityny.com/locations/${location.slug}`,
+  "telephone": "(585) 488-0771",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": location.name,
+    "addressRegion": "NY",
+    "addressCountry": "US"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": location.fullName
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": `Home Accessibility Solutions in ${location.name}`,
+    "itemListElement": services.map(s => ({
+      "@type": "Offer",
+      "itemOffered": { "@type": "Service", "name": s.name }
+    }))
+  },
+  "openingHours": "Mo-Fr 08:00-17:00"
+};
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} structuredData={locationStructuredData}>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
     <!-- Breadcrumb -->
     <nav class="text-sm mb-8 text-slate-500">
@@ -46,6 +75,12 @@ const services = [
       <p class="text-xl text-slate-600">
         {location.description}
       </p>
+
+      {location.localHighlights && (
+        <div class="mt-4 p-4 bg-slate-50 rounded-lg border-l-4 border-sky-500">
+          <p class="text-slate-700 text-sm italic">{location.localHighlights}</p>
+        </div>
+      )}
     </div>
 
     <div class="flex flex-wrap gap-4 mb-12">
@@ -65,7 +100,7 @@ const services = [
           <a href={service.href} class="group block border border-slate-200 rounded-2xl p-6 hover:border-sky-200 hover:shadow-sm transition">
             <h3 class="font-semibold text-xl mb-2 group-hover:text-sky-600">{service.name}</h3>
             <p class="text-slate-600 mb-4">{service.desc}</p>
-            <span class="text-sm font-medium text-sky-600">Learn more about {service.name.toLowerCase()} in {location.name} →</span>
+            <span class="text-sm font-medium text-sky-600">View {service.name.toLowerCase()} options for {location.name} →</span>
           </a>
         ))}
       </div>

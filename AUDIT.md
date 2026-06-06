@@ -296,3 +296,22 @@ If you want me to tackle any of the "remaining recommendations" (e.g. implement 
 Ready for P2 (real form backend) or others on request. Run `npm run build` to see the optimized output in `dist/_astro/`.
 
 (Changes committed as part of ongoing work.)
+
+**P2: Real contact form backend** — **COMPLETED**
+- Converted the contact form to use native Netlify Forms (data-netlify="true", form name, hidden form-name, honeypot for spam protection).
+- Form now submits to a dedicated `/success` page.
+- Removed the previous demo-only JavaScript handler.
+- When the site is deployed to Netlify, form submissions will automatically appear in the Netlify Forms dashboard (with email notifications configurable).
+
+**P3: Structured data (JSON-LD)** — **COMPLETED**
+- Added comprehensive `LocalBusiness` + `OfferCatalog` schema in the site-wide Layout.
+- Includes name, phone, email, address, areaServed (Rochester/Buffalo/Syracuse), services offered, opening hours.
+- Helps search engines understand the business and improve rich results.
+
+**P4: 404 page** — **COMPLETED**
+- Created `src/pages/404.astro` with helpful messaging, links back to home and contact, and suggestions for common solutions (stairlifts etc.).
+
+**P5: Privacy Policy and Accessibility Statement** — **COMPLETED**
+- Created `/privacy` and `/accessibility` pages with professional, relevant content.
+- Updated footer links from dummy spans to real internal links.
+- Both pages include clear contact CTAs.

@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Page Not Found | Freedom Mobility NY"
+  description="Sorry, the page you are looking for doesn't exist. Contact Freedom Mobility NY for home accessibility help."
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
+    <div class="text-8xl font-bold tracking-tighter text-slate-200 mb-2">404</div>
+    <h1 class="text-4xl font-bold tracking-tight mb-4">Page not found</h1>
+    
+    <p class="text-xl text-slate-600 mb-8">
+      Sorry, we couldn't find the page you're looking for. 
+      It may have been moved or no longer exists.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/" class="inline-flex items-center justify-center bg-slate-900 hover:bg-black text-white px-8 py-3 rounded-xl font-semibold transition">
+        Go to Homepage
+      </a>
+      <a href="/contact" class="inline-flex items-center justify-center border border-slate-300 hover:bg-slate-50 px-8 py-3 rounded-xl font-semibold transition">
+        Contact Us for Help
+      </a>
+    </div>
+
+    <div class="mt-10 text-sm text-slate-500">
+      <p>Looking for stairlifts, ramps, or lifts? <a href="/stairlifts" class="underline hover:text-slate-700">Browse our solutions →</a></p>
+    </div>
+  </div>
+</Layout>

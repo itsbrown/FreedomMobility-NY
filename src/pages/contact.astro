@@ -13,7 +13,25 @@ import Layout from '../layouts/Layout.astro';
         <h1 class="text-4xl font-bold tracking-tight mb-2">Contact Us</h1>
         <p class="text-lg text-slate-600 mb-8">Ready to improve your mobility? Get in touch with Freedom Mobility NY today. One of our team members will reach out to schedule your free in-home consultation.</p>
 
-        <form id="contact-form" class="space-y-5">
+        <!-- Netlify Forms compatible form (P2 backend implementation) -->
+        <!-- When deployed to Netlify, submissions will appear in the Netlify dashboard under Forms -->
+        <form 
+          name="contact" 
+          method="POST" 
+          data-netlify="true" 
+          netlify-honeypot="bot-field"
+          action="/success"
+          class="space-y-5"
+        >
+          <!-- Required for Netlify to recognize the form -->
+          <input type="hidden" name="form-name" value="contact" />
+
+          <!-- Honeypot field for spam protection (hidden via CSS) -->
+          <div class="hidden" aria-hidden="true">
+            <label for="bot-field">Don’t fill this out if you're human:</label>
+            <input id="bot-field" type="text" name="bot-field" />
+          </div>
+
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label class="block text-sm font-medium mb-1.5 text-slate-700">Full Name</label>
@@ -55,9 +73,7 @@ import Layout from '../layouts/Layout.astro';
           <p class="text-xs text-slate-500">We typically respond within 1 business day. Your information is kept confidential.</p>
         </form>
 
-        <div id="form-success" class="hidden mt-6 rounded-2xl bg-emerald-50 border border-emerald-200 p-5 text-emerald-800">
-          <strong>Thank you!</strong> Your consultation request has been received. A member of our team will contact you shortly to confirm your free in-home visit.
-        </div>
+        <p class="text-xs text-slate-500 mt-2">Form submissions are handled securely via Netlify when deployed.</p>
       </div>
 
       <!-- Sidebar info -->
@@ -91,27 +107,4 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </div>
 
-  <script>
-    // Robust form handler (avoids inline onsubmit + strict TS issues)
-    const form = document.getElementById('contact-form') as HTMLFormElement | null;
-    const success = document.getElementById('form-success') as HTMLDivElement | null;
-
-    if (form) {
-      form.addEventListener('submit', (e: SubmitEvent) => {
-        e.preventDefault();
-
-        if (!success) return;
-
-        // In production: replace with fetch() to your endpoint (Netlify Forms, Formspree, custom API, etc.)
-        // Example: const data = new FormData(form); await fetch('/api/contact', { method: 'POST', body: data });
-        setTimeout(() => {
-          form.classList.add('hidden');
-          success.classList.remove('hidden');
-          // For demo only
-          console.log('%c[Freedom Mobility] Contact form submitted (demo mode - no backend)', 'color:#64748b', Object.fromEntries(new FormData(form)));
-          // Optional: form.reset();
-        }, 420);
-      });
-    }
-  </script>
 </Layout>

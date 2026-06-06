@@ -23,6 +23,42 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact Us' },
 ];
+
+// Structured data for SEO (LocalBusiness + services)
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Freedom Mobility NY",
+  "description": "Locally owned and operated home accessibility experts serving Rochester, Buffalo, and Syracuse, NY with stairlifts, ramps, vertical platform lifts, and more.",
+  "url": "https://freedommobilityny.com",
+  "telephone": "(585) 488-0771",
+  "email": "info@freedommobilityny.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Rochester, NY",
+    "addressLocality": "Rochester",
+    "addressRegion": "NY",
+    "postalCode": "14600",
+    "addressCountry": "US"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Rochester" },
+    { "@type": "City", "name": "Buffalo" },
+    { "@type": "City", "name": "Syracuse" }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Home Accessibility Solutions",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Stairlifts" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Ramps" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Vertical Platform Lifts" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Service & Repair" } }
+    ]
+  },
+  "openingHours": "Mo-Fr 08:00-17:00",
+  "priceRange": "$$"
+};
 ---
 
 <!doctype html>
@@ -40,6 +76,9 @@ const navLinks = [
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Structured Data: LocalBusiness + Services -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <title>{title}</title>
   </head>
   <body class="bg-white text-slate-900 font-sans antialiased">
@@ -165,8 +204,8 @@ const navLinks = [
         <div class="mt-10 pt-6 border-t border-slate-800 text-xs text-slate-500 flex flex-col sm:flex-row gap-2 items-center justify-between">
           <div>© {new Date().getFullYear()} Freedom Mobility NY. All rights reserved. Locally owned &amp; operated.</div>
           <div class="flex gap-4">
-            <span class="hover:text-slate-400 cursor-default" title="Contact us for policy details">Privacy</span>
-            <span class="hover:text-slate-400 cursor-default" title="Contact us for accessibility info">Accessibility</span>
+            <a href="/privacy" class="hover:text-slate-400">Privacy</a>
+            <a href="/accessibility" class="hover:text-slate-400">Accessibility</a>
           </div>
         </div>
       </div>

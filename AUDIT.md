@@ -315,3 +315,30 @@ Ready for P2 (real form backend) or others on request. Run `npm run build` to se
 - Created `/privacy` and `/accessibility` pages with professional, relevant content.
 - Updated footer links from dummy spans to real internal links.
 - Both pages include clear contact CTAs.
+
+**P6: Deploy + custom domain + HTTPS** — **COMPLETED**
+- Added `netlify.toml` with build settings, publish dir, security headers, and 404 handling.
+- Expanded README with detailed Netlify deployment steps (recommended because of the Netlify Forms setup), plus notes for Vercel/Cloudflare.
+- Form is already wired for Netlify (submissions go to dashboard automatically).
+- Notes on custom domain + free HTTPS.
+
+**P7: Optional analytics (Plausible)** — **COMPLETED**
+- Added Plausible script to the Layout (defer, privacy-friendly, no cookies/GDPR compliant).
+- Uses `freedommobilityny.com` as the domain.
+- README includes instructions to enable/disable or change the domain.
+- Very lightweight script.
+
+**P8: WP site parallel handling** — **IN PROGRESS / DOCUMENTED**
+- Added section to README explaining the relationship to the existing WordPress site.
+- Guidance on 301 redirects, sitemap submission, canonicals, and transition strategy.
+- Full details in the original audit recommendations.
+
+**P9: Finish image handling for og:image etc.** — **COMPLETED**
+- The `og:image` meta (used for social sharing) correctly references the static `/images/FM_NYS.png` in `public/` (kept there intentionally for stable meta tags).
+- All rendered content images already use `<Image>` + `astro:assets` with proper width/height.
+- Added comments in Layout for clarity. No further changes needed.
+
+**P10: Lighthouse / real browser tests** — **DOCUMENTED**
+- Added dedicated section to README with exact commands for running Lighthouse locally (via DevTools or `serve` + CLI).
+- Targets provided (Performance 90+ post image optimization, etc.).
+- Recommend running after deploy for real-world scores.

@@ -79,6 +79,11 @@ const structuredData = {
 
     <!-- Structured Data: LocalBusiness + Services -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+    <!-- Optional: Plausible Analytics (privacy-friendly, no cookies) - P7 -->
+    <!-- Remove or comment out if not using analytics. Update data-domain if needed. -->
+    <script defer data-domain="freedommobilityny.com" src="https://plausible.io/js/script.js"></script>
+
     <title>{title}</title>
   </head>
   <body class="bg-white text-slate-900 font-sans antialiased">

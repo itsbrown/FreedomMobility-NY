@@ -1,0 +1,52 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { locations } from '../../data/locations';
+
+const title = 'Service Locations | Freedom Mobility NY';
+const description = 'Freedom Mobility NY serves Rochester, Buffalo, Syracuse and surrounding areas in New York with stairlifts, ramps, vertical platform lifts and expert home accessibility services. Find your local area.';
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <div class="max-w-3xl mb-12">
+      <span class="uppercase tracking-[2px] text-sky-600 text-sm font-semibold">Where We Serve</span>
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tighter mt-3 mb-4">Our Service Locations in New York</h1>
+      <p class="text-lg text-slate-600">
+        Freedom Mobility NY is proud to serve homeowners across Western and Central New York. 
+        We provide free in-home consultations, professional installation, and ongoing support for stairlifts, ramps, vertical platform lifts, and more.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {locations.map((location) => (
+        <a 
+          href={`/locations/${location.slug}`} 
+          class="group block bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-md hover:border-sky-200 transition-all"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-2xl font-semibold group-hover:text-sky-600 transition-colors">
+              {location.fullName}
+            </h2>
+            {location.isPrimary && (
+              <span class="text-xs font-medium bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded">Primary</span>
+            )}
+          </div>
+          <p class="text-slate-600 line-clamp-3 mb-4">{location.description}</p>
+          <span class="inline-flex items-center text-sm font-medium text-sky-600 group-hover:underline">
+            View services in {location.name} →
+          </span>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-12 bg-slate-50 rounded-2xl p-8 text-center">
+      <h3 class="text-xl font-semibold mb-2">Don't see your city?</h3>
+      <p class="text-slate-600 mb-4 max-w-md mx-auto">
+        We serve many surrounding communities throughout New York. Contact us to confirm service in your area.
+      </p>
+      <a href="/contact" class="inline-block bg-slate-900 text-white px-6 py-3 rounded-xl font-semibold">
+        Request a Free Consultation
+      </a>
+    </div>
+  </div>
+</Layout>

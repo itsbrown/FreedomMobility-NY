@@ -22,45 +22,67 @@ const navLinks = [
   { href: '/ramps', label: 'Ramps' },
   { href: '/vertical-platform-lifts', label: 'Vertical Lifts' },
   { href: '/service', label: 'Service' },
+  { href: '/brands', label: 'Brands' },
+  { href: '/testimonials', label: 'Testimonials' },
   { href: '/locations', label: 'Locations' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact Us' },
 ];
 
-// Structured data for SEO (LocalBusiness + services)
+// Best-in-class structured data (Organization + WebSite + LocalBusiness)
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Freedom Mobility NY",
-  "description": "Locally owned and operated home accessibility experts serving Rochester, Buffalo, and Syracuse, NY with stairlifts, ramps, vertical platform lifts, and more.",
-  "url": "https://freedommobilityny.com",
-  "telephone": "(585) 488-0771",
-  "email": "info@freedommobilityny.com",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Rochester, NY",
-    "addressLocality": "Rochester",
-    "addressRegion": "NY",
-    "postalCode": "14600",
-    "addressCountry": "US"
-  },
-  "areaServed": [
-    { "@type": "City", "name": "Rochester" },
-    { "@type": "City", "name": "Buffalo" },
-    { "@type": "City", "name": "Syracuse" }
-  ],
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Home Accessibility Solutions",
-    "itemListElement": [
-      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Stairlifts" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Ramps" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Vertical Platform Lifts" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Service & Repair" } }
-    ]
-  },
-  "openingHours": "Mo-Fr 08:00-17:00",
-  "priceRange": "$$"
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://freedommobilityny.com/#organization",
+      "name": "Freedom Mobility NY",
+      "url": "https://freedommobilityny.com",
+      "logo": "https://freedommobilityny.com/logos/Color logo - no background.svg",
+      "telephone": "(585) 488-0771",
+      "email": "info@freedommobilityny.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Rochester",
+        "addressRegion": "NY",
+        "addressCountry": "US"
+      },
+      "sameAs": [] // Add Facebook, Google Business, etc. here later
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://freedommobilityny.com/#website",
+      "url": "https://freedommobilityny.com",
+      "name": "Freedom Mobility NY",
+      "publisher": { "@id": "https://freedommobilityny.com/#organization" }
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://freedommobilityny.com/#localbusiness",
+      "name": "Freedom Mobility NY",
+      "description": "Locally owned and operated home accessibility experts serving Rochester, Buffalo, and Syracuse, NY with stairlifts, ramps, vertical platform lifts, and more.",
+      "url": "https://freedommobilityny.com",
+      "telephone": "(585) 488-0771",
+      "email": "info@freedommobilityny.com",
+      "areaServed": [
+        { "@type": "City", "name": "Rochester" },
+        { "@type": "City", "name": "Buffalo" },
+        { "@type": "City", "name": "Syracuse" }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Home Accessibility Solutions",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Stairlifts" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ramps" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Vertical Platform Lifts" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Service & Repair" } }
+        ]
+      },
+      "openingHours": "Mo-Fr 08:00-17:00",
+      "priceRange": "$$"
+    }
+  ]
 };
 ---
 
@@ -80,8 +102,31 @@ const structuredData = {
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
 
+    <!-- Canonical URL (best practice for SEO) -->
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
+
     <!-- Structured Data: LocalBusiness + Services (custom per-page if provided, e.g. for location pages) -->
     <script type="application/ld+json" set:html={JSON.stringify(customStructuredData || structuredData)} />
+
+    <!-- BreadcrumbList for improved rich results and site structure -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://freedommobilityny.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": title.split('|')[0].trim(),
+          "item": new URL(Astro.url.pathname, 'https://freedommobilityny.com').href
+        }
+      ]
+    })} />
 
     <!-- Optional: Plausible Analytics (privacy-friendly, no cookies) - P7 -->
     <!-- Remove or comment out if not using analytics. Update data-domain if needed. -->
@@ -192,13 +237,18 @@ const structuredData = {
               <li><a href="/ramps" class="hover:text-white">Ramps</a></li>
               <li><a href="/vertical-platform-lifts" class="hover:text-white">Vertical Platform Lifts</a></li>
               <li><a href="/service" class="hover:text-white">Service &amp; Repair</a></li>
+              <li><a href="/brands" class="hover:text-white">Our Brands</a></li>
+              <li><a href="/resources" class="hover:text-white">Guides &amp; Resources</a></li>
             </ul>
           </div>
           <div>
             <div class="font-semibold text-white mb-3">Company</div>
             <ul class="space-y-1.5 text-sm">
               <li><a href="/about" class="hover:text-white">About Us</a></li>
+              <li><a href="/brands" class="hover:text-white">Our Brands</a></li>
+              <li><a href="/testimonials" class="hover:text-white">Testimonials</a></li>
               <li><a href="/locations" class="hover:text-white">Locations We Serve</a></li>
+              <li><a href="/resources" class="hover:text-white">Guides &amp; Resources</a></li>
               <li><a href="/contact" class="hover:text-white">Contact Us</a></li>
               <li><a href="/contact" class="hover:text-white">Free Consultation</a></li>
             </ul>

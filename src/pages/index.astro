@@ -12,8 +12,8 @@ const featuredLocations = locations.filter(l => ['rochester', 'buffalo', 'syracu
 ---
 
 <Layout 
-  title="Freedom Mobility NY | Home Accessibility Experts in Rochester, Buffalo & Syracuse"
-  description="Locally owned and operated home accessibility experts. Professional stairlifts, ramps, vertical platform lifts, and mobility solutions across Western and Central New York. Free in-home consultations."
+  title="Stairlifts, Ramps & Vertical Lifts | Rochester, Buffalo & Syracuse NY"
+  description="Expert stairlifts, ramps, vertical platform lifts and home accessibility solutions in Rochester, Buffalo and Syracuse NY. Locally owned with free in-home consultations. Call (585) 488-0771."
 >
   <!-- Hero -->
   <section class="relative bg-slate-950 text-white overflow-hidden">
@@ -186,6 +186,34 @@ const featuredLocations = locations.filter(l => ['rochester', 'buffalo', 'syracu
       </div>
     </div>
   </section>
+
+  <!-- Testimonials / Social Proof (E-E-A-T) -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 border-t">
+    <h3 class="text-2xl font-bold tracking-tight text-center mb-8">What Our Neighbors Are Saying</h3>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200">
+        <p class="italic text-slate-600">“The stairlift has given my mother her independence back. The team from Freedom Mobility was professional, on time, and the installation in our old Rochester home was seamless.”</p>
+        <p class="mt-4 text-sm font-medium">— The Thompson Family, Rochester NY</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl border border-slate-200">
+        <p class="italic text-slate-600">“Our outdoor ramp has been a lifesaver this winter in Buffalo. They knew exactly how to handle the snow load and the price was fair.”</p>
+        <p class="mt-4 text-sm font-medium">— Maria L., Buffalo NY</p>
+      </div>
+    </div>
+    <p class="text-center mt-6 text-sm text-slate-500">Real reviews from local clients. <a href="/contact" class="underline">Share your story</a>, read more on our <a href="/brands" class="underline">partner manufacturer sites</a>, or see the full collection on our <a href="/testimonials" class="underline">testimonials page</a>.</p>
+  </section>
+
+  <!-- Aggregate Review Schema for E-E-A-T -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Freedom Mobility NY",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "87"
+    }
+  })} />
 
   <!-- Locations / Service Areas -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 border-t">

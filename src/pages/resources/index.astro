@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Resources & Guides | Freedom Mobility NY';
+const description = 'Helpful guides on stairlifts, ramps, vertical lifts, costs, and choosing the right accessibility solutions for homes in Rochester, Buffalo, and Syracuse NY.';
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold tracking-tight mb-8">Helpful Resources</h1>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      <a href="/resources/stairlift-cost-guide" class="block p-6 border rounded-2xl hover:shadow">
+        <h3 class="font-semibold text-lg">Stairlift Cost Guide 2026</h3>
+        <p class="text-sm text-slate-600 mt-1">Prices and factors for Rochester, Buffalo & Syracuse homes.</p>
+      </a>
+      <a href="/resources/how-to-choose-a-stairlift" class="block p-6 border rounded-2xl hover:shadow">
+        <h3 class="font-semibold text-lg">How to Choose the Right Stairlift</h3>
+        <p class="text-sm text-slate-600 mt-1">Straight vs curved, features, and local considerations.</p>
+      </a>
+      <a href="/resources/ramp-buying-guide" class="block p-6 border rounded-2xl hover:shadow">
+        <h3 class="font-semibold text-lg">Ramp Buying Guide</h3>
+        <p class="text-sm text-slate-600 mt-1">Portable vs permanent options for NY homes.</p>
+      </a>
+      <a href="/resources/winter-accessibility-guide" class="block p-6 border rounded-2xl hover:shadow">
+        <h3 class="font-semibold text-lg">Winter Accessibility Guide</h3>
+        <p class="text-sm text-slate-600 mt-1">Snow and ice solutions for Rochester, Buffalo & Syracuse homes.</p>
+      </a>
+    </div>
+
+    <p class="mt-8 text-sm text-slate-500">More guides coming soon. Have a question? <a href="/contact" class="underline">Contact us</a>. See the <a href="/brands" class="underline">brands and manufacturers</a> we work with, or read real client stories on our <a href="/testimonials" class="underline">testimonials page</a>.</p>
+  </div>
+</Layout>

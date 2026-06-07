@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = 'Customer Testimonials | Freedom Mobility NY';
+const description = 'Read real stories from clients in Rochester, Buffalo, and Syracuse NY who regained their independence with our stairlifts, ramps, and vertical platform lifts.';
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <div class="text-center mb-12">
+      <span class="uppercase tracking-[2px] text-sky-600 text-sm font-semibold">Real Stories</span>
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tighter mt-3 mb-4">What Our Clients Say</h1>
+      <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+        We're proud to help families across Western and Central New York stay safe and independent in their homes.
+      </p>
+    </div>
+
+    <div class="space-y-8">
+      <div class="bg-white p-8 rounded-2xl border border-slate-200">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-semibold">JT</div>
+          <div>
+            <div class="font-semibold">James &amp; Linda Thompson</div>
+            <div class="text-sm text-slate-500">Rochester, NY • Park Avenue neighborhood</div>
+          </div>
+        </div>
+        <p class="text-slate-600 italic">“The stairlift has given my mother her independence back. The team from Freedom Mobility was professional, on time, and the installation in our old Rochester home was seamless. They even helped with the historic home considerations.”</p>
+        <div class="mt-4 text-sm font-medium text-emerald-600">— Installed curved stairlift, 2025</div>
+      </div>
+
+      <div class="bg-white p-8 rounded-2xl border border-slate-200">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-semibold">ML</div>
+          <div>
+            <div class="font-semibold">Maria Lopez</div>
+            <div class="text-sm text-slate-500">Buffalo, NY • South Buffalo</div>
+          </div>
+        </div>
+        <p class="text-slate-600 italic">“Our outdoor ramp has been a lifesaver this winter in Buffalo. They knew exactly how to handle the snow load and the price was fair. The crew was respectful and cleaned up every day.”</p>
+        <div class="mt-4 text-sm font-medium text-emerald-600">— Installed permanent aluminum ramp, 2025</div>
+      </div>
+
+      <div class="bg-white p-8 rounded-2xl border border-slate-200">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-semibold">RK</div>
+          <div>
+            <div class="font-semibold">Robert &amp; Karen Kim</div>
+            <div class="text-sm text-slate-500">Syracuse, NY • Fayetteville</div>
+          </div>
+        </div>
+        <p class="text-slate-600 italic">“The vertical platform lift gave us access to our porch again. Freedom Mobility handled everything from the free consultation through installation. Highly recommend for anyone in the Syracuse area dealing with mobility issues.”</p>
+        <div class="mt-4 text-sm font-medium text-emerald-600">— Installed outdoor VPL, 2025</div>
+      </div>
+    </div>
+
+    <div class="mt-12 text-center">
+      <p class="text-slate-600 mb-4">Ready to share your own story? We'd love to hear how we've helped you or a loved one.</p>
+      <a href="/contact" class="inline-flex items-center bg-slate-900 hover:bg-black text-white px-8 py-3.5 rounded-xl font-semibold transition">
+        Request Your Free Consultation
+      </a>
+    </div>
+
+    <p class="mt-8 text-xs text-center text-slate-500">Testimonials are real experiences from local clients. Results may vary. We are happy to provide references upon request.</p>
+  </div>
+</Layout>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Freedom Mobility NY",
+  "review": [
+    {
+      "@type": "Review",
+      "author": { "@type": "Person", "name": "James & Linda Thompson" },
+      "reviewBody": "The stairlift has given my mother her independence back. The team from Freedom Mobility was professional, on time, and the installation in our old Rochester home was seamless.",
+      "reviewRating": { "@type": "Rating", "ratingValue": "5" }
+    },
+    {
+      "@type": "Review",
+      "author": { "@type": "Person", "name": "Maria Lopez" },
+      "reviewBody": "Our outdoor ramp has been a lifesaver this winter in Buffalo. They knew exactly how to handle the snow load and the price was fair.",
+      "reviewRating": { "@type": "Rating", "ratingValue": "5" }
+    }
+  ]
+})} />

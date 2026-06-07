@@ -1,0 +1,64 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = 'Stairlift Cost Guide 2026 | Rochester, Buffalo & Syracuse NY Prices';
+const description = 'How much do stairlifts cost in Rochester, Buffalo and Syracuse NY? Breakdown of straight vs curved models, installation, and financing options. Free quotes available.';
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-4xl font-bold tracking-tight mb-4">Stairlift Cost Guide for Upstate New York</h1>
+    <p class="text-lg text-slate-600 mb-8">Updated for 2026. Prices for homes in Rochester, Buffalo, Syracuse and surrounding areas.</p>
+
+    <div class="prose prose-slate max-w-none">
+      <h2>Average Prices in Our Service Area</h2>
+      <ul>
+        <li><strong>Straight stairlifts:</strong> $3,000 – $5,500 installed (most common in newer homes in Henrietta, Webster, or Amherst).</li>
+        <li><strong>Curved stairlifts:</strong> $8,000 – $15,000+ (typical for historic homes in Park Avenue Rochester, Elmwood Village Buffalo, or older Syracuse neighborhoods).</li>
+        <li><strong>Outdoor stairlifts:</strong> $4,500 – $7,000 (popular for homes with exterior steps exposed to NY winters).</li>
+        <li><strong>Heavy-duty models:</strong> Add $1,000–$3,000 for higher weight capacities.</li>
+      </ul>
+
+      <h2>What Affects the Price?</h2>
+      <p>Factors specific to Western and Central NY homes:</p>
+      <ul>
+        <li>Staircase length and number of turns (many older homes have L-shaped or spiral stairs).</li>
+        <li>Indoor vs outdoor installation (snow load and weatherproofing add cost).</li>
+        <li>Power source and battery backup requirements.</li>
+        <li>Custom rail colors or seat options.</li>
+      </ul>
+
+      <h2>Financing and Warranties</h2>
+      <p>Most customers in our area finance over 12–60 months. We include an 18-month Gold Star Service Warranty on all new installations, with extended options available.</p>
+
+      <div class="bg-sky-50 p-6 rounded-xl my-8 not-prose">
+        <p class="font-semibold">Get an accurate quote for your home</p>
+        <p class="text-sm mt-1">Prices above are averages. Every staircase in Rochester, Buffalo, or Syracuse is different. Schedule a free in-home consultation for a precise price.</p>
+        <a href="/contact" class="inline-block mt-4 bg-sky-600 text-white px-6 py-2 rounded-lg text-sm font-medium">Request Free Quote →</a>
+      </div>
+    </div>
+  </div>
+  <!-- HowTo Schema for Cost Guide -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Get an Accurate Stairlift Price Quote in Upstate NY",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Schedule a free in-home consultation",
+        "text": "Contact Freedom Mobility NY for a no-obligation visit to measure your staircase."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Receive a customized quote",
+        "text": "We provide transparent pricing based on your specific home in Rochester, Buffalo, or Syracuse."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review options and financing",
+        "text": "Choose straight, curved, or outdoor models with available payment plans."
+      }
+    ]
+  })} />
+</Layout>

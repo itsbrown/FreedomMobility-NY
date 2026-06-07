@@ -5,8 +5,8 @@ import rampImg from '../assets/ramp_flag.jpeg';
 ---
 
 <Layout 
-  title="Ramps | Freedom Mobility NY"
-  description="Custom ramp solutions in Rochester, Buffalo & Syracuse. Portable, modular, and permanent ramps installed by experts. Free in-home consultations."
+  title="Ramps Rochester NY | Portable & Permanent Wheelchair Ramps Buffalo Syracuse"
+  description="Custom portable and permanent ramps for homes in Rochester, Buffalo and Syracuse NY. Expert installation with free in-home consultations. Call (585) 488-0771."
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
     <nav class="text-sm mb-6 text-slate-500">
@@ -60,4 +60,66 @@ import rampImg from '../assets/ramp_flag.jpeg';
       Installation is quick and clean. All ramps meet ADA guidelines where applicable.
     </div>
   </section>
+
+  <!-- Internal Linking: Locations for this service -->
+  <section class="max-w-5xl mx-auto px-4 py-12 border-t">
+    <h2 class="text-xl font-semibold mb-4">Ramps Available in These Areas</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+      <a href="/locations/rochester/ramps" class="p-4 border rounded hover:bg-slate-50">Ramps in Rochester, NY →</a>
+      <a href="/locations/buffalo/ramps" class="p-4 border rounded hover:bg-slate-50">Ramps in Buffalo, NY →</a>
+      <a href="/locations/syracuse/ramps" class="p-4 border rounded hover:bg-slate-50">Ramps in Syracuse, NY →</a>
+    </div>
+    <p class="mt-3 text-xs text-slate-500">We also serve surrounding communities. <a href="/locations" class="underline">View all locations</a>.</p>
+  </section>
+
+  <!-- FAQ for Featured Snippets -->
+  <section class="max-w-5xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-semibold tracking-tight mb-6">Frequently Asked Questions About Ramps</h2>
+    <div class="space-y-4">
+      <details class="border border-slate-200 rounded-xl p-4">
+        <summary class="font-medium cursor-pointer">How much do home ramps cost in Rochester, Buffalo or Syracuse?</summary>
+        <p class="mt-2 text-slate-600">Prices vary by type (portable vs permanent), length, and materials. Portable ramps often start under $1,000 while custom permanent ramps range $2,000–$6,000 installed. Free quotes available.</p>
+      </details>
+      <details class="border border-slate-200 rounded-xl p-4">
+        <summary class="font-medium cursor-pointer">Are portable ramps a good option for temporary use?</summary>
+        <p class="mt-2 text-slate-600">Yes. Our portable folding ramps are ideal for short-term needs or rentals in the Rochester, Buffalo and Syracuse areas and can be stored easily when not in use.</p>
+      </details>
+      <details class="border border-slate-200 rounded-xl p-4">
+        <summary class="font-medium cursor-pointer">Do you install ramps for businesses and churches too?</summary>
+        <p class="mt-2 text-slate-600">Absolutely. We provide commercial and institutional ramp solutions that meet accessibility codes for businesses, places of worship and public buildings throughout Western and Central New York.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much do home ramps cost in Rochester, Buffalo or Syracuse?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Prices vary by type (portable vs permanent), length, and materials. Portable ramps often start under $1,000 while custom permanent ramps range $2,000–$6,000 installed. Free quotes available."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are portable ramps a good option for temporary use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Our portable folding ramps are ideal for short-term needs or rentals in the Rochester, Buffalo and Syracuse areas and can be stored easily when not in use."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you install ramps for businesses and churches too?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. We provide commercial and institutional ramp solutions that meet accessibility codes for businesses, places of worship and public buildings throughout Western and Central New York."
+        }
+      }
+    ]
+  })} />
 </Layout>

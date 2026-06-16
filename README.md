@@ -4,13 +4,15 @@ Official website for Freedom Mobility NY, locally owned home accessibility exper
 
 **Live site:** https://freedommobilityny.com
 
+> **Node requirement**: This project uses Astro 6 and requires **Node.js >= 22.12.0** (see `package.json` `"engines"`). Default Replit environments often give v20 or v22.2 — the instructions below solve it.
+
 ## Tech Stack
 
 - [Astro](https://astro.build)  (static-first, excellent SEO & performance)
 - Tailwind CSS v4 (via Vite plugin)
 - Vanilla JS for mobile nav + contact form demo
 
-## Getting Started
+## Getting Started (local / normal)
 
 ```bash
 # Clone
@@ -25,6 +27,69 @@ npm run dev
 ```
 
 Visit http://localhost:4321
+
+## Replit — Node v20 / v22.2 fix (read this if you are still seeing v20)
+
+You previously reported still getting v20 even after nix-shell attempts and after briefly reaching a v22.
+
+**Strongly recommended (fastest reliable fix):**
+
+1. In Replit, **do not** keep fighting the current Repl.
+2. Create a **brand new Repl**:
+   - Click "Create Repl" → "Import from GitHub"
+   - Paste: `https://github.com/itsbrown/FreedomMobility-NY.git`
+   - Let it finish importing.
+3. Once imported, immediately run this in the **Shell** tab (copy/paste the whole block):
+
+```bash
+# === DIAGNOSTIC + FORCE (paste this entire block) ===
+echo "=== BEFORE ==="
+node --version
+npm --version
+which node
+
+echo "=== Attempting nix-shell nodejs_22 (unstable) ==="
+nix-shell -p nodejs_22 --run 'echo "=== INSIDE NIX SHELL ===" && node --version && npm --version'
+
+echo "=== Listing available nodejs packages in this nix env (for debugging) ==="
+nix-env -qaP | grep -E 'nodejs|node_' | head -20 || echo "(no output or command not available)"
+
+echo "=== If the above still shows old versions, try this specific one ==="
+nix-shell -p nodejs --run 'node --version' || true
+```
+
+4. Then click the **Run** button (or use ⋯ top-right menu → Restart Repl, then Run).
+
+**Why this happens**: Many older Repls were originally created for a different stack (React/Express). Replit caches "workflow" state and the AI assistant keeps trying to restore old config. A fresh "Import from GitHub" + the `.replit` file committed in this repo usually breaks the loop.
+
+**If you must stay in the current Repl**:
+
+- Make sure you have pulled the latest (the `.replit` file and netlify.toml fix are now in main):
+  ```bash
+  git fetch origin
+  git checkout --theirs .replit || true
+  git pull --ff-only || git pull --rebase origin main
+  ```
+- Use the ⋯ menu (no big stop button) → **Stop**, then **Run** (or "Restart Repl").
+- In the Shell tab, manually start the server with the wrapper:
+  ```bash
+  nix-shell -p nodejs_22 --run 'npm install --prefer-offline && npm run dev'
+  ```
+
+The new `.replit` (added in this commit) contains an aggressive `run = "nix-shell -p nodejs_22 ..."` line that should be picked up by the Repl runtime on the next full restart.
+
+After you have a working `npm run dev` in Replit, you can `npm run build` to produce `dist/`.
+
+If even the fresh Repl + diagnostics above still show v20 inside the nix-shell, paste the full output of the diagnostic block here and we'll pick a different nix package name or pin a specific nixpkgs revision.
+
+## Available Scripts
+
+| Command             | Description                              |
+|---------------------|------------------------------------------|
+| `npm run dev`       | Start local dev server (Astro)           |
+| `npm run build`     | Production build → `dist/`               |
+| `npm run preview`   | Preview the production build locally     |
+| `npm run astro`     | Run Astro CLI commands                   |
 
 ### Available Scripts
 

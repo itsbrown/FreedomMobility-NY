@@ -1,0 +1,36 @@
+# .replit - Freedom Mobility NY (Astro 6 static site)
+# Purpose: Force Node.js >=22.12.0 so `npm run dev` and `npm run build` succeed.
+# Astro 6 has a hard engines requirement of ">=22.12.0".
+# Default Replit shells often stick to v20 or very early v22.x even after env vars.
+
+# === RUN (what the big Run button / workflow executes) ===
+# We explicitly enter a nix-shell with nodejs_22 on every run.
+# This is more aggressive than just setting NODE_VERSION.
+run = "nix-shell -p nodejs_22 --run 'echo \"[replit] Forcing nodejs_22 via nix...\" && node --version && npm --version && npm install --prefer-offline --no-audit --no-fund 2>&1 | tail -5 && npm run dev'"
+
+[nix]
+# Use the rolling unstable channel — this usually has a recent Node 22.
+channel = "unstable"
+
+[env]
+# Extra hints (some Replit layers respect this for build images).
+NODE_VERSION = "22"
+NODE_ENV = "development"
+
+# Expose Astro's default dev port
+[[ports]]
+localPort = 4321
+externalPort = 80
+protocol = "http"
+
+# Deployment section (used if you ever hit Deploy on Replit)
+[deployment]
+run = ["nix-shell", "-p", "nodejs_22", "--run", "npm ci --prefer-offline --no-audit && npm run build"]
+deploymentTarget = "static"
+ignorePorts = true
+
+# Notes for humans:
+# - After editing this file or pulling changes: use the ⋯ menu (top right) → "Restart Repl" (or Stop then Run).
+# - If you still see v20/v22.2 after Run: copy the diagnostic block below into the Shell tab and run it.
+# - Best long-term fix for persistent old Node: In Replit, create a *brand new* Repl → "Import from GitHub" using https://github.com/itsbrown/FreedomMobility-NY.git
+#   Old Repls carry cached workflows/environments from when this was a different (React/Express) project. The new .replit + fresh import usually resolves it completely.

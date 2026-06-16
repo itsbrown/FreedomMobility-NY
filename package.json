@@ -19,5 +19,12 @@
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.4",
     "tailwindcss": "^4.3.0"
+  },
+  "overrides": {
+    "es5-ext": "0.10.53",
+    "glob": "^10.4.5",
+    "rimraf": "^5.0.0",
+    "@esbuild-kit/core-utils": "^3.3.2",
+    "@esbuild-kit/esm-loader": "^2.6.5"
   }
 }

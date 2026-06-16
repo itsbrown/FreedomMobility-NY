@@ -26,5 +26,8 @@
     "rimraf": "^5.0.0",
     "@esbuild-kit/core-utils": "^3.3.2",
     "@esbuild-kit/esm-loader": "^2.6.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
   }
 }

@@ -4,9 +4,9 @@
 # Default Replit shells often stick to v20 or very early v22.x even after env vars.
 
 # === RUN (what the big Run button / workflow executes) ===
-# We explicitly enter a nix-shell with nodejs_22 on every run.
-# This is more aggressive than just setting NODE_VERSION.
-run = "nix-shell -p nodejs_22 --run 'echo \"[replit] Forcing nodejs_22 via nix...\" && node --version && npm --version && npm install --prefer-offline --no-audit --no-fund 2>&1 | tail -5 && npm run dev'"
+# Force a recent Node 22 via nix (we also have replit.nix for the env).
+# Use --pure to avoid inheriting Replit's default v20 environment.
+run = "nix-shell --pure -p nodejs_22 --run 'echo \"[replit] Forcing nodejs_22 via nix (pure)...\" && node --version && npm --version && npm install --prefer-offline --no-audit --no-fund 2>&1 | tail -5 && npm run dev'"
 
 [nix]
 # Use the rolling unstable channel — this usually has a recent Node 22.

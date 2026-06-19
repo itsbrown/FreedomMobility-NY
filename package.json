@@ -25,7 +25,8 @@
     "glob": "^10.4.5",
     "rimraf": "^5.0.0",
     "@esbuild-kit/core-utils": "^3.3.2",
-    "@esbuild-kit/esm-loader": "^2.6.5"
+    "@esbuild-kit/esm-loader": "^2.6.5",
+    "vite": "^7"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

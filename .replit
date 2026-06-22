@@ -6,7 +6,7 @@
 # === RUN (what the big Run button / workflow executes) ===
 # Force a recent Node 22 via nix (we also have replit.nix for the env).
 # Use --pure to avoid inheriting Replit's default v20 environment.
-run = "nix-shell -p nodejs_22 cacert --run 'echo \"[replit] Forcing nodejs_22 + cacert...\" && export SSL_CERT_FILE=\"\${NIX_SSL_CERT_FILE:-}\" && export NODE_EXTRA_CA_CERTS=\"\$SSL_CERT_FILE\" && node --version && npm --version && npm install --prefer-offline --no-audit --no-fund 2>&1 | tail -5 && npm run dev -- --host'"
+run = "nix-shell -p nodejs_22 cacert --run 'echo \"[replit] Forcing nodejs_22 + cacert...\" && export SSL_CERT_FILE=\"\${NIX_SSL_CERT_FILE:-}\" && export NODE_EXTRA_CA_CERTS=\"\$SSL_CERT_FILE\" && node --version && npm --version && rm -f package-lock.json && npm install --no-audit --no-fund 2>&1 | tail -5 && npm run dev -- --host'"
 
 [nix]
 # Use the rolling unstable channel — this usually has a recent Node 22.

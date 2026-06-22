@@ -7,6 +7,9 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://freedommobilityny.com',
+  server: {
+    host: true,   // needed for Replit port forwarding / preview
+  },
   integrations: [
     sitemap({
       // Best-in-class sitemap settings

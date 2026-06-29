@@ -39,5 +39,6 @@ jobs:
           target: "public_html"
           strip_components: 1
           rm: true
+          debug: true
           # rm: true removes old files first for a clean deploy (recommended for static sites)
-          # strip_components: 1 + dist/* uploads the contents of dist/ directly into public_html/
+          # strip_components: 1 + "dist/*" uploads the *contents* of dist/ directly into public_html/ (no "dist" subfolder)

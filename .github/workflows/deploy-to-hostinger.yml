@@ -61,11 +61,14 @@ EOF
           git add .
           git commit -m "Deploy ${{ github.sha }} ($(date -u +%Y-%m-%dT%H:%M:%SZ))" || echo "No changes"
 
+          echo "Branch 'hostinger-deploy' now contains only the built static site + .htaccess"
+
           git push --force origin hostinger-deploy
 
           echo "✅ Successfully pushed to 'hostinger-deploy' branch."
           echo ""
           echo "Next steps in Hostinger hPanel:"
           echo "1. Go to your website → Git"
-          echo "2. Connect/select the 'hostinger-deploy' branch"
-          echo "3. Set the document root / public_html to serve from the root of that branch"
+          echo "2. Make sure branch = 'hostinger-deploy'"
+          echo "3. Set document root / publish path to serve the ROOT of the branch (where index.html lives)"
+          echo "4. If possible, enable 'clean deploy' or delete old files in public_html first, then pull"

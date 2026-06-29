@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: 'npm'
@@ -36,9 +36,10 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
           source: "dist/"
-          target: "public_html/"
+          target: "public_html"
           strip_components: 1
-          rm: true
+          rm: false
+          overwrite: true
           debug: true
-          # rm: true removes old files first for a clean deploy (recommended for static sites)
-          # strip_components: 1 + source "dist/" uploads the *contents* of dist/ directly into public_html/ (no "dist" subfolder)
+          # Using rm: false + overwrite for safer deploys on shared hosting.
+          # strip_components: 1 uploads the contents of dist/ (not a "dist" subfolder) into public_html.

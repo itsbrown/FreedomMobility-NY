@@ -51,9 +51,9 @@ jobs:
 
           # Ensure a basic .htaccess for static hosting (prevents 403/index issues)
           cat > .htaccess << 'EOF'
-DirectoryIndex index.html
-Options -Indexes
-EOF
+          DirectoryIndex index.html
+          Options -Indexes
+          EOF
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

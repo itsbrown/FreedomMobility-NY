@@ -137,57 +137,65 @@ const structuredData = {
     <title>{title}</title>
   </head>
   <body class="bg-white text-slate-900 font-sans antialiased">
-    <!-- Top contact bar -->
-    <div class="bg-slate-900 text-white text-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <div class="flex flex-wrap items-center gap-x-6 gap-y-1">
-          <a href="/locations" class="flex items-center gap-1.5 hover:text-sky-400 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314-11.314z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    <!-- Top contact bar - cleaner & more professional -->
+    <div class="bg-slate-900 text-white text-sm border-b border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+        <div class="flex items-center justify-between text-[13px] sm:text-sm">
+          
+          <!-- Compact contact row -->
+          <div class="flex items-center gap-x-4 sm:gap-x-5 text-slate-200">
+            <a href={phoneHref} class="flex items-center gap-1.5 font-medium hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2 3 3 0 013 3v1m0 0v1a2 2 0 01-2 2 2 2 0 01-2-2V8m6 4l4-4m-4 4l-4-4" />
+              </svg>
+              <span class="tabular-nums tracking-tight">{phone}</span>
+            </a>
+
+            <span class="hidden sm:inline text-slate-400">•</span>
+
+            <a href="/locations" class="hidden sm:flex items-center gap-1.5 hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314-11.314z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>Rochester • Buffalo • Syracuse</span>
+            </a>
+
+            <span class="hidden lg:inline text-slate-400">Mon–Fri 8AM–5PM</span>
+          </div>
+
+          <a href={`mailto:${email}`} class="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors text-xs sm:text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2.01 2.01 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            {location} • Serving Buffalo, Syracuse &amp; more
+            <span class="hidden xs:inline">Email</span>
           </a>
-          <a href={phoneHref} class="flex items-center gap-1.5 hover:text-sky-400 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2 3 3 0 013 3v1m0 0v1a2 2 0 01-2 2 2 2 0 01-2-2V8m6 4l4-4m-4 4l-4-4" />
-            </svg>
-            {phone}
-          </a>
-          <span class="hidden md:inline text-slate-400">Mon–Fri 8AM–5PM</span>
-        </div>
-        <div class="flex items-center gap-4">
-          <a href={`mailto:${email}`} class="hover:text-sky-400 transition-colors flex items-center gap-1.5 text-xs sm:text-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2.01 2.01 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-            Email Us
-          </a>
-          <a href="/contact" class="bg-sky-500 hover:bg-sky-600 transition-colors text-white text-xs font-semibold px-3 py-1 rounded">FREE CONSULTATION</a>
         </div>
       </div>
     </div>
 
-    <!-- Main nav -->
+    <!-- Main nav - cleaner -->
     <header class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <!-- Logo -->
-          <a href="/" class="flex items-center gap-3 group">
+          <a href="/" class="flex items-center gap-3 group flex-shrink-0">
             <img src="/logos/Color logo - no background.svg" alt="Freedom Mobility NY Logo" class="h-9 w-auto" />
-            <div>
-              <span class="font-bold text-xl tracking-tight text-slate-900 group-hover:text-sky-700 transition-colors">Freedom Mobility</span>
-              <span class="text-sky-600 font-semibold text-sm align-super ml-0.5">NY</span>
+            <div class="leading-none">
+              <span class="font-bold text-[21px] tracking-tighter text-slate-900 group-hover:text-sky-700 transition-colors">Freedom Mobility</span>
+              <span class="text-sky-600 font-semibold text-sm align-super ml-0.5 tracking-normal">NY</span>
             </div>
           </a>
 
           <!-- Desktop Nav -->
-          <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+          <nav class="hidden md:flex items-center gap-7 text-sm font-medium">
             {navLinks.map(link => (
-              <a href={link.href} class="text-slate-700 hover:text-sky-600 transition-colors">{link.label}</a>
+              <a href={link.href} class="text-slate-700 hover:text-sky-600 transition-colors whitespace-nowrap">{link.label}</a>
             ))}
           </nav>
 
           <!-- CTA -->
-          <div class="hidden md:block">
+          <div class="hidden md:block flex-shrink-0">
             <a href="/contact" 
                class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all active:scale-[0.985]">
               Schedule Free Consultation

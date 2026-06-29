@@ -29,7 +29,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to Hostinger via SFTP
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
@@ -41,5 +41,8 @@ jobs:
           rm: false
           overwrite: true
           debug: true
-          # Using rm: false + overwrite for safer deploys on shared hosting.
-          # strip_components: 1 uploads the contents of dist/ (not a "dist" subfolder) into public_html.
+          timeout: 120
+          command_timeout: 60
+          # NOTE: Current error is "dial tcp ...:22: i/o timeout" — the GitHub runner cannot reach your Hostinger server on port 22.
+          # This is almost always a firewall / IP blocking issue on Hostinger's shared hosting side.
+          # Test: Can you SFTP to the same host:22 from your own computer? If yes, Hostinger is blocking GitHub runner IPs.

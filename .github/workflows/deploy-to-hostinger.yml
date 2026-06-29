@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -28,23 +30,36 @@ jobs:
       - name: Build Astro site
         run: npm run build
 
-      - name: Deploy to Hostinger via SFTP
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 22
-          source: "dist/"
-          target: "public_html"
-          strip_components: 1
-          rm: false
-          overwrite: true
-          debug: true
-          timeout: "120s"
-          command_timeout: "60s"
-          # NOTE: The previous real error was "dial tcp 151.106.104.118:22: i/o timeout".
-          # This means GitHub runner cannot reach Hostinger on port 22 (connection timeout).
-          # Fix the YAML first (duration needs units like "120s"), then re-run.
-          # Critical test: Try SFTP from *your laptop* to the same host:22 using the same credentials.
-          # If that works but CI fails → Hostinger is blocking GitHub runner IPs (common on shared hosting).
+      - name: Deploy built site via Git (hostinger-deploy branch)
+        run: |
+          echo "Preparing clean deploy branch with only the built static files..."
+
+          # Stage the built files
+          rm -rf /tmp/site-deploy
+          mkdir -p /tmp/site-deploy
+          cp -r dist/* /tmp/site-deploy/
+
+          # Fresh clone so we don't pollute the workspace
+          git clone --depth 1 "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" /tmp/deploy-repo
+          cd /tmp/deploy-repo
+
+          # Force an orphan branch that contains *exactly* the website at its root
+          git checkout --orphan hostinger-deploy 2>/dev/null || git checkout hostinger-deploy
+          git rm -rf . 2>/dev/null || true
+
+          cp -r /tmp/site-deploy/* .
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          git commit -m "Deploy ${{ github.sha }} ($(date -u +%Y-%m-%dT%H:%M:%SZ))" || echo "No changes"
+
+          git push --force origin hostinger-deploy
+
+          echo "✅ Successfully pushed to 'hostinger-deploy' branch."
+          echo ""
+          echo "Next steps in Hostinger hPanel:"
+          echo "1. Go to your website → Git"
+          echo "2. Connect/select the 'hostinger-deploy' branch"
+          echo "3. Set the document root / public_html to serve from the root of that branch"

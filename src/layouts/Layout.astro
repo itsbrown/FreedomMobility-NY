@@ -179,7 +179,7 @@ const structuredData = {
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <!-- Logo -->
-          <a href="/" class="flex items-center gap-3 group flex-shrink-0">
+          <a href="/" class="flex items-center gap-3 group flex-shrink-0 mr-8">
             <img src="/logos/Color logo - no background.svg" alt="Freedom Mobility NY Logo" class="h-9 w-auto" />
             <div class="leading-none">
               <span class="font-bold text-[21px] tracking-tighter text-slate-900 group-hover:text-sky-700 transition-colors">Freedom Mobility</span>
@@ -188,9 +188,9 @@ const structuredData = {
           </a>
 
           <!-- Desktop Nav -->
-          <nav class="hidden md:flex items-center gap-7 text-sm font-medium">
+          <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
             {navLinks.map(link => (
-              <a href={link.href} class="text-slate-700 hover:text-sky-600 transition-colors whitespace-nowrap">{link.label}</a>
+              <a href={link.href} class="text-slate-700 hover:text-sky-600 transition-colors whitespace-nowrap px-1">{link.label}</a>
             ))}
           </nav>
 

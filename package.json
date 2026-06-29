@@ -28,6 +28,9 @@
     "@esbuild-kit/esm-loader": "^2.6.5",
     "vite": "^7"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.62.2"
+  },
   "devDependencies": {
     "tsx": "^4.19.2"
   }

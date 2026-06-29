@@ -41,4 +41,4 @@ jobs:
           rm: true
           debug: true
           # rm: true removes old files first for a clean deploy (recommended for static sites)
-          # strip_components: 1 + "dist/*" uploads the *contents* of dist/ directly into public_html/ (no "dist" subfolder)
+          # strip_components: 1 + source "dist/" uploads the *contents* of dist/ directly into public_html/ (no "dist" subfolder)

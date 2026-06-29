@@ -29,17 +29,15 @@ jobs:
         run: npm run build
 
       - name: Deploy to Hostinger via SFTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        uses: appleboy/scp-action@v0.1.7
         with:
-          server: ${{ secrets.FTP_HOST }}
+          host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: sftp
           port: 22
-          local-dir: ./dist/
-          server-dir: /public_html/
-          dangerous-clean-slate: false
-          log-level: standard
-          exclude: |
-            **/.git*
-            **/.git*/**
+          source: "dist/*"
+          target: "public_html"
+          strip_components: 1
+          rm: true
+          # rm: true removes old files first for a clean deploy (recommended for static sites)
+          # strip_components: 1 + dist/* uploads the contents of dist/ directly into public_html/

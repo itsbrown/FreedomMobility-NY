@@ -41,8 +41,10 @@ jobs:
           rm: false
           overwrite: true
           debug: true
-          timeout: 120
-          command_timeout: 60
-          # NOTE: Current error is "dial tcp ...:22: i/o timeout" — the GitHub runner cannot reach your Hostinger server on port 22.
-          # This is almost always a firewall / IP blocking issue on Hostinger's shared hosting side.
-          # Test: Can you SFTP to the same host:22 from your own computer? If yes, Hostinger is blocking GitHub runner IPs.
+          timeout: "120s"
+          command_timeout: "60s"
+          # NOTE: The previous real error was "dial tcp 151.106.104.118:22: i/o timeout".
+          # This means GitHub runner cannot reach Hostinger on port 22 (connection timeout).
+          # Fix the YAML first (duration needs units like "120s"), then re-run.
+          # Critical test: Try SFTP from *your laptop* to the same host:22 using the same credentials.
+          # If that works but CI fails → Hostinger is blocking GitHub runner IPs (common on shared hosting).

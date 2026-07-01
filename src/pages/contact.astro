@@ -13,20 +13,9 @@ import Layout from '../layouts/Layout.astro';
         <h1 class="text-4xl font-bold tracking-tight mb-2">Contact Us</h1>
         <p class="text-lg text-slate-600 mb-8">Ready to improve your mobility? Get in touch with Freedom Mobility NY today. One of our team members will reach out to schedule your free in-home consultation.</p>
 
-        <!-- Netlify Forms compatible form (P2 backend implementation) -->
-        <!-- When deployed to Netlify, submissions will appear in the Netlify dashboard under Forms -->
-        <form 
-          name="contact" 
-          method="POST" 
-          data-netlify="true" 
-          netlify-honeypot="bot-field"
-          action="/success"
-          class="space-y-5"
-        >
-          <!-- Required for Netlify to recognize the form -->
-          <input type="hidden" name="form-name" value="contact" />
-
-          <!-- Honeypot field for spam protection (hidden via CSS) -->
+        <!-- Custom Supabase-backed form -->
+        <form id="contact-form" class="space-y-5" novalidate>
+          <!-- Honeypot field for spam protection -->
           <div class="hidden" aria-hidden="true">
             <label for="bot-field">Don’t fill this out if you're human:</label>
             <input id="bot-field" type="text" name="bot-field" />
@@ -65,15 +54,69 @@ import Layout from '../layouts/Layout.astro';
             <textarea name="message" rows="4" class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" placeholder="Tell us about your staircase, entryway, or current equipment..."></textarea>
           </div>
 
-          <button type="submit" 
-                  class="w-full sm:w-auto bg-slate-900 hover:bg-black active:bg-slate-950 transition text-white px-10 py-3 rounded-xl font-semibold">
+          <button 
+            type="submit" 
+            id="submit-btn"
+            class="w-full sm:w-auto bg-slate-900 hover:bg-black active:bg-slate-950 transition text-white px-10 py-3 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             Submit Request
           </button>
 
           <p class="text-xs text-slate-500">We typically respond within 1 business day. Your information is kept confidential.</p>
+
+          <!-- Status messages -->
+          <div id="form-status" class="hidden text-sm"></div>
         </form>
 
-        <p class="text-xs text-slate-500 mt-2">Form submissions are handled securely via Netlify when deployed.</p>
+        <script type="module">
+          import { supabase } from '../lib/supabase'
+
+          const form = document.getElementById('contact-form')
+          const submitBtn = document.getElementById('submit-btn')
+          const statusEl = document.getElementById('form-status')
+
+          if (form && submitBtn && statusEl) {
+            form.addEventListener('submit', async (e) => {
+              e.preventDefault()
+
+              const formData = new FormData(form)
+              const honeypot = formData.get('bot-field')
+
+              // Honeypot check
+              if (honeypot) {
+                window.location.href = '/success'
+                return
+              }
+
+              submitBtn.disabled = true
+              submitBtn.textContent = 'Submitting...'
+              statusEl.className = 'text-sm text-slate-600'
+              statusEl.textContent = 'Sending your request...'
+              statusEl.classList.remove('hidden')
+
+              try {
+                const { error } = await supabase.from('submissions').insert({
+                  name: formData.get('name'),
+                  phone: formData.get('phone'),
+                  email: formData.get('email'),
+                  interest: formData.get('interest') || null,
+                  message: formData.get('message') || null,
+                  status: 'new'
+                })
+
+                if (error) throw error
+
+                window.location.href = '/success'
+              } catch (err) {
+                console.error('Form submission error:', err)
+                statusEl.className = 'text-sm text-red-600'
+                statusEl.textContent = 'Something went wrong. Please try again or call us directly.'
+                submitBtn.disabled = false
+                submitBtn.textContent = 'Submit Request'
+              }
+            })
+          }
+        </script>
       </div>
 
       <!-- Sidebar info -->

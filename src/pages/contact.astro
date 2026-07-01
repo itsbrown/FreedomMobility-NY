@@ -22,6 +22,7 @@ import Layout from '../layouts/Layout.astro';
           <!-- Formspree specific fields -->
           <input type="hidden" name="_subject" value="New Contact Form Submission - Freedom Mobility NY" />
           <input type="hidden" name="_next" value="/success" />
+          <input type="hidden" name="source" value="Website - Contact Form" />
 
           <!-- Honeypot for spam protection (Formspree also has its own) -->
           <div class="hidden" aria-hidden="true">
@@ -71,6 +72,36 @@ import Layout from '../layouts/Layout.astro';
 
           <p class="text-xs text-slate-500">We typically respond within 1 business day. Your information is kept confidential.</p>
         </form>
+
+        <!-- Optional: Enhance Formspree submission with dynamic fields -->
+        <script>
+          const form = document.querySelector('form[action*="formspree"]');
+          if (form) {
+            form.addEventListener('submit', () => {
+              // Set dynamic reply-to and subject if email/name provided
+              const emailField = form.querySelector('input[name="email"]');
+              const nameField = form.querySelector('input[name="name"]');
+              
+              // Create or update _replyto
+              let replyto = form.querySelector('input[name="_replyto"]');
+              if (!replyto && emailField) {
+                replyto = document.createElement('input');
+                replyto.type = 'hidden';
+                replyto.name = '_replyto';
+                form.appendChild(replyto);
+              }
+              if (replyto && emailField) {
+                replyto.value = emailField.value;
+              }
+
+              // Optionally enhance subject with name
+              let subject = form.querySelector('input[name="_subject"]');
+              if (subject && nameField && nameField.value) {
+                subject.value = `Website Contact: ${nameField.value}`;
+              }
+            });
+          }
+        </script>
       </div>
 
       <!-- Sidebar info -->

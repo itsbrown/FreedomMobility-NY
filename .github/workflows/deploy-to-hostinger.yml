@@ -30,6 +30,7 @@ jobs:
       - name: Build Astro site
         env:
           PUBLIC_FORMSPREE_ENDPOINT: ${{ secrets.PUBLIC_FORMSPREE_ENDPOINT }}
+          PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.PUBLIC_RECAPTCHA_SITE_KEY }}
         run: npm run build
 
       - name: Deploy built site via Git (hostinger-deploy branch)

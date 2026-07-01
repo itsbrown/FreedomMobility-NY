@@ -13,6 +13,10 @@ import Layout from '../layouts/Layout.astro';
         <h1 class="text-4xl font-bold tracking-tight mb-2">Contact Us</h1>
         <p class="text-lg text-slate-600 mb-8">Ready to improve your mobility? Get in touch with Freedom Mobility NY today. One of our team members will reach out to schedule your free in-home consultation.</p>
 
+        <!-- Load reCAPTCHA v3 script (required for invisible CAPTCHA when enabled in Formspree) -->
+        <!-- Replace the key via PUBLIC_RECAPTCHA_SITE_KEY env var -->
+        <script src={`https://www.google.com/recaptcha/api.js?render=${import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY}`}></script>
+
         <!-- Formspree form -->
         <form 
           action={import.meta.env.PUBLIC_FORMSPREE_ENDPOINT} 
@@ -24,10 +28,13 @@ import Layout from '../layouts/Layout.astro';
           <input type="hidden" name="_next" value="/success" />
           <input type="hidden" name="source" value="Website - Contact Form" />
 
+          <!-- reCAPTCHA response token (populated by the script below when CAPTCHA is enabled) -->
+          <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" />
+
           <!-- Honeypot for spam protection (Formspree also has its own) -->
           <div class="hidden" aria-hidden="true">
             <label for="bot-field">Don’t fill this out if you're human:</label>
-            <input id="bot-field" type="text" name="_gotcha" />
+            <input id="bot-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -70,19 +77,20 @@ import Layout from '../layouts/Layout.astro';
             Submit Request
           </button>
 
-          <p class="text-xs text-slate-500">We typically respond within 1 business day. Your information is kept confidential.</p>
+          <p class="text-xs text-slate-500">We typically respond within 1 business day. Your information is kept confidential. Submissions are protected by honeypot + Formspree's spam filters.</p>
         </form>
 
-        <!-- Optional: Enhance Formspree submission with dynamic fields -->
+        <!-- Formspree + reCAPTCHA handler -->
         <script>
           const form = document.querySelector('form[action*="formspree"]');
           if (form) {
-            form.addEventListener('submit', () => {
-              // Set dynamic reply-to and subject if email/name provided
+            form.addEventListener('submit', async (e) => {
+              e.preventDefault();
+
               const emailField = form.querySelector('input[name="email"]');
               const nameField = form.querySelector('input[name="name"]');
-              
-              // Create or update _replyto
+
+              // Set dynamic _replyto
               let replyto = form.querySelector('input[name="_replyto"]');
               if (!replyto && emailField) {
                 replyto = document.createElement('input');
@@ -94,11 +102,29 @@ import Layout from '../layouts/Layout.astro';
                 replyto.value = emailField.value;
               }
 
-              // Optionally enhance subject with name
+              // Enhance subject with name
               let subject = form.querySelector('input[name="_subject"]');
               if (subject && nameField && nameField.value) {
                 subject.value = `Website Contact: ${nameField.value}`;
               }
+
+              // reCAPTCHA v3 (if key is configured and CAPTCHA enabled in Formspree)
+              const recaptchaResponse = form.querySelector('#g-recaptcha-response');
+              const recaptchaKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+
+              if (recaptchaResponse && recaptchaKey && typeof grecaptcha !== 'undefined') {
+                try {
+                  await new Promise((resolve) => grecaptcha.ready(resolve));
+                  const token = await grecaptcha.execute(recaptchaKey, { action: 'submit' });
+                  recaptchaResponse.value = token;
+                } catch (err) {
+                  console.error('reCAPTCHA error:', err);
+                  // Continue - Formspree will decide based on its settings
+                }
+              }
+
+              // Now submit the form
+              form.submit();
             });
           }
         </script>

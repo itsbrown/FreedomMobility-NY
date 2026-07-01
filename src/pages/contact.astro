@@ -112,14 +112,39 @@ import Layout from '../layouts/Layout.astro';
               const recaptchaResponse = form.querySelector('#g-recaptcha-response');
               const recaptchaKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 
-              if (recaptchaResponse && recaptchaKey && typeof grecaptcha !== 'undefined') {
+              if (recaptchaResponse && recaptchaKey) {
                 try {
-                  await new Promise((resolve) => grecaptcha.ready(resolve));
-                  const token = await grecaptcha.execute(recaptchaKey, { action: 'submit' });
-                  recaptchaResponse.value = token;
+                  // Wait for the reCAPTCHA script to load if not yet
+                  if (typeof grecaptcha === 'undefined') {
+                    await new Promise((resolve) => {
+                      const interval = setInterval(() => {
+                        if (typeof grecaptcha !== 'undefined') {
+                          clearInterval(interval);
+                          resolve();
+                        }
+                      }, 100);
+                      // timeout after 5s
+                      setTimeout(() => {
+                        clearInterval(interval);
+                        resolve();
+                      }, 5000);
+                    });
+                  }
+                  if (typeof grecaptcha !== 'undefined') {
+                    await new Promise((resolve) => grecaptcha.ready(resolve));
+                    const token = await grecaptcha.execute(recaptchaKey, { action: 'submit' });
+                    recaptchaResponse.value = token;
+                  } else {
+                    console.warn('reCAPTCHA library not loaded');
+                    // If required, we can block submit
+                  }
                 } catch (err) {
                   console.error('reCAPTCHA error:', err);
-                  // Continue - Formspree will decide based on its settings
+                }
+                // If we have a key but no token, block to avoid the error page
+                if (!recaptchaResponse.value) {
+                  alert('reCAPTCHA validation failed. Please refresh and try again.');
+                  return;
                 }
               }
 

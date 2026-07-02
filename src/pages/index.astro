@@ -5,7 +5,7 @@ import { Image } from 'astro:assets';
 import fmMap from '../assets/FM_NYS.png';
 import stairliftImg from '../assets/stairlift-curved.jpg';
 import rampImg from '../assets/ramp_flag.jpeg';
-import vplImg from '../assets/HA_SL300_Lifestyle-UpStairs.png';
+
 import { locations } from '../data/locations';
 
 const featuredLocations = locations.filter(l => ['rochester', 'buffalo', 'syracuse'].includes(l.slug));
@@ -140,7 +140,7 @@ const featuredLocations = locations.filter(l => ['rochester', 'buffalo', 'syracu
         <!-- Vertical Lifts -->
         <a href="/vertical-platform-lifts" class="group block bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-all">
           <div class="h-52 bg-slate-100 overflow-hidden flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
-            <Image src={vplImg} alt="Vertical platform lift for wheelchair access" class="max-h-44 object-contain" width="600" height="480" loading="lazy" decoding="async" />
+            <Image src="/images/VPL-Ameriglide-mini.jpg" alt="Ameriglide mini vertical platform lift for wheelchair access" class="max-h-44 object-contain" width="600" height="480" loading="lazy" decoding="async" />
           </div>
           <div class="p-6">
             <div class="font-semibold text-xl mb-2 group-hover:text-sky-600">Vertical Platform Lifts</div>

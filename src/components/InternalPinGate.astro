@@ -1,0 +1,28 @@
+<div id="pin-gate" class="hidden print:hidden fixed inset-0 z-[80] items-center justify-center bg-slate-900/70 px-4">
+  <form id="pin-form" class="w-full max-w-sm bg-white rounded-2xl p-6 shadow-xl space-y-4">
+    <div>
+      <h2 class="text-lg font-semibold">Shop access</h2>
+      <p class="text-sm text-slate-600 mt-1">Enter the shop PIN to open admin tools.</p>
+    </div>
+    <div>
+      <label for="pin-input" class="block text-sm font-medium mb-1.5 text-slate-700">PIN</label>
+      <input
+        id="pin-input"
+        type="password"
+        inputmode="numeric"
+        autocomplete="off"
+        required
+        class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm"
+      />
+    </div>
+    <p id="pin-error" class="hidden text-sm text-red-600"></p>
+    <button type="submit" class="w-full bg-slate-900 hover:bg-black text-white px-4 py-2.5 rounded-xl font-semibold">
+      Unlock
+    </button>
+  </form>
+</div>
+
+<script>
+  import { initInternalPin } from '../lib/internal-pin';
+  initInternalPin(import.meta.env.PUBLIC_TECH_PAY_PIN || '');
+</script>

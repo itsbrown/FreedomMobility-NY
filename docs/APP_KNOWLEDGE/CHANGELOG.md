@@ -1,0 +1,23 @@
+# Knowledge changelog
+
+## 2026-08-18 (hostinger deploy)
+
+- Live site is Hostinger, not Netlify. `main` → GitHub Action → `hostinger-deploy` branch.
+- Deploy workflow now also bakes in `PUBLIC_TECH_PAY_PIN` when that GitHub secret exists.
+
+## 2026-08-18 (admin rates)
+
+- Admin can open **Pay rates** at `/admin/rates` from the dashboard card or header.
+- Saved rates feed `/tech/pay`. Shared store is Netlify Blobs at `/api/pay-rates`; localStorage is the offline fallback.
+
+## 2026-08-18 (admin nav)
+
+- Added `/admin` shop hub with a card linking to the weekly pay form.
+- Internal header logo goes to `/admin`; nav includes Dashboard and Pay form.
+
+## 2026-08-18
+
+- Added unlisted technician weekly pay form at `/tech/pay` (Astro, not the Replit Express app).
+- Piece rates live in `src/data/pay-rates.ts` and are still draft (`RATES_DRAFT = true`).
+- Pay submissions target `brian.parmele@freedommobilityva.com` via Formspree `_cc` + notification config.
+- Mileage uses Photon + OSRM driving distance instead of Nominatim haversine × 1.3.

@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { PAY_FORM_RECIPIENT } from '../../data/pay-rates';
+---
+
+<Layout
+  title="Timesheet submitted | Freedom Mobility NY"
+  description="Technician timesheet received."
+  variant="internal"
+  noindex={true}
+>
+  <div class="max-w-xl mx-auto px-4 py-16 md:py-24 text-center">
+    <div class="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+    <h1 class="text-3xl font-bold tracking-tight mb-3">Timesheet sent</h1>
+    <p class="text-slate-600 mb-8">
+      Your weekly pay form was submitted to {PAY_FORM_RECIPIENT}. Keep a copy if you emailed it separately.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/tech/pay" class="inline-flex justify-center bg-slate-900 hover:bg-black text-white px-6 py-3 rounded-xl font-semibold">
+        Submit another week
+      </a>
+      <a href="/admin" class="inline-flex justify-center border border-slate-300 hover:bg-slate-50 px-6 py-3 rounded-xl font-semibold">
+        Back to admin
+      </a>
+    </div>
+  </div>
+</Layout>

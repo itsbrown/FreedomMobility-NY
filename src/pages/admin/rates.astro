@@ -1,0 +1,109 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Pay rates | Freedom Mobility NY"
+  description="Edit technician piece rates for the weekly pay form."
+  variant="internal"
+  noindex={true}
+>
+  <div id="rates-app" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 pb-28">
+    <p class="text-xs uppercase tracking-wider text-sky-700 font-semibold mb-2">
+      <a href="/admin" class="hover:text-sky-800">Admin</a>
+      <span class="text-slate-300 mx-1.5">/</span>
+      Pay rates
+    </p>
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Pay rates</h1>
+    <p class="text-slate-600 mt-2 max-w-2xl mb-8">
+      These numbers drive the weekly pay form. Save here instead of editing code.
+      On Netlify, Save shares rates with every technician.
+    </p>
+
+    <div class="space-y-10">
+      <section class="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label for="rate-recipient" class="block text-sm font-medium mb-1.5 text-slate-700">Timesheet email</label>
+          <input id="rate-recipient" type="email"
+            class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="rate-per-mile" class="block text-sm font-medium mb-1.5 text-slate-700">$ / mile</label>
+            <input id="rate-per-mile" type="number" min="0" step="0.01"
+              class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm" />
+          </div>
+          <div>
+            <label for="rate-qualify" class="block text-sm font-medium mb-1.5 text-slate-700">Billable at (one-way mi)</label>
+            <input id="rate-qualify" type="number" min="0" step="1"
+              class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm" />
+          </div>
+        </div>
+      </section>
+
+      <label class="flex items-start gap-3 text-sm text-slate-700">
+        <input id="rate-confirmed" type="checkbox" class="mt-1 rounded border-slate-300" />
+        <span>
+          <span class="font-medium">Rates are confirmed</span>
+          <span class="block text-slate-500">Uncheck to keep the draft banner on the pay form.</span>
+        </span>
+      </label>
+
+      <section>
+        <label for="rate-technicians" class="block text-sm font-medium mb-1.5 text-slate-700">Technician names (one per line)</label>
+        <textarea id="rate-technicians" rows="4"
+          class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm"
+          placeholder="Jane Smith"></textarea>
+      </section>
+
+      <section>
+        <div class="flex items-end justify-between gap-3 mb-3">
+          <div>
+            <h2 class="text-xl font-semibold tracking-tight">Installation tasks</h2>
+            <p class="text-sm text-slate-600">Category, name, and piece rate.</p>
+          </div>
+          <button id="add-task" type="button" class="text-sm font-medium text-sky-700 hover:text-sky-800">+ Add task</button>
+        </div>
+        <div class="hidden sm:grid grid-cols-[7rem_1fr_6rem_auto] gap-2 text-xs uppercase tracking-wide text-slate-500 px-1 mb-1">
+          <div>Category</div>
+          <div>Name</div>
+          <div>Rate</div>
+          <div></div>
+        </div>
+        <div id="task-rows" class="border border-slate-200 rounded-xl px-3 bg-white"></div>
+      </section>
+
+      <section>
+        <div class="flex items-end justify-between gap-3 mb-3">
+          <div>
+            <h2 class="text-xl font-semibold tracking-tight">Service items</h2>
+            <p class="text-sm text-slate-600">Calls and extras on the pay form.</p>
+          </div>
+          <button id="add-service" type="button" class="text-sm font-medium text-sky-700 hover:text-sky-800">+ Add item</button>
+        </div>
+        <div id="service-rows" class="border border-slate-200 rounded-xl px-3 bg-white"></div>
+      </section>
+
+      <p id="rates-status" class="text-sm text-slate-600"></p>
+    </div>
+  </div>
+
+  <div class="print:hidden fixed bottom-0 inset-x-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap gap-2 justify-end">
+      <button id="reset-rates" type="button" class="border border-slate-300 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm font-medium">
+        Reset to defaults
+      </button>
+      <a href="/tech/pay" class="border border-slate-300 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm font-medium">
+        Open pay form
+      </a>
+      <button id="save-rates" type="button" class="bg-slate-900 hover:bg-black text-white px-6 py-2.5 rounded-xl text-sm font-semibold">
+        Save rates
+      </button>
+    </div>
+  </div>
+
+  <script>
+    import { initAdminRates } from '../../lib/admin-rates-client';
+    initAdminRates();
+  </script>
+</Layout>

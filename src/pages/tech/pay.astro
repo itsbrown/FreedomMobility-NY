@@ -1,0 +1,156 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getDefaultPayRates } from '../../data/pay-rates';
+
+const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT || '';
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || '';
+const defaults = getDefaultPayRates();
+---
+
+<Layout
+  title="Weekly Pay Form | Freedom Mobility NY"
+  description="Internal technician weekly pay form."
+  variant="internal"
+  noindex={true}
+>
+  <div id="tech-pay-app" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 pb-36">
+    <div class="mb-8">
+      <p class="text-xs uppercase tracking-wider text-sky-700 font-semibold mb-2">
+        <a href="/admin" class="hover:text-sky-800">Admin</a>
+        <span class="text-slate-300 mx-1.5">/</span>
+        Pay form
+      </p>
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Weekly pay form</h1>
+      <p class="text-slate-600 mt-2 max-w-2xl">
+        Log installs, service calls, and trips. Totals update as you go. Submissions email <span id="pay-recipient">{defaults.recipient}</span>.
+      </p>
+    </div>
+
+    <div id="draft-rates-banner" class:list={['mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950', !defaults.ratesDraft && 'hidden']}>
+      <strong>Draft rates.</strong> Confirm or edit numbers in
+      <a href="/admin/rates" class="underline font-medium">Admin → Pay rates</a>
+      before the first real payday.
+    </div>
+
+    <form id="pay-form" class="space-y-10" novalidate>
+      <input type="hidden" name="_subject" value="Weekly Pay Form - Freedom Mobility NY" />
+      <input type="hidden" name="source" value="Website - Tech Pay Form" />
+      <input type="hidden" name="message" value="" />
+      <input type="hidden" name="installationTotal" value="0.00" />
+      <input type="hidden" name="mileageTotal" value="0.00" />
+      <input type="hidden" name="grandTotal" value="0.00" />
+      <input type="hidden" name="billableMiles" value="0.0" />
+
+      <section class="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label for="technician-name" class="block text-sm font-medium mb-1.5 text-slate-700">Technician name</label>
+          <input id="technician-name" name="technicianName" list="tech-names" required
+            class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm"
+            placeholder="Your name" />
+          <datalist id="tech-names"></datalist>
+        </div>
+        <div>
+          <label for="week-ending" class="block text-sm font-medium mb-1.5 text-slate-700">Week ending</label>
+          <input id="week-ending" name="weekEnding" type="date" required
+            class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" />
+        </div>
+      </section>
+
+      <section>
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold tracking-tight">Installation tasks</h2>
+          <p class="text-sm text-slate-600">Tap + for each completed job this week.</p>
+        </div>
+        <div id="install-catalog" class="space-y-6"></div>
+      </section>
+
+      <section>
+        <div class="mb-4 flex items-end justify-between gap-4">
+          <div>
+            <h2 class="text-xl font-semibold tracking-tight">Trips &amp; mileage</h2>
+            <p id="mileage-rules" class="text-sm text-slate-600">
+              Driving miles from OSRM (real roads, not a straight-line guess).
+            </p>
+          </div>
+        </div>
+        <div id="trips-list" class="space-y-4"></div>
+        <button id="add-trip" type="button" class="mt-3 text-sm font-medium text-sky-700 hover:text-sky-800">
+          + Add another trip
+        </button>
+        <div class="mt-4 rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 text-sm flex flex-wrap gap-x-6 gap-y-1">
+          <div>Billable miles: <strong id="billable-miles">0.0</strong></div>
+          <div>Mileage pay: <strong id="mileage-pay">$0.00</strong></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold tracking-tight">Service items</h2>
+          <p class="text-sm text-slate-600">Calls and extras that are not a full install.</p>
+        </div>
+        <div id="service-catalog"></div>
+      </section>
+
+      <section>
+        <label for="job-notes" class="block text-sm font-medium mb-1.5 text-slate-700">Notes</label>
+        <textarea id="job-notes" name="jobNotes" rows="4"
+          class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm"
+          placeholder="Job numbers, extra work, address issues, split jobs…"></textarea>
+      </section>
+
+      <p id="form-status" class="text-sm text-slate-600"></p>
+    </form>
+  </div>
+
+  <div class="print:hidden fixed bottom-0 inset-x-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+      <div class="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+        <div>Install <strong id="total-install" class="tabular-nums">$0.00</strong></div>
+        <div>Mileage / service <strong id="total-mileage" class="tabular-nums">$0.00</strong></div>
+        <div class="text-base">Total <strong id="total-grand" class="tabular-nums">$0.00</strong></div>
+      </div>
+      <div class="sm:ml-auto flex flex-wrap gap-2">
+        <button id="copy-timesheet" type="button" form="pay-form"
+          class="border border-slate-300 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm font-medium">Copy</button>
+        <button id="print-timesheet" type="button"
+          class="border border-slate-300 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm font-medium">Print</button>
+        <button id="submit-pay" type="submit" form="pay-form"
+          class="bg-slate-900 hover:bg-black text-white px-6 py-2.5 rounded-xl text-sm font-semibold">
+          Submit timesheet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {recaptchaSiteKey && (
+    <script src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}></script>
+  )}
+
+  <script type="application/json" id="pay-config" set:html={JSON.stringify({
+    ...defaults,
+    formspreeEndpoint,
+    recaptchaSiteKey,
+  })} />
+
+  <script>
+    import { initTechPayForm } from '../../lib/tech-pay-client';
+    import { loadPayRates } from '../../lib/pay-rates-store';
+    import { parsePayRates } from '../../data/pay-rates';
+
+    const raw = document.getElementById('pay-config')?.textContent;
+    const bundled = raw ? JSON.parse(raw) : {};
+    const fallback = parsePayRates(bundled);
+    const { rates } = await loadPayRates(fallback ?? undefined);
+
+    initTechPayForm({
+      installationTasks: rates.installationTasks,
+      mileageServiceItems: rates.mileageServiceItems,
+      mileageConfig: rates.mileageConfig,
+      technicians: rates.technicians,
+      ratesDraft: rates.ratesDraft,
+      formspreeEndpoint: bundled.formspreeEndpoint || '',
+      recaptchaSiteKey: bundled.recaptchaSiteKey || '',
+      recipient: rates.recipient,
+    });
+  </script>
+</Layout>

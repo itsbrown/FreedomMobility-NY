@@ -12,10 +12,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "tsx --test e2e/pay-rates.unit.ts",
+    "test:e2e": "npm run build && playwright test"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
+    "@netlify/blobs": "^10.7.13",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.4",
     "tailwindcss": "^4.3.0"
@@ -32,6 +35,7 @@
     "@rollup/rollup-linux-x64-gnu": "4.62.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "tsx": "^4.19.2"
   }
 }

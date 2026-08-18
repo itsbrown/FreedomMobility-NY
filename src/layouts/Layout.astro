@@ -1,11 +1,14 @@
 ---
 import '../styles/global.css';
+import InternalPinGate from '../components/InternalPinGate.astro';
 
 export interface Props {
   title?: string;
   description?: string;
   image?: string;
   structuredData?: Record<string, any>; // Optional override for location-specific or page-specific schema
+  noindex?: boolean;
+  variant?: 'default' | 'internal';
 }
 
 const {
@@ -13,7 +16,12 @@ const {
   description = 'Locally owned and operated. Serving the greater Rochester, Buffalo, and Syracuse areas with stairlifts, ramps, vertical platform lifts, and home accessibility solutions. Schedule your free in-home consultation today.',
   image = '/images/FM_NYS.png',
   structuredData: customStructuredData,
+  noindex = false,
+  variant = 'default',
 } = Astro.props;
+
+const isInternal = variant === 'internal';
+const hideFromSearch = noindex || isInternal;
 
 const phone = '(585) 488-0771';
 const phoneHref = 'tel:5854880771';
@@ -97,6 +105,7 @@ const structuredData = {
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    {hideFromSearch && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
@@ -107,36 +116,64 @@ const structuredData = {
     <!-- Canonical URL (best practice for SEO) -->
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
 
-    <!-- Structured Data: LocalBusiness + Services (custom per-page if provided, e.g. for location pages) -->
-    <script type="application/ld+json" set:html={JSON.stringify(customStructuredData || structuredData)} />
+    {!hideFromSearch && (
+      <>
+        <!-- Structured Data: LocalBusiness + Services (custom per-page if provided, e.g. for location pages) -->
+        <script type="application/ld+json" set:html={JSON.stringify(customStructuredData || structuredData)} />
 
-    <!-- BreadcrumbList for improved rich results and site structure -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://freedommobilityny.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": title.split('|')[0].trim(),
-          "item": new URL(Astro.url.pathname, 'https://freedommobilityny.com').href
-        }
-      ]
-    })} />
+        <!-- BreadcrumbList for improved rich results and site structure -->
+        <script type="application/ld+json" set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://freedommobilityny.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": title.split('|')[0].trim(),
+              "item": new URL(Astro.url.pathname, 'https://freedommobilityny.com').href
+            }
+          ]
+        })} />
+      </>
+    )}
 
     <!-- Optional: Plausible Analytics (privacy-friendly, no cookies) - P7 -->
     <!-- Remove or comment out if not using analytics. Update data-domain if needed. -->
-    <script defer data-domain="freedommobilityny.com" src="https://plausible.io/js/script.js"></script>
+    {!hideFromSearch && (
+      <script defer data-domain="freedommobilityny.com" src="https://plausible.io/js/script.js"></script>
+    )}
 
     <title>{title}</title>
   </head>
   <body class="bg-white text-slate-900 font-sans antialiased">
+    {isInternal ? (
+      <>
+      <InternalPinGate />
+      <header class="print:hidden sticky top-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+          <a href="/admin" class="flex items-center gap-2.5 min-w-0">
+            <img src="/logos/Color logo - no background.svg" alt="Freedom Mobility NY" class="h-8 w-auto" />
+            <div class="leading-tight">
+              <div class="font-bold text-slate-900 tracking-tight">Freedom Mobility</div>
+              <div class="text-[11px] uppercase tracking-wider text-slate-500">Admin</div>
+            </div>
+          </a>
+          <nav class="flex items-center gap-4 text-sm font-medium">
+            <a href="/admin" class="text-slate-600 hover:text-slate-900">Dashboard</a>
+            <a href="/tech/pay" class="text-slate-600 hover:text-slate-900">Pay form</a>
+            <a href="/admin/rates" class="text-slate-600 hover:text-slate-900">Rates</a>
+          </nav>
+        </div>
+      </header>
+      </>
+    ) : (
+    <>
     <!-- Top contact bar - cleaner & more professional -->
     <div class="bg-slate-900 text-white text-sm border-b border-slate-800">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
@@ -226,10 +263,16 @@ const structuredData = {
         </div>
       </div>
     </header>
+    </>
+    )}
 
     <slot />
 
-    <!-- Footer -->
+    {isInternal ? (
+      <footer class="print:hidden border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        Freedom Mobility NY · Technician pay form · Not for public use
+      </footer>
+    ) : (
     <footer class="bg-slate-900 text-slate-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid md:grid-cols-4 gap-8">
@@ -279,6 +322,7 @@ const structuredData = {
         </div>
       </div>
     </footer>
+    )}
 
     <script>
       // Mobile menu toggle

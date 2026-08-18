@@ -5,6 +5,13 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Shared pay-rate store (Netlify Blobs). Must sit above the 404 catch-all.
+[[redirects]]
+  from = "/api/pay-rates"
+  to = "/.netlify/functions/pay-rates"
+  status = 200
+  force = true
+
 # Redirects for SPA-like behavior if needed, but this is fully static
 [[redirects]]
   from = "/*"

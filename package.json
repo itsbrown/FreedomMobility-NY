@@ -13,7 +13,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "tsx --test e2e/pay-rates.unit.ts",
+    "test": "tsx --test e2e/*.unit.ts",
     "test:e2e": "npm run build && playwright test"
   },
   "dependencies": {

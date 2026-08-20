@@ -1,5 +1,10 @@
 # Knowledge changelog
 
+## 2026-08-19 (pay form email)
+
+- Pay submit was posting to Formspree with recaptcha action `tech_pay`. Formspree requires action `submit` (same as contact) or it returns `Please complete the reCAPTCHA` and no email is sent.
+- `_cc` does not deliver to Brian. Actual inbox is the Formspree form's Email workflow. Optional `PUBLIC_PAY_FORMSPREE_ENDPOINT` for a dedicated pay form.
+
 ## 2026-08-18 (hostinger deploy)
 
 - Live site is Hostinger, not Netlify. `main` → GitHub Action → `hostinger-deploy` branch.

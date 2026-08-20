@@ -499,6 +499,7 @@ export function initTechPayForm(config: TechPayConfig): void {
 
     return [
       'Freedom Mobility NY — Weekly Pay Form',
+      `Send to: ${config.recipient}`,
       '',
       `Technician: ${nameInput?.value.trim() || '—'}`,
       `Week ending: ${weekInput?.value || '—'}`,
@@ -589,26 +590,23 @@ export function initTechPayForm(config: TechPayConfig): void {
       const res = await fetch(config.formspreeEndpoint, {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          _subject: subject,
-          email: config.recipient,
+        body: JSON.stringify(buildPayFormPayload({
+          subject,
           name,
-          technicianName: name,
-          weekEnding: week,
-          message: timesheet,
+          week,
+          timesheet,
           installationTotal: installTotal().toFixed(2),
           mileageTotal: mileageTotal().toFixed(2),
           grandTotal: grandTotal().toFixed(2),
           billableMiles: billableMiles().toFixed(1),
-          source: 'Website - Tech Pay Form',
-          _cc: config.recipient,
-          'g-recaptcha-response': recaptchaToken,
-        }),
+          recipient: config.recipient,
+          recaptchaToken,
+        })),
       });
 
-      const payload = await res.json().catch(() => ({} as { error?: string; next?: string }));
+      const payload = await res.json().catch(() => ({} as FormspreeErrorBody));
       if (!res.ok) {
-        throw new Error(typeof payload.error === 'string' ? payload.error : `Formspree ${res.status}`);
+        throw new Error(formatFormspreeError(payload, res.status));
       }
       window.location.href = '/tech/success';
     } catch (error) {
@@ -664,6 +662,62 @@ function escapeHtml(value: string): string {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+/** Formspree's reCAPTCHA v3 docs require action `submit` (same as the contact form). */
+export const FORMSPREE_RECAPTCHA_ACTION = 'submit';
+
+export interface PayFormPayloadInput {
+  subject: string;
+  name: string;
+  week: string;
+  timesheet: string;
+  installationTotal: string;
+  mileageTotal: string;
+  grandTotal: string;
+  billableMiles: string;
+  recipient: string;
+  recaptchaToken: string;
+}
+
+export function buildPayFormPayload(input: PayFormPayloadInput): Record<string, string> {
+  return {
+    _subject: input.subject,
+    subject: input.subject,
+    email: input.recipient,
+    name: input.name,
+    technicianName: input.name,
+    weekEnding: input.week,
+    message: input.timesheet,
+    installationTotal: input.installationTotal,
+    mileageTotal: input.mileageTotal,
+    grandTotal: input.grandTotal,
+    billableMiles: input.billableMiles,
+    source: 'Website - Tech Pay Form',
+    intendedRecipient: input.recipient,
+    'g-recaptcha-response': input.recaptchaToken,
+  };
+}
+
+type FormspreeErrorBody = {
+  error?: string;
+  errors?: Array<{ message?: string; error?: string; field?: string }>;
+};
+
+export function formatFormspreeError(payload: FormspreeErrorBody, status: number): string {
+  const parts: string[] = [];
+  if (typeof payload.error === 'string' && payload.error.trim()) parts.push(payload.error.trim());
+  if (Array.isArray(payload.errors)) {
+    for (const item of payload.errors) {
+      const message = item.message || item.error;
+      if (message) parts.push(message);
+    }
+  }
+  const raw = parts.join(' ') || `Formspree ${status}`;
+  if (/recaptcha/i.test(raw)) {
+    return `${raw} Submit from https://freedommobilityny.com (localhost often fails reCAPTCHA). Or Copy and email the timesheet.`;
+  }
+  return raw;
+}
+
 type Grecaptcha = {
   ready: (cb: () => void) => void;
   execute: (key: string, opts: { action: string }) => Promise<string>;
@@ -678,8 +732,18 @@ async function getRecaptchaToken(siteKey: string): Promise<string> {
   }
 
   const grecaptcha = (window as unknown as { grecaptcha?: Grecaptcha }).grecaptcha;
-  if (!grecaptcha) return '';
+  if (!grecaptcha) {
+    throw new Error(
+      'reCAPTCHA did not load. Refresh, or submit from https://freedommobilityny.com if you are on localhost.',
+    );
+  }
 
   await new Promise<void>((resolve) => grecaptcha.ready(resolve));
-  return grecaptcha.execute(siteKey, { action: 'tech_pay' });
+  const token = await grecaptcha.execute(siteKey, { action: FORMSPREE_RECAPTCHA_ACTION });
+  if (!token) {
+    throw new Error(
+      'reCAPTCHA failed. Formspree will not accept this form without it. Try the live site, or Copy and email the timesheet.',
+    );
+  }
+  return token;
 }

@@ -96,4 +96,40 @@ test.describe('weekly pay form', () => {
     await expect(page.locator('#billable-miles')).toHaveText('80.0');
     await expect(page.locator('#mileage-pay')).toHaveText('$53.60');
   });
+
+  test('submit posts the timesheet to Formspree with a recaptcha token', async ({ page }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(window, 'grecaptcha', {
+        configurable: true,
+        get() {
+          return {
+            ready(cb: () => void) { cb(); },
+            execute() { return Promise.resolve('test-recaptcha-token'); },
+          };
+        },
+        set() { /* keep the stub if the real recaptcha script loads */ },
+      });
+    });
+
+    let posted: Record<string, string> | undefined;
+    await page.route('https://formspree.io/**', async (route) => {
+      posted = route.request().postDataJSON() as Record<string, string>;
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ ok: true }),
+      });
+    });
+
+    await openUnlocked(page, '/tech/pay');
+    await page.locator('#technician-name').fill('Test Tech');
+    const serviceRow = page.locator('#service-catalog').getByText('Service / repair call').locator('xpath=ancestor::div[contains(@class,"grid")][1]');
+    await serviceRow.getByRole('button', { name: /Increase/ }).click();
+    await page.getByRole('button', { name: 'Submit timesheet' }).click();
+    await expect(page).toHaveURL(/\/tech\/success/);
+    expect(posted).toBeTruthy();
+    expect(posted!['g-recaptcha-response']).toBe('test-recaptcha-token');
+    expect(posted!._subject).toMatch(/Weekly Pay Form - Test Tech/);
+    expect(posted!.source).toBe('Website - Tech Pay Form');
+  });
 });

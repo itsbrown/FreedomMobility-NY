@@ -8,7 +8,7 @@
  */
 export const RATES_DRAFT = true;
 
-export const PAY_FORM_RECIPIENT = 'brian.parmele@freedommobilityva.com';
+export const PAY_FORM_RECIPIENT = 'freedommobilityvllc@outlook.com';
 
 export interface PayTask {
   id: string;

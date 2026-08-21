@@ -18,7 +18,7 @@ Replaces the incomplete Replit export in `../Review/FREEDOM_MOBILITY_APP_EXPORT.
 Formspree does **not** send to `PAY_FORM_RECIPIENT` just because that address is in the JSON body. The `email` field is Reply-To. Delivery goes to the Email action on the Formspree form.
 
 - Shared contact form (`PUBLIC_FORMSPREE_ENDPOINT`) notifies whoever owns the public contact form.
-- For Brian to receive pay sheets, create a Formspree form whose Email workflow is `brian.parmele@freedommobilityva.com` and set `PUBLIC_PAY_FORMSPREE_ENDPOINT` (GitHub secret, baked at Hostinger deploy).
+- Pay sheets should go to `freedommobilityvllc@outlook.com`. Set that address as the Email workflow on the dedicated pay Formspree form (`PUBLIC_PAY_FORMSPREE_ENDPOINT`). Changing `PAY_FORM_RECIPIENT` in code only updates Reply-To and on-page copy.
 - reCAPTCHA must use action `submit`. Formspree returns `Please complete the reCAPTCHA` otherwise, including from localhost when the site key is production-only.
 
 Home address and technician name persist in `localStorage`.

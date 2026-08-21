@@ -1,5 +1,9 @@
 # Knowledge changelog
 
+## 2026-08-21 (pay form recipient)
+
+- Pay form display / Reply-To / fallback copy now uses `freedommobilityvllc@outlook.com` (`PAY_FORM_RECIPIENT`). Formspree Email workflow on form `mnpaloyd` must use the same address or mail still goes to the previous inbox.
+
 ## 2026-08-19 (pay form email)
 
 - Pay submit was posting to Formspree with recaptcha action `tech_pay`. Formspree requires action `submit` (same as contact) or it returns `Please complete the reCAPTCHA` and no email is sent.

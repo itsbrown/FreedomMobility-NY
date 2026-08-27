@@ -1,1 +1,46 @@
 @import "tailwindcss";
+
+.fm-article {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: #334155;
+}
+.fm-article > * + * {
+  margin-top: 1.15rem;
+}
+.fm-article h2 {
+  margin-top: 2.25rem;
+  font-size: 1.35rem;
+  line-height: 1.3;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+.fm-article h3 {
+  margin-top: 1.75rem;
+  font-size: 1.1rem;
+  font-weight: 650;
+  color: #0f172a;
+}
+.fm-article ul,
+.fm-article ol {
+  padding-left: 1.25rem;
+}
+.fm-article ul {
+  list-style: disc;
+}
+.fm-article ol {
+  list-style: decimal;
+}
+.fm-article li + li {
+  margin-top: 0.4rem;
+}
+.fm-article a {
+  color: #0369a1;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.fm-article strong {
+  color: #0f172a;
+  font-weight: 650;
+}

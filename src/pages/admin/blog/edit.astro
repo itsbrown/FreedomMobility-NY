@@ -1,0 +1,174 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Edit draft | Freedom Mobility NY Admin"
+  description="Write a device draft of a guide."
+  variant="internal"
+  noindex={true}
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 pb-32">
+    <p class="text-xs uppercase tracking-wider text-sky-700 font-semibold mb-2">
+      <a href="/admin" class="hover:text-sky-800">Admin</a>
+      <span class="text-slate-300 mx-1.5">/</span>
+      <a href="/admin/blog" class="hover:text-sky-800">Blog</a>
+      <span class="text-slate-300 mx-1.5">/</span>
+      Device draft
+    </p>
+    <h1 class="text-3xl font-bold tracking-tight mb-2">Write a draft</h1>
+    <p class="text-slate-600 mb-8 max-w-2xl">
+      Saved on this browser only. Download Markdown and add it to
+      <code class="text-sm bg-slate-100 px-1 rounded">src/content/blog</code>,
+      then push <code class="text-sm bg-slate-100 px-1 rounded">main</code> to publish.
+      Set <code class="text-sm bg-slate-100 px-1 rounded">draft: true</code> in that file until it should go live.
+    </p>
+
+    <div class="grid lg:grid-cols-2 gap-8">
+      <form id="draft-form" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1.5 text-slate-700" for="draft-headline">Headline</label>
+          <input id="draft-headline" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm" placeholder="Straight stairlift installation: what to expect" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5 text-slate-700" for="draft-slug">URL slug</label>
+          <input id="draft-slug" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm" placeholder="straight-stairlift-install-what-to-expect" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5 text-slate-700" for="draft-title">SEO title</label>
+          <input id="draft-title" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm" placeholder="… | Rochester, Buffalo & Syracuse NY" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5 text-slate-700" for="draft-description">Meta description</label>
+          <textarea id="draft-description" rows="2" maxlength="170" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm" placeholder="160 characters. Include a city and the problem."></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5 text-slate-700" for="draft-category">Category</label>
+          <select id="draft-category" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm bg-white">
+            <option>Stairlifts</option>
+            <option>Ramps</option>
+            <option>Lifts</option>
+            <option>Service</option>
+            <option>Aging in place</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5 text-slate-700" for="draft-body">Body (Markdown)</label>
+          <textarea id="draft-body" rows="18" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm font-mono" placeholder="## Heading&#10;&#10;Write for families in Rochester, Buffalo, and Syracuse…"></textarea>
+        </div>
+        <p id="draft-status" class="text-sm text-slate-600"></p>
+      </form>
+
+      <div>
+        <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">Preview</div>
+        <div class="border border-slate-200 rounded-2xl p-6 bg-white min-h-96">
+          <p class="text-xs uppercase tracking-wider text-amber-800 font-semibold mb-3">Device draft — not live</p>
+          <h2 id="preview-headline" class="text-2xl font-bold tracking-tight mb-3">Headline</h2>
+          <p id="preview-description" class="text-slate-600 mb-6"></p>
+          <div id="preview-body" class="fm-article text-slate-600 text-sm">Start writing to preview.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="print:hidden fixed bottom-0 inset-x-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap gap-2 justify-end">
+      <button id="delete-draft" type="button" class="border border-slate-300 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm font-medium">Delete</button>
+      <button id="download-draft" type="button" class="border border-slate-300 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm font-medium">Download .md</button>
+      <button id="save-draft" type="button" class="bg-slate-900 hover:bg-black text-white px-6 py-2.5 rounded-xl text-sm font-semibold">Save draft</button>
+    </div>
+  </div>
+
+  <script>
+    import {
+      BLOG_CATEGORIES,
+      deleteLocalDraft,
+      draftToMarkdown,
+      getLocalDraft,
+      markdownToHtml,
+      saveLocalDraft,
+      type LocalDraft,
+    } from '../../../lib/blog-admin-client';
+
+    const params = new URLSearchParams(location.search);
+    let id = params.get('id') || '';
+    const headline = document.getElementById('draft-headline') as HTMLInputElement;
+    const slug = document.getElementById('draft-slug') as HTMLInputElement;
+    const title = document.getElementById('draft-title') as HTMLInputElement;
+    const description = document.getElementById('draft-description') as HTMLTextAreaElement;
+    const category = document.getElementById('draft-category') as HTMLSelectElement;
+    const body = document.getElementById('draft-body') as HTMLTextAreaElement;
+    const status = document.getElementById('draft-status');
+
+    function slugify(value: string): string {
+      return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+
+    function readForm(): Partial<LocalDraft> {
+      return {
+        id: id || undefined,
+        headline: headline.value,
+        slug: slug.value || slugify(headline.value),
+        title: title.value || `${headline.value} | Freedom Mobility NY`,
+        description: description.value,
+        category: category.value as LocalDraft['category'],
+        body: body.value,
+      };
+    }
+
+    function paintPreview(): void {
+      const data = readForm();
+      const h = document.getElementById('preview-headline');
+      const d = document.getElementById('preview-description');
+      const b = document.getElementById('preview-body');
+      if (h) h.textContent = data.headline || 'Headline';
+      if (d) d.textContent = data.description || '';
+      if (b) b.innerHTML = data.body ? markdownToHtml(data.body) : 'Start writing to preview.';
+    }
+
+    const existing = id ? getLocalDraft(id) : null;
+    if (existing) {
+      headline.value = existing.headline;
+      slug.value = existing.slug;
+      title.value = existing.title;
+      description.value = existing.description;
+      category.value = BLOG_CATEGORIES.includes(existing.category) ? existing.category : 'Stairlifts';
+      body.value = existing.body;
+    }
+    paintPreview();
+
+    ['input', 'change'].forEach((eventName) => {
+      document.getElementById('draft-form')?.addEventListener(eventName, paintPreview);
+    });
+
+    document.getElementById('save-draft')?.addEventListener('click', () => {
+      if (!headline.value.trim()) {
+        if (status) status.textContent = 'Headline is required.';
+        return;
+      }
+      const saved = saveLocalDraft(readForm());
+      id = saved.id;
+      history.replaceState({}, '', `/admin/blog/edit?id=${encodeURIComponent(id)}`);
+      if (status) status.textContent = 'Saved on this device. Download .md when it is ready to go in the repo.';
+    });
+
+    document.getElementById('download-draft')?.addEventListener('click', () => {
+      const saved = saveLocalDraft(readForm());
+      id = saved.id;
+      const blob = new Blob([draftToMarkdown(saved)], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${saved.slug || 'draft'}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('delete-draft')?.addEventListener('click', () => {
+      if (!id) return;
+      if (!confirm('Delete this device draft?')) return;
+      deleteLocalDraft(id);
+      location.href = '/admin/blog';
+    });
+  </script>
+</Layout>

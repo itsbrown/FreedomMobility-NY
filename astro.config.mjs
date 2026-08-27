@@ -12,17 +12,22 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // Best-in-class sitemap settings
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: new Date(),
-      filter: (page) => !page.includes('/tech/') && !page.includes('/admin'),
-      // Give higher priority to key pages
+      filter: (page) => !page.includes('/tech/') && !page.includes('/admin') && !page.endsWith('/blog/'),
+      serialize: (item) => {
+        if (item.url.includes('/resources/')) {
+          return { ...item, changefreq: 'monthly', priority: item.url.endsWith('/resources/') ? 0.8 : 0.75 };
+        }
+        return item;
+      },
       customPages: [
         'https://freedommobilityny.com/',
         'https://freedommobilityny.com/locations/',
         'https://freedommobilityny.com/stairlifts/',
         'https://freedommobilityny.com/ramps/',
+        'https://freedommobilityny.com/resources/',
       ],
     }),
   ],

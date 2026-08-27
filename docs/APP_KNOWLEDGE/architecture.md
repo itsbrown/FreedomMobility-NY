@@ -7,7 +7,9 @@ Static Astro 6 site + Tailwind v4. Build output is `dist/`. Live host is **Hosti
 | Path | Audience | Notes |
 | --- | --- | --- |
 | Marketing pages (`/`, `/stairlifts`, `/contact`, …) | Public | Indexed, in nav |
-| `/admin` | Shop staff | Internal hub; pay form + rates. Same PIN as `/tech/*` |
+| `/resources`, `/resources/[slug]` | Public | Live guides only (`draft: false`). `/blog` 301s here. In header as Guides |
+| `/admin` | Shop staff | Hub: blog, pay form, rates. Same PIN as `/tech/*` |
+| `/admin/blog` | Shop staff | Live vs draft list, PIN previews, device drafts |
 | `/admin/rates` | Shop staff | Edit piece rates; saved to Netlify Blobs (`/api/pay-rates`) |
 | `/tech/pay`, `/tech/success` | Technicians | `noindex`, `robots.txt` Disallow, excluded from sitemap, not in public nav |
 

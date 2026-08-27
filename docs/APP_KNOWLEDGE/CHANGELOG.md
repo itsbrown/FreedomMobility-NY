@@ -1,5 +1,11 @@
 # Knowledge changelog
 
+## 2026-08-27 (blog)
+
+- Guides live at `/resources` from `src/content/blog` Markdown. `draft: true` is admin-preview only (public 404, no sitemap).
+- Admin **Blog** lists live vs repo draft vs device draft. Device drafts are localStorage; publish by downloading Markdown and pushing `main`.
+- Public header includes Guides. Articles emit BlogPosting / FAQ JSON-LD, article Open Graph, and breadcrumbs.
+
 ## 2026-08-27 (draft rates)
 
 - Saving pay rates did not hide `[DRAFT RATES]` because confirm was a separate checkbox (default off) and Hostinger has no shared rates API. Built-in `RATES_DRAFT` is now `false`. v1 localStorage saves are migrated off draft. Confirm checkbox sits next to Save.

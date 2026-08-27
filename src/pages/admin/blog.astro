@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getAllPosts, postSlug, publicPath, adminPreviewPath, formatDate, displayDate, isLive } from '../../lib/blog';
+
+const posts = await getAllPosts();
+---
+
+<Layout
+  title="Blog | Freedom Mobility NY Admin"
+  description="Internal blog and guide manager."
+  variant="internal"
+  noindex={true}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <p class="text-xs uppercase tracking-wider text-sky-700 font-semibold mb-2">
+      <a href="/admin" class="hover:text-sky-800">Admin</a>
+      <span class="text-slate-300 mx-1.5">/</span>
+      Blog
+    </p>
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Blog &amp; guides</h1>
+        <p class="text-slate-600 mt-2 max-w-2xl">
+          Live posts are on the public site and in Google. Repo drafts are PIN-only previews.
+          Device drafts stay in this browser until you add a Markdown file and deploy.
+        </p>
+      </div>
+      <a href="/admin/blog/edit" class="inline-flex justify-center bg-slate-900 hover:bg-black text-white px-5 py-2.5 rounded-xl text-sm font-semibold">
+        New device draft
+      </a>
+    </div>
+
+    <section class="mb-10">
+      <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">In the website</h2>
+      <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white divide-y divide-slate-100">
+        {posts.map((post) => (
+          <div class="px-4 py-4 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-3">
+            <div class="min-w-0 sm:flex-1">
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                {isLive(post) ? (
+                  <span class="inline-flex rounded-full bg-emerald-50 text-emerald-800 text-xs font-medium px-2 py-0.5">Live</span>
+                ) : (
+                  <span class="inline-flex rounded-full bg-amber-50 text-amber-900 text-xs font-medium px-2 py-0.5">Draft</span>
+                )}
+                <span class="text-xs text-slate-500">{post.data.category}</span>
+              </div>
+              <div class="font-semibold text-slate-900">{post.data.headline}</div>
+              <div class="text-xs text-slate-500 mt-1">/{postSlug(post)} · Updated {formatDate(displayDate(post))}</div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <a href={adminPreviewPath(post)} class="border border-slate-300 hover:bg-slate-50 px-3 py-2 rounded-lg text-sm font-medium">Preview</a>
+              {isLive(post) && (
+                <a href={publicPath(post)} class="border border-slate-300 hover:bg-slate-50 px-3 py-2 rounded-lg text-sm font-medium">View live</a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">On this device</h2>
+      <div id="local-drafts" class="border border-slate-200 rounded-2xl bg-white px-4 py-8 text-sm text-slate-500">
+        Loading device drafts…
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import { escapeHtml, listLocalDrafts } from '../../lib/blog-admin-client';
+
+    const mount = document.getElementById('local-drafts');
+    if (mount) {
+      const drafts = listLocalDrafts();
+      if (drafts.length === 0) {
+        mount.innerHTML = 'No device drafts yet. Use <strong>New device draft</strong> to write here, then download Markdown to publish.';
+      } else {
+        mount.className = 'border border-slate-200 rounded-2xl overflow-hidden bg-white divide-y divide-slate-100';
+        mount.innerHTML = drafts.map((draft) => `
+          <div class="px-4 py-4 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-3">
+            <div class="min-w-0 sm:flex-1">
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="inline-flex rounded-full bg-slate-100 text-slate-700 text-xs font-medium px-2 py-0.5">Device draft</span>
+                <span class="text-xs text-slate-500">${escapeHtml(draft.category)}</span>
+              </div>
+              <div class="font-semibold text-slate-900">${escapeHtml(draft.headline || draft.title || 'Untitled draft')}</div>
+              <div class="text-xs text-slate-500 mt-1">/${escapeHtml(draft.slug || 'no-slug')}</div>
+            </div>
+            <a href="/admin/blog/edit?id=${encodeURIComponent(draft.id)}" class="border border-slate-300 hover:bg-slate-50 px-3 py-2 rounded-lg text-sm font-medium">Edit / preview</a>
+          </div>
+        `).join('');
+      }
+    }
+  </script>
+</Layout>

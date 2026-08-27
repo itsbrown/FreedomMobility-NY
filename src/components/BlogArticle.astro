@@ -1,0 +1,72 @@
+---
+import type { BlogPost } from '../lib/blog';
+import { formatDate, displayDate, publicPath } from '../lib/blog';
+
+interface Props {
+  post: BlogPost;
+  related: BlogPost[];
+  preview?: boolean;
+}
+
+const { post, related, preview = false } = Astro.props;
+const data = post.data;
+const updated = displayDate(post);
+---
+
+<article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+  {preview && (
+    <p class="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+      {data.draft
+        ? 'Repo draft — PIN preview only. Not in the public Guides list, sitemap, or Google.'
+        : 'Live preview of the public article.'}
+    </p>
+  )}
+
+  <nav class="text-sm text-slate-500 mb-6" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-sky-700">Home</a>
+    <span class="mx-1.5 text-slate-300">/</span>
+    <a href="/resources" class="hover:text-sky-700">Guides</a>
+    <span class="mx-1.5 text-slate-300">/</span>
+    <span class="text-slate-700">{data.headline}</span>
+  </nav>
+
+  <p class="text-xs uppercase tracking-wider text-sky-700 font-semibold mb-3">{data.category}</p>
+  <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">{data.headline}</h1>
+  <p class="text-lg text-slate-600 mb-4">{data.description}</p>
+  <p class="text-sm text-slate-500 mb-10">
+    Updated {formatDate(updated)}
+    {data.cities.length > 0 && (
+      <>
+        <span class="mx-2 text-slate-300">·</span>
+        {data.cities.join(' · ')}
+      </>
+    )}
+  </p>
+
+  <div class="fm-article">
+    <slot />
+  </div>
+
+  <aside class="mt-12 rounded-2xl border border-sky-100 bg-sky-50 px-6 py-6">
+    <p class="font-semibold text-slate-900">{data.ctaTitle}</p>
+    <p class="text-sm text-slate-600 mt-1">{data.ctaBody}</p>
+    <a href={data.ctaHref} class="inline-flex mt-4 bg-slate-900 hover:bg-black text-white px-6 py-2.5 rounded-xl text-sm font-semibold">
+      {data.ctaLabel}
+    </a>
+  </aside>
+
+  {related.length > 0 && (
+    <section class="mt-14">
+      <h2 class="text-xl font-semibold tracking-tight mb-4">Related guides</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {related.map((item) => (
+          <a href={publicPath(item)} class="block rounded-2xl border border-slate-200 p-5 hover:border-sky-300 hover:shadow-sm transition">
+            <div class="text-xs uppercase tracking-wider text-slate-500 mb-1">{item.data.category}</div>
+            <div class="font-semibold text-slate-900">{item.data.headline}</div>
+            <p class="text-sm text-slate-600 mt-1">{item.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</article>

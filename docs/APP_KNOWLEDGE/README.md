@@ -12,6 +12,7 @@ Marketing site for Freedom Mobility NY (stairlifts, ramps, VPLs, service) servin
 
 - [architecture.md](./architecture.md) — stack, forms, deploy
 - [domains/tech-pay.md](./domains/tech-pay.md) — technician pay form
+- [domains/blog.md](./domains/blog.md) — guides, live vs draft, SEO
 - [CHANGELOG.md](./CHANGELOG.md)
 
 ## Agent onboarding
@@ -24,5 +25,5 @@ Marketing site for Freedom Mobility NY (stairlifts, ramps, VPLs, service) servin
 ## Non-negotiables
 
 - Do not invent or silently change technician pay rates. Edit `src/data/pay-rates.ts` only with confirmed numbers. `RATES_DRAFT` is `false`; turn the pay-form warning back on from Admin → Pay rates if numbers are estimates.
-- Keep `/tech/*` out of the sitemap, nav, and search engines.
+- Keep `/tech/*` and `/admin/*` out of the sitemap, public nav, and search engines. Blog drafts (`draft: true`) must 404 on `/resources/*`.
 - Public contact form and tech pay form both go through Formspree; pay emails should notify `freedommobilityllc@outlook.com`.

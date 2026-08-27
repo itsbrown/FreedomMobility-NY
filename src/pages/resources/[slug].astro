@@ -1,0 +1,68 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogArticle from '../../components/BlogArticle.astro';
+import { getLivePosts, relatedPosts, publicPath, postSlug } from '../../lib/blog';
+import { render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getLivePosts();
+  return posts.map((post) => ({
+    params: { slug: postSlug(post) },
+    props: { post, related: relatedPosts(post, posts) },
+  }));
+}
+
+const { post, related } = Astro.props;
+const { Content } = await render(post);
+const data = post.data;
+const canonical = `https://freedommobilityny.com${publicPath(post)}`;
+const published = data.pubDate.toISOString();
+const modified = (data.updatedDate ?? data.pubDate).toISOString();
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: data.headline,
+  description: data.description,
+  datePublished: published,
+  dateModified: modified,
+  author: { '@type': 'Organization', name: 'Freedom Mobility NY', url: 'https://freedommobilityny.com' },
+  publisher: { '@id': 'https://freedommobilityny.com/#organization' },
+  mainEntityOfPage: canonical,
+  image: 'https://freedommobilityny.com/images/FM_NYS.png',
+  articleSection: data.category,
+  keywords: data.tags.join(', '),
+  about: data.cities.map((city) => ({ '@type': 'City', name: city })),
+};
+
+const extraJsonLd: Record<string, unknown>[] = [articleSchema];
+if (data.faqs.length > 0) {
+  extraJsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: data.faqs.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  });
+}
+---
+
+<Layout
+  title={data.title}
+  description={data.description}
+  ogType="article"
+  publishedTime={published}
+  modifiedTime={modified}
+  extraJsonLd={extraJsonLd}
+  breadcrumbs={[
+    { name: 'Home', href: 'https://freedommobilityny.com/' },
+    { name: 'Guides', href: 'https://freedommobilityny.com/resources/' },
+    { name: data.headline, href: canonical },
+  ]}
+>
+  <BlogArticle post={post} related={related}>
+    <Content />
+  </BlogArticle>
+</Layout>

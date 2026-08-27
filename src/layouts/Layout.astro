@@ -7,8 +7,13 @@ export interface Props {
   description?: string;
   image?: string;
   structuredData?: Record<string, any>; // Optional override for location-specific or page-specific schema
+  extraJsonLd?: Record<string, unknown>[];
   noindex?: boolean;
   variant?: 'default' | 'internal';
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  breadcrumbs?: { name: string; href: string }[];
 }
 
 const {
@@ -16,12 +21,23 @@ const {
   description = 'Locally owned and operated. Serving the greater Rochester, Buffalo, and Syracuse areas with stairlifts, ramps, vertical platform lifts, and home accessibility solutions. Schedule your free in-home consultation today.',
   image = '/images/FM_NYS.png',
   structuredData: customStructuredData,
+  extraJsonLd = [],
   noindex = false,
   variant = 'default',
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
+  breadcrumbs,
 } = Astro.props;
 
 const isInternal = variant === 'internal';
 const hideFromSearch = noindex || isInternal;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = image.startsWith('http') ? image : new URL(image, Astro.site).href;
+const crumbItems = breadcrumbs ?? [
+  { name: 'Home', href: 'https://freedommobilityny.com/' },
+  { name: title.split('|')[0].trim(), href: canonical },
+];
 
 const phone = '(585) 488-0771';
 const phoneHref = 'tel:5854880771';
@@ -35,6 +51,7 @@ const navLinks = [
   { href: '/brands', label: 'Brands' },
   { href: '/testimonials', label: 'Testimonials' },
   { href: '/locations', label: 'Locations' },
+  { href: '/resources', label: 'Guides' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact Us' },
 ];
@@ -108,13 +125,18 @@ const structuredData = {
     {hideFromSearch && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="en_US" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
 
     <!-- Canonical URL (best practice for SEO) -->
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
+    <link rel="canonical" href={canonical} />
 
     {!hideFromSearch && (
       <>
@@ -125,21 +147,16 @@ const structuredData = {
         <script type="application/ld+json" set:html={JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "https://freedommobilityny.com/"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": title.split('|')[0].trim(),
-              "item": new URL(Astro.url.pathname, 'https://freedommobilityny.com').href
-            }
-          ]
+          "itemListElement": crumbItems.map((crumb, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "name": crumb.name,
+            "item": crumb.href.startsWith('http') ? crumb.href : new URL(crumb.href, Astro.site).href,
+          })),
         })} />
+        {extraJsonLd.map((block) => (
+          <script type="application/ld+json" set:html={JSON.stringify(block)} />
+        ))}
       </>
     )}
 
@@ -166,6 +183,7 @@ const structuredData = {
           </a>
           <nav class="flex items-center gap-4 text-sm font-medium">
             <a href="/admin" class="text-slate-600 hover:text-slate-900">Dashboard</a>
+            <a href="/admin/blog" class="text-slate-600 hover:text-slate-900">Blog</a>
             <a href="/tech/pay" class="text-slate-600 hover:text-slate-900">Pay form</a>
             <a href="/admin/rates" class="text-slate-600 hover:text-slate-900">Rates</a>
           </nav>

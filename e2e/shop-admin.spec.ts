@@ -70,13 +70,22 @@ test.describe('admin hub and rates', () => {
     await expect(page.locator('#total-install')).toHaveText('$199.00');
     await expect(page.locator('#total-grand')).toHaveText('$199.00');
   });
+
+  test('unconfirming rates shows the pay form draft banner', async ({ page }) => {
+    await openUnlocked(page, '/admin/rates');
+    await page.locator('#rate-confirmed').uncheck();
+    await page.getByRole('button', { name: 'Save rates' }).click();
+    await expect(page.locator('#rates-status')).toContainText(/DRAFT RATES/);
+    await page.getByRole('link', { name: 'Open pay form' }).click();
+    await expect(page.locator('#draft-rates-banner')).toBeVisible();
+  });
 });
 
 test.describe('weekly pay form', () => {
   test('validates empty submit and computes a service line', async ({ page }) => {
     await openUnlocked(page, '/tech/pay');
     await expect(page.getByRole('heading', { name: 'Weekly pay form' })).toBeVisible();
-    await expect(page.locator('#draft-rates-banner')).toBeVisible();
+    await expect(page.locator('#draft-rates-banner')).toBeHidden();
 
     await page.getByRole('button', { name: 'Submit timesheet' }).click();
     await expect(page.locator('#form-status')).toContainText('Technician name and week ending are required');

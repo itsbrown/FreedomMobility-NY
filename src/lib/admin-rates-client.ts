@@ -105,6 +105,8 @@ export function initAdminRates(): void {
     if (perMile) perMile.value = String(rates.mileageConfig.ratePerMile);
     if (qualify) qualify.value = String(rates.mileageConfig.qualifyMilesOneWay);
     if (confirmed) confirmed.checked = !rates.ratesDraft;
+    const draftBanner = document.getElementById('draft-rates-admin-banner');
+    if (draftBanner) draftBanner.classList.toggle('hidden', !rates.ratesDraft);
     if (techs) techs.value = rates.technicians.join('\n');
     if (taskMount) taskMount.innerHTML = rates.installationTasks.map(taskRow).join('');
     if (serviceMount) serviceMount.innerHTML = rates.mileageServiceItems.map(serviceRow).join('');
@@ -147,7 +149,11 @@ export function initAdminRates(): void {
     rates = next;
     setStatus('Saving…');
     const result = await savePayRates(rates);
-    setStatus(result.message, result.ok ? 'ok' : 'err');
+    render();
+    const draftNote = rates.ratesDraft
+      ? ' The pay form will still say [DRAFT RATES — confirm before paying]. Check Rates are confirmed and save again.'
+      : ' Draft warning is off on the pay form.';
+    setStatus(result.ok ? `${result.message}${draftNote}` : result.message, result.ok ? 'ok' : 'err');
   });
 
   document.getElementById('reset-rates')?.addEventListener('click', () => {

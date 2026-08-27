@@ -17,8 +17,14 @@ import Layout from '../../layouts/Layout.astro';
     <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Pay rates</h1>
     <p class="text-slate-600 mt-2 max-w-2xl mb-8">
       These numbers drive the weekly pay form. Save here instead of editing code.
-      On Netlify, Save shares rates with every technician.
+      On this Hostinger site, Save is stored in this browser; the built-in catalog
+      (including whether timesheets say DRAFT) is what every technician gets after deploy.
     </p>
+
+    <div id="draft-rates-admin-banner" class="mb-8 hidden rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+      The pay form still shows <strong>[DRAFT RATES — confirm before paying]</strong>.
+      Check <strong>Rates are confirmed</strong> next to Save, then save again.
+    </div>
 
     <div class="space-y-10">
       <section class="grid sm:grid-cols-2 gap-5">
@@ -40,14 +46,6 @@ import Layout from '../../layouts/Layout.astro';
           </div>
         </div>
       </section>
-
-      <label class="flex items-start gap-3 text-sm text-slate-700">
-        <input id="rate-confirmed" type="checkbox" class="mt-1 rounded border-slate-300" />
-        <span>
-          <span class="font-medium">Rates are confirmed</span>
-          <span class="block text-slate-500">Uncheck to keep the draft banner on the pay form.</span>
-        </span>
-      </label>
 
       <section>
         <label for="rate-technicians" class="block text-sm font-medium mb-1.5 text-slate-700">Technician names (one per line)</label>
@@ -89,16 +87,25 @@ import Layout from '../../layouts/Layout.astro';
   </div>
 
   <div class="print:hidden fixed bottom-0 inset-x-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap gap-2 justify-end">
-      <button id="reset-rates" type="button" class="border border-slate-300 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm font-medium">
-        Reset to defaults
-      </button>
-      <a href="/tech/pay" class="border border-slate-300 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm font-medium">
-        Open pay form
-      </a>
-      <button id="save-rates" type="button" class="bg-slate-900 hover:bg-black text-white px-6 py-2.5 rounded-xl text-sm font-semibold">
-        Save rates
-      </button>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+      <label class="flex items-start gap-2 text-sm text-slate-700 sm:mr-auto">
+        <input id="rate-confirmed" type="checkbox" class="mt-1 rounded border-slate-300" />
+        <span>
+          <span class="font-medium">Rates are confirmed</span>
+          <span class="block text-slate-500">Required to hide [DRAFT RATES] on the pay form and in emailed timesheets.</span>
+        </span>
+      </label>
+      <div class="flex flex-wrap gap-2 justify-end">
+        <button id="reset-rates" type="button" class="border border-slate-300 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm font-medium">
+          Reset to defaults
+        </button>
+        <a href="/tech/pay" class="border border-slate-300 hover:bg-slate-50 px-4 py-2.5 rounded-xl text-sm font-medium">
+          Open pay form
+        </a>
+        <button id="save-rates" type="button" class="bg-slate-900 hover:bg-black text-white px-6 py-2.5 rounded-xl text-sm font-semibold">
+          Save rates
+        </button>
+      </div>
     </div>
   </div>
 

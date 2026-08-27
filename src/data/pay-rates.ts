@@ -4,9 +4,10 @@
  * The original Replit app kept these in pay-form.tsx, which was not exported.
  * Update this file and redeploy whenever rates change.
  *
- * RATES_DRAFT must stay true until Brian / ops confirms every number.
+ * RATES_DRAFT is the built-in default. Admin → Pay rates can still turn the
+ * draft warning back on for this browser. Ops confirmed the catalog 2026-08-27.
  */
-export const RATES_DRAFT = true;
+export const RATES_DRAFT = false;
 
 export const PAY_FORM_RECIPIENT = 'freedommobilityllc@outlook.com';
 
@@ -83,7 +84,7 @@ export const mileageConfig: MileageConfig = {
 };
 
 export interface PayRatesBundle {
-  version: 1;
+  version: 1 | 2;
   ratesDraft: boolean;
   recipient: string;
   technicians: string[];
@@ -94,7 +95,7 @@ export interface PayRatesBundle {
 
 export function getDefaultPayRates(): PayRatesBundle {
   return {
-    version: 1,
+    version: 2,
     ratesDraft: RATES_DRAFT,
     recipient: PAY_FORM_RECIPIENT,
     technicians: [...technicians],
@@ -116,9 +117,14 @@ export function parsePayRates(input: unknown): PayRatesBundle | null {
   const services = raw.mileageServiceItems.filter(isService);
   if (tasks.length === 0) return null;
 
+  const storedVersion = raw.version === 2 ? 2 : 1;
+  // v1 saves always had ratesDraft: true (checkbox default). Treat them as
+  // confirmed now that the built-in catalog is confirmed.
+  const ratesDraft = storedVersion === 1 ? RATES_DRAFT : Boolean(raw.ratesDraft);
+
   return {
-    version: 1,
-    ratesDraft: Boolean(raw.ratesDraft),
+    version: 2,
+    ratesDraft,
     recipient: resolveRecipient(raw.recipient),
     technicians: Array.isArray(raw.technicians)
       ? raw.technicians.filter((name): name is string => typeof name === 'string' && name.trim().length > 0)

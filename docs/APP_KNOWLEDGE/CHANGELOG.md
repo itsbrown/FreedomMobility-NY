@@ -1,5 +1,9 @@
 # Knowledge changelog
 
+## 2026-08-27 (draft rates)
+
+- Saving pay rates did not hide `[DRAFT RATES]` because confirm was a separate checkbox (default off) and Hostinger has no shared rates API. Built-in `RATES_DRAFT` is now `false`. v1 localStorage saves are migrated off draft. Confirm checkbox sits next to Save.
+
 ## 2026-08-27 (stale pay recipient)
 
 - Saved admin/localStorage rates that still had `freedommobilityvllc@outlook.com` or Brian's VA inbox are rewritten to `freedommobilityllc@outlook.com` on load. Formspree **Workflow → Email** must also use that address; the Submissions `email` column is Reply-To, not the inbox.

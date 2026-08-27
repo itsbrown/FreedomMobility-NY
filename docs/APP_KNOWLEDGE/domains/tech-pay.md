@@ -34,9 +34,9 @@ Load order on the pay form:
 2. This browser's `localStorage` (`fm-pay-rates`)
 3. Built-in defaults in `src/data/pay-rates.ts`
 
-Save writes localStorage always. On Netlify it also `PUT /api/pay-rates` (PIN header). Check **Rates are confirmed** to hide the draft banner.
+Save writes localStorage always. On Netlify it also `PUT /api/pay-rates` (PIN header). On Hostinger there is no shared store — technicians see the built-in catalog from `src/data/pay-rates.ts` unless their browser has localStorage.
 
-The original Replit rates were never exported. Built-in numbers stay draft until admin confirms them.
+The draft warning (`[DRAFT RATES — confirm before paying]`) is `ratesDraft`. Built-in default is `RATES_DRAFT = false` (ops confirmed 2026-08-27). Check **Rates are confirmed** next to Save; v1 localStorage saves that were still draft are migrated off the warning.
 
 ## Files
 

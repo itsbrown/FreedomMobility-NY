@@ -11,7 +11,7 @@ describe('parsePayRates', () => {
     const parsed = parsePayRates(getDefaultPayRates());
     assert.ok(parsed);
     assert.equal(parsed.recipient, 'freedommobilityllc@outlook.com');
-    assert.equal(parsed.ratesDraft, true);
+    assert.equal(parsed.ratesDraft, false);
     assert.ok(parsed.installationTasks.length >= 8);
     assert.ok(parsed.mileageServiceItems.length >= 3);
   });
@@ -39,6 +39,19 @@ describe('parsePayRates', () => {
     const parsed = parsePayRates({ ...getDefaultPayRates(), recipient: 'not-an-email' });
     assert.ok(parsed);
     assert.equal(parsed.recipient, 'freedommobilityllc@outlook.com');
+  });
+
+  it('migrates v1 saved rates off the draft warning', () => {
+    const parsed = parsePayRates({ ...getDefaultPayRates(), version: 1, ratesDraft: true });
+    assert.ok(parsed);
+    assert.equal(parsed.version, 2);
+    assert.equal(parsed.ratesDraft, false);
+  });
+
+  it('keeps an explicit v2 draft flag', () => {
+    const parsed = parsePayRates({ ...getDefaultPayRates(), version: 2, ratesDraft: true });
+    assert.ok(parsed);
+    assert.equal(parsed.ratesDraft, true);
   });
 
   it('replaces retired pay inboxes with the current Outlook address', () => {

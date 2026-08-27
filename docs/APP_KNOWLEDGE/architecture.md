@@ -16,7 +16,7 @@ Static Astro 6 site + Tailwind v4. Build output is `dist/`. Live host is **Hosti
 ## Forms
 
 - **Contact** (`src/pages/contact.astro`): Formspree via `PUBLIC_FORMSPREE_ENDPOINT`, optional `PUBLIC_RECAPTCHA_SITE_KEY`, honeypot.
-- **Tech pay** (`src/pages/tech/pay.astro`): AJAX JSON to `PUBLIC_PAY_FORMSPREE_ENDPOINT` if set, otherwise the contact form endpoint. Formspree **requires** reCAPTCHA v3 with action `submit` (not a custom action). `_cc` does not deliver mail; the Email workflow on that Formspree form is the actual inbox. Intended notify: `freedommobilityvllc@outlook.com` — that address must also be the Formspree Email workflow (and a linked/verified email on the Formspree account). Client PIN: `PUBLIC_TECH_PAY_PIN` (convenience gate only; visible in page source). Localhost submits often fail reCAPTCHA; use the live site or Copy/email. Outlook 365 sometimes quarantines Formspree mail.
+- **Tech pay** (`src/pages/tech/pay.astro`): AJAX JSON to `PUBLIC_PAY_FORMSPREE_ENDPOINT` if set, otherwise the contact form endpoint. Formspree **requires** reCAPTCHA v3 with action `submit` (not a custom action). `_cc` does not deliver mail; the Email workflow on that Formspree form is the actual inbox. Intended notify: `freedommobilityllc@outlook.com` — that address must also be the Formspree Email workflow (and a linked/verified email on the Formspree account). Client PIN: `PUBLIC_TECH_PAY_PIN` (convenience gate only; visible in page source). Localhost submits often fail reCAPTCHA; use the live site or Copy/email. Outlook 365 sometimes quarantines Formspree mail.
 
 ## Mileage
 

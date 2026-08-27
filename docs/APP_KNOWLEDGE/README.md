@@ -25,4 +25,4 @@ Marketing site for Freedom Mobility NY (stairlifts, ramps, VPLs, service) servin
 
 - Do not invent or silently change technician pay rates. Edit `src/data/pay-rates.ts` only with confirmed numbers, then set `RATES_DRAFT` to `false`.
 - Keep `/tech/*` out of the sitemap, nav, and search engines.
-- Public contact form and tech pay form both go through Formspree; pay emails should notify `freedommobilityvllc@outlook.com`.
+- Public contact form and tech pay form both go through Formspree; pay emails should notify `freedommobilityllc@outlook.com`.

@@ -16,19 +16,19 @@ describe('pay form Formspree payload', () => {
       subject: 'Weekly Pay Form - Test Tech - Week Ending 2026-08-22',
       name: 'Test Tech',
       week: '2026-08-22',
-      timesheet: 'Freedom Mobility NY — Weekly Pay Form\nSend to: freedommobilityvllc@outlook.com',
+      timesheet: 'Freedom Mobility NY — Weekly Pay Form\nSend to: freedommobilityllc@outlook.com',
       installationTotal: '175.00',
       mileageTotal: '0.00',
       grandTotal: '175.00',
       billableMiles: '0.0',
-      recipient: 'freedommobilityvllc@outlook.com',
+      recipient: 'freedommobilityllc@outlook.com',
       recaptchaToken: 'test-token',
     });
 
     assert.equal(payload['g-recaptcha-response'], 'test-token');
     assert.equal(payload._subject, 'Weekly Pay Form - Test Tech - Week Ending 2026-08-22');
     assert.equal(payload.subject, payload._subject);
-    assert.equal(payload.intendedRecipient, 'freedommobilityvllc@outlook.com');
+    assert.equal(payload.intendedRecipient, 'freedommobilityllc@outlook.com');
     assert.equal(payload.source, 'Website - Tech Pay Form');
     assert.equal(payload._cc, undefined);
   });

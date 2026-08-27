@@ -10,7 +10,7 @@ describe('parsePayRates', () => {
   it('accepts the built-in catalog', () => {
     const parsed = parsePayRates(getDefaultPayRates());
     assert.ok(parsed);
-    assert.equal(parsed.recipient, 'freedommobilityvllc@outlook.com');
+    assert.equal(parsed.recipient, 'freedommobilityllc@outlook.com');
     assert.equal(parsed.ratesDraft, true);
     assert.ok(parsed.installationTasks.length >= 8);
     assert.ok(parsed.mileageServiceItems.length >= 3);
@@ -38,7 +38,7 @@ describe('parsePayRates', () => {
   it('falls back to the shop Outlook inbox when recipient is blank', () => {
     const parsed = parsePayRates({ ...getDefaultPayRates(), recipient: 'not-an-email' });
     assert.ok(parsed);
-    assert.equal(parsed.recipient, 'freedommobilityvllc@outlook.com');
+    assert.equal(parsed.recipient, 'freedommobilityllc@outlook.com');
   });
 });
 

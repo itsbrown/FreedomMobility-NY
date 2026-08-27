@@ -105,7 +105,7 @@ If even the fresh Repl + diagnostics above still show v20 inside the nix-shell, 
 - Multi-page marketing site: Home, About, Stairlifts, Ramps, Vertical Platform Lifts, Service, Contact
 - Prominent phone CTA: **(585) 488-0771**
 - Free consultation lead form (Formspree + honeypot / reCAPTCHA)
-- Internal shop admin at `/admin` (unlisted, noindex): weekly pay form at `/tech/pay` and editable pay rates at `/admin/rates`. Set `PUBLIC_TECH_PAY_PIN`. On Netlify, saved rates sync via `/api/pay-rates`. Formspree pay-form notifications go to `freedommobilityvllc@outlook.com`.
+- Internal shop admin at `/admin` (unlisted, noindex): weekly pay form at `/tech/pay` and editable pay rates at `/admin/rates`. Set `PUBLIC_TECH_PAY_PIN`. On Netlify, saved rates sync via `/api/pay-rates`. Formspree pay-form notifications go to `freedommobilityllc@outlook.com`.
 - Responsive header + mobile menu
 - Reuses local brand assets (logos, product photos, map)
 - `ads.txt` included for advertising partners

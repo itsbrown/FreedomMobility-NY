@@ -18,7 +18,8 @@ Replaces the incomplete Replit export in `../Review/FREEDOM_MOBILITY_APP_EXPORT.
 Formspree does **not** send to `PAY_FORM_RECIPIENT` just because that address is in the JSON body. The `email` field is Reply-To. Delivery goes to the Email action on the Formspree form.
 
 - Shared contact form (`PUBLIC_FORMSPREE_ENDPOINT`) notifies whoever owns the public contact form.
-- Pay sheets should go to `freedommobilityllc@outlook.com`. Set that address as the Email workflow on the dedicated pay Formspree form (`PUBLIC_PAY_FORMSPREE_ENDPOINT`). Changing `PAY_FORM_RECIPIENT` in code only updates Reply-To and on-page copy.
+- Pay sheets should go to `freedommobilityllc@outlook.com`. In Formspree, open **Contract Pay Form → Workflow** and set the Email action to that address. The Submissions `email` column is Reply-To (who the form says to reply to), not the inbox.
+- Saved rates in localStorage / Admin → Pay rates can override the bundled recipient. Retired addresses (`freedommobilityvllc@outlook.com`, Brian's VA inbox) are rewritten on load.
 - reCAPTCHA must use action `submit`. Formspree returns `Please complete the reCAPTCHA` otherwise, including from localhost when the site key is production-only.
 
 Home address and technician name persist in `localStorage`.

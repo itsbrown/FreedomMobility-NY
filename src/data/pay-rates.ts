@@ -10,6 +10,19 @@ export const RATES_DRAFT = true;
 
 export const PAY_FORM_RECIPIENT = 'freedommobilityllc@outlook.com';
 
+/** Old inboxes that must not be reused from saved admin rates / localStorage. */
+const RETIRED_PAY_RECIPIENTS = new Set([
+  'brian.parmele@freedommobilityva.com',
+  'freedommobilityvllc@outlook.com',
+]);
+
+function resolveRecipient(value: unknown): string {
+  if (typeof value !== 'string' || !value.includes('@')) return PAY_FORM_RECIPIENT;
+  const email = value.trim();
+  if (RETIRED_PAY_RECIPIENTS.has(email.toLowerCase())) return PAY_FORM_RECIPIENT;
+  return email;
+}
+
 export interface PayTask {
   id: string;
   category: string;
@@ -106,9 +119,7 @@ export function parsePayRates(input: unknown): PayRatesBundle | null {
   return {
     version: 1,
     ratesDraft: Boolean(raw.ratesDraft),
-    recipient: typeof raw.recipient === 'string' && raw.recipient.includes('@')
-      ? raw.recipient.trim()
-      : PAY_FORM_RECIPIENT,
+    recipient: resolveRecipient(raw.recipient),
     technicians: Array.isArray(raw.technicians)
       ? raw.technicians.filter((name): name is string => typeof name === 'string' && name.trim().length > 0)
       : [],

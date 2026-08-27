@@ -40,6 +40,18 @@ describe('parsePayRates', () => {
     assert.ok(parsed);
     assert.equal(parsed.recipient, 'freedommobilityllc@outlook.com');
   });
+
+  it('replaces retired pay inboxes with the current Outlook address', () => {
+    for (const old of [
+      'brian.parmele@freedommobilityva.com',
+      'freedommobilityvllc@outlook.com',
+      'FreedomMobilityVLLC@outlook.com',
+    ]) {
+      const parsed = parsePayRates({ ...getDefaultPayRates(), recipient: old });
+      assert.ok(parsed);
+      assert.equal(parsed.recipient, 'freedommobilityllc@outlook.com');
+    }
+  });
 });
 
 describe('catalog helpers', () => {

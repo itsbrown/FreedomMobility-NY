@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 
-import fmMap from '../assets/FM_NYS.png';
 import stairliftImg from '../assets/stairlift-curved.jpg';
 import rampImg from '../assets/ramp_flag.jpeg';
 
@@ -47,11 +46,11 @@ const featuredLocations = locations.filter(l => ['rochester', 'buffalo', 'syracu
 
         <div class="md:col-span-5 relative">
           <Image 
-            src={fmMap} 
-            alt="Freedom Mobility NY - Serving New York State" 
-            class="rounded-2xl shadow-2xl w-full object-cover border border-white/10"
-            width="1216"
-            height="868"
+            src="/images/VPL-Ameriglide-mini.jpg" 
+            alt="Ameriglide vertical platform lift installed at a home entrance" 
+            class="rounded-2xl shadow-2xl w-full max-h-[420px] object-cover border border-white/10"
+            width="800"
+            height="600"
             loading="eager"
             decoding="async"
           />

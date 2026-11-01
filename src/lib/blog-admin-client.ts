@@ -1,6 +1,6 @@
 export const BLOG_DRAFTS_KEY = 'fm-blog-drafts';
 
-export const BLOG_CATEGORIES = ['Stairlifts', 'Ramps', 'Lifts', 'Service', 'Aging in place'] as const;
+export const BLOG_CATEGORIES = ['Stairlifts', 'Ramps', 'Lifts', 'Service', 'Aging in place', 'Guides'] as const;
 
 export interface LocalDraft {
   id: string;

@@ -1,0 +1,329 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const questions = [
+  {
+    id: 'where',
+    title: 'Where are the stairs or steps?',
+    options: [
+      { value: 'inside', label: 'Inside the house', hint: 'For example, the stairs to the bedroom or the basement' },
+      { value: 'outside', label: 'Outside the house', hint: 'For example, the front steps, a porch, or a deck' },
+      { value: 'both', label: 'Both inside and outside' },
+    ],
+  },
+  {
+    id: 'shape',
+    title: 'What do the stairs look like?',
+    options: [
+      { value: 'straight', label: 'One straight run', hint: 'Top to bottom with no turns' },
+      { value: 'curved', label: 'They turn, curve, or have a landing' },
+      { value: 'few', label: 'Just a few steps', hint: 'Like an entry or a couple of steps into a room' },
+      { value: 'unsure', label: 'Not sure' },
+    ],
+  },
+  {
+    id: 'mobility',
+    title: 'How does the person get around today?',
+    options: [
+      { value: 'transfer', label: 'Walks, but stairs are hard', hint: 'Can sit down in a seat and stand back up safely' },
+      { value: 'wheelchair', label: 'Uses a wheelchair or scooter', hint: 'Or can’t safely move from a wheelchair to a seat' },
+      { value: 'unsure', label: 'Not sure, or it’s changing' },
+    ],
+  },
+  {
+    id: 'timing',
+    title: 'When do you need a solution?',
+    options: [
+      { value: 'soon', label: 'As soon as possible', hint: 'For example, after a fall, a surgery, or a hospital stay' },
+      { value: 'months', label: 'In the next few months' },
+      { value: 'researching', label: 'Just looking into options' },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Not Sure Where to Start With Your Stairs? | Freedom Mobility NY"
+  description="A short, plain-language guide to stairlifts, ramps and platform lifts. Answer four questions and see where to start. Free in-home assessment in Rochester, Buffalo and Syracuse NY. Call (585) 488-0771."
+>
+  <section class="bg-slate-950 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <nav class="text-sm mb-6 text-slate-400">
+        <a href="/" class="hover:text-white">Home</a> <span class="mx-1">/</span>
+        <span class="text-slate-200">Where to Start</span>
+      </nav>
+      <span class="text-sky-400 font-semibold tracking-wider text-sm">A SIMPLE GUIDE FOR FAMILIES</span>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mt-3 mb-5">Not sure where to start with your stairs?</h1>
+      <p class="text-lg text-slate-300 max-w-2xl">
+        You’re not alone. Many families we talk to don’t know if they need a stairlift, a ramp, or a lift, or even who to call first.
+        Answer four quick questions and we’ll point you in the right direction. No sign-up needed.
+      </p>
+      <div class="mt-7 flex flex-col sm:flex-row gap-3">
+        <a href="#guide" class="inline-flex justify-center bg-white text-slate-950 hover:bg-slate-100 font-semibold px-7 py-3 rounded-xl">Start the 4 questions</a>
+        <a href="tel:5854880771" class="inline-flex justify-center border border-white/70 hover:bg-white/10 font-semibold px-7 py-3 rounded-xl">Or call (585) 488-0771</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive guide -->
+  <section id="guide" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 scroll-mt-20">
+    <form id="where-to-start" class="space-y-8" onsubmit="return false;">
+      {questions.map((q, i) => (
+        <fieldset class="border border-slate-200 rounded-2xl p-6 md:p-7 bg-white" data-question={q.id}>
+          <legend class="px-2 text-sm font-semibold text-sky-700 tracking-wide">QUESTION {i + 1} OF {questions.length}</legend>
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight mb-4">{q.title}</h2>
+          <div class="grid sm:grid-cols-2 gap-3">
+            {q.options.map((o) => (
+              <label class="flex gap-3 items-start border border-slate-200 rounded-xl p-4 cursor-pointer hover:border-sky-300 has-[:checked]:border-sky-500 has-[:checked]:bg-sky-50 transition">
+                <input type="radio" name={q.id} value={o.value} class="mt-1 accent-sky-600" />
+                <span>
+                  <span class="block font-medium text-slate-900">{o.label}</span>
+                  {o.hint && <span class="block text-sm text-slate-500 mt-0.5">{o.hint}</span>}
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      ))}
+    </form>
+
+    <div id="result" class="mt-10 hidden rounded-3xl border-2 border-sky-200 bg-sky-50 p-6 md:p-8" aria-live="polite">
+      <div class="text-sm font-semibold tracking-wider text-sky-700 mb-2">WHERE TO START</div>
+      <h2 id="result-title" class="text-2xl md:text-3xl font-bold tracking-tight mb-3"></h2>
+      <p id="result-body" class="text-slate-700 text-lg"></p>
+      <div id="result-links" class="mt-5 flex flex-wrap gap-3"></div>
+      <p id="result-timing" class="mt-5 text-slate-700"></p>
+    </div>
+    <p id="result-prompt" class="mt-8 text-center text-slate-500">Pick an answer for each question to see where to start.</p>
+  </section>
+
+  <!-- Plain overview (works without JavaScript too) -->
+  <section class="bg-slate-50 border-y">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-2">The three most common answers</h2>
+      <p class="text-slate-600 mb-8">Every home is different, but most stair problems come down to one of these.</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        <a href="/stairlifts" class="block bg-white rounded-2xl border border-slate-200 p-6 hover:border-sky-300 transition">
+          <h3 class="font-semibold text-xl mb-2">Stairlift</h3>
+          <p class="text-slate-600 text-sm">A seat that rides along a rail on your stairs. A good fit when the person can still sit down and stand up safely. Works on straight or curved stairs, inside or outside.</p>
+          <span class="mt-4 inline-block text-sky-700 font-medium text-sm">Learn about stairlifts →</span>
+        </a>
+        <a href="/ramps" class="block bg-white rounded-2xl border border-slate-200 p-6 hover:border-sky-300 transition">
+          <h3 class="font-semibold text-xl mb-2">Ramp</h3>
+          <p class="text-slate-600 text-sm">A sloped path over a few steps, usually at an entrance. A good fit for wheelchairs, scooters, and walkers when there’s room for the length a ramp needs.</p>
+          <span class="mt-4 inline-block text-sky-700 font-medium text-sm">Learn about ramps →</span>
+        </a>
+        <a href="/vertical-platform-lifts" class="block bg-white rounded-2xl border border-slate-200 p-6 hover:border-sky-300 transition">
+          <h3 class="font-semibold text-xl mb-2">Vertical platform lift</h3>
+          <p class="text-slate-600 text-sm">A small open lift that raises a person in a wheelchair straight up to a porch, deck, or landing. A good fit when there isn’t room for a ramp, or the rise is too high.</p>
+          <span class="mt-4 inline-block text-sky-700 font-medium text-sm">Learn about platform lifts →</span>
+        </a>
+      </div>
+      <p class="mt-8 text-slate-600 text-sm">Still not sure? That’s what the free in-home assessment is for. We look at the stairs, talk with you about how the person moves today, and explain the options that fit your home.</p>
+    </div>
+  </section>
+
+  <!-- Assessment CTA + form -->
+  <section id="assessment" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 scroll-mt-20">
+    <div class="grid lg:grid-cols-5 gap-10">
+      <div class="lg:col-span-2">
+        <span class="text-sky-600 font-semibold tracking-wider text-sm">FREE IN-HOME ASSESSMENT</span>
+        <h2 class="text-3xl font-bold tracking-tight mt-2 mb-4">Let us take a look</h2>
+        <p class="text-slate-600 mb-4">We come to your home, measure the stairs or entry, and talk through what will work for the person who needs it. There’s no cost and no obligation.</p>
+        <p class="text-slate-600 mb-6">Prefer to talk it through first? Call or text us.</p>
+        <a href="tel:5854880771" class="text-3xl font-semibold tracking-tighter text-sky-600 hover:text-sky-700">(585) 488-0771</a>
+        <p class="mt-4 text-sm text-slate-500">Serving Rochester, Buffalo, Syracuse and surrounding communities.</p>
+      </div>
+
+      <div class="lg:col-span-3">
+        <script src={`https://www.google.com/recaptcha/api.js?render=${import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY}`}></script>
+        <form
+          id="assessment-form"
+          action={import.meta.env.PUBLIC_FORMSPREE_ENDPOINT}
+          method="POST"
+          class="space-y-5 bg-white border border-slate-200 rounded-2xl p-6 md:p-7"
+        >
+          <input type="hidden" name="_subject" value="Free Assessment Request - Where to Start Guide" />
+          <input type="hidden" name="_next" value="/success" />
+          <input type="hidden" name="source" value="Website - Where to Start Guide" />
+          <input type="hidden" name="lead_tag" value="Didn't know where to start" />
+          <input type="hidden" name="guide_answers" id="guide-answers" value="" />
+          <input type="hidden" name="guide_suggestion" id="guide-suggestion" value="" />
+          <input type="hidden" name="g-recaptcha-response" id="assessment-recaptcha" />
+          <div class="hidden" aria-hidden="true">
+            <label for="assessment-bot-field">Don’t fill this out if you're human:</label>
+            <input id="assessment-bot-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label for="a-name" class="block text-sm font-medium mb-1.5 text-slate-700">Full Name</label>
+              <input id="a-name" type="text" name="name" required class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" placeholder="Jane Smith" />
+            </div>
+            <div>
+              <label for="a-phone" class="block text-sm font-medium mb-1.5 text-slate-700">Phone Number</label>
+              <input id="a-phone" type="tel" name="phone" required class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" placeholder="(585) 555-1234" />
+            </div>
+          </div>
+          <div>
+            <label for="a-email" class="block text-sm font-medium mb-1.5 text-slate-700">Email Address</label>
+            <input id="a-email" type="email" name="email" required class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" placeholder="you@example.com" />
+          </div>
+          <div>
+            <label for="a-message" class="block text-sm font-medium mb-1.5 text-slate-700">Anything else we should know? (optional)</label>
+            <textarea id="a-message" name="message" rows="3" class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" placeholder="Who is it for, and what’s hard about the stairs today?"></textarea>
+          </div>
+          <button type="submit" class="w-full sm:w-auto bg-slate-900 hover:bg-black transition text-white px-10 py-3 rounded-xl font-semibold">Request My Free Assessment</button>
+          <p class="text-xs text-slate-500">We typically respond within 1 business day. Your information is kept confidential.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    type Answers = Record<string, string>;
+    const labels: Record<string, Record<string, string>> = {
+      where: { inside: 'Inside', outside: 'Outside', both: 'Inside and outside' },
+      shape: { straight: 'Straight', curved: 'Turns/curves/landing', few: 'A few steps', unsure: 'Not sure' },
+      mobility: { transfer: 'Can transfer to a seat', wheelchair: 'Wheelchair/scooter', unsure: 'Not sure' },
+      timing: { soon: 'As soon as possible', months: 'Next few months', researching: 'Researching' },
+    };
+    const links = {
+      stairlifts: { href: '/stairlifts', text: 'Learn about stairlifts' },
+      ramps: { href: '/ramps', text: 'Learn about ramps' },
+      vpl: { href: '/vertical-platform-lifts', text: 'Learn about platform lifts' },
+    };
+
+    function recommend(a: Answers) {
+      const outside = a.where === 'outside';
+      const both = a.where === 'both';
+      const wheelchair = a.mobility === 'wheelchair';
+      const unsureMobility = a.mobility === 'unsure';
+      const curved = a.shape === 'curved';
+      const few = a.shape === 'few';
+
+      if (unsureMobility) {
+        return {
+          key: 'assessment',
+          title: 'Start with a free in-home assessment',
+          body: 'When someone’s mobility is changing, the right answer depends on how they move today and what’s likely next. We’ll look at the stairs with you and explain which options fit now and later.',
+          links: [links.stairlifts, links.ramps, links.vpl],
+        };
+      }
+      if (wheelchair) {
+        if (outside || both || few) {
+          return {
+            key: 'ramp-or-vpl',
+            title: 'A ramp or a vertical platform lift',
+            body: 'For a wheelchair or scooter, the usual choice outside is a ramp. If there isn’t enough room for a ramp, or the steps are too high, a vertical platform lift raises the chair straight up instead. We’ll measure and show you which one fits.' + (both ? ' For stairs inside the home, we’ll talk through lift options during the visit.' : ''),
+            links: [links.ramps, links.vpl],
+          };
+        }
+        return {
+          key: 'vpl',
+          title: 'A platform lift is likely your starting point',
+          body: 'A stairlift needs the person to move onto a seat, so it’s usually not the answer for someone who stays in a wheelchair. A platform lift carries the chair instead. Indoor stairs need a careful look, so a free assessment is the best next step.',
+          links: [links.vpl],
+        };
+      }
+      // Can transfer to a seat
+      if (few && (outside || both)) {
+        return {
+          key: 'ramp-or-stairlift',
+          title: 'A ramp or an outdoor stairlift',
+          body: 'For a few steps at an entrance, a ramp is often the simplest answer, especially if a walker is involved. If space is tight, an outdoor stairlift is another option. We’ll help you compare them at your home.',
+          links: [links.ramps, links.stairlifts],
+        };
+      }
+      return {
+        key: 'stairlift',
+        title: curved ? 'A curved stairlift' : (outside ? 'An outdoor stairlift' : 'A stairlift'),
+        body: (curved
+          ? 'Stairs with a turn or landing need a rail made to fit your staircase. We take careful measurements at your home so it fits right.'
+          : 'If the person can sit down and stand up safely, a stairlift is usually the most direct way to get up and down the stairs.')
+          + (both ? ' We can also look at your outside steps during the same visit.' : ''),
+        links: both ? [links.stairlifts, links.ramps] : [links.stairlifts],
+      };
+    }
+
+    const form = document.getElementById('where-to-start') as HTMLFormElement | null;
+    const result = document.getElementById('result');
+    const prompt = document.getElementById('result-prompt');
+
+    function update() {
+      if (!form || !result) return;
+      const data = new FormData(form);
+      const a: Answers = {};
+      ['where', 'shape', 'mobility', 'timing'].forEach((k) => { const v = data.get(k); if (v) a[k] = String(v); });
+      const done = Object.keys(a).length === 4;
+      if (!done) return;
+      const r = recommend(a);
+      (document.getElementById('result-title') as HTMLElement).textContent = r.title;
+      (document.getElementById('result-body') as HTMLElement).textContent = r.body;
+      const linkWrap = document.getElementById('result-links') as HTMLElement;
+      linkWrap.innerHTML = '';
+      r.links.forEach((l) => {
+        const el = document.createElement('a');
+        el.href = l.href;
+        el.textContent = l.text + ' →';
+        el.className = 'inline-flex bg-white border border-sky-300 text-sky-800 hover:bg-sky-100 font-medium px-5 py-2.5 rounded-xl';
+        linkWrap.appendChild(el);
+      });
+      const cta = document.createElement('a');
+      cta.href = '#assessment';
+      cta.textContent = 'Book a free in-home assessment';
+      cta.className = 'inline-flex bg-slate-900 hover:bg-black text-white font-semibold px-5 py-2.5 rounded-xl';
+      linkWrap.appendChild(cta);
+      const timing = document.getElementById('result-timing') as HTMLElement;
+      timing.innerHTML = a.timing === 'soon'
+        ? 'Need help soon? <a href="tel:5854880771" class="font-semibold text-sky-700 underline">Call (585) 488-0771</a> and tell us your timeline so we can do our best to work with it.'
+        : a.timing === 'months'
+          ? 'Planning ahead is smart. A free assessment now gives you time to compare options without pressure.'
+          : 'Just looking? No problem. A free assessment comes with no obligation, and it’s the easiest way to get answers for your home.';
+      result.classList.remove('hidden');
+      prompt?.classList.add('hidden');
+      const summary = ['where', 'shape', 'mobility', 'timing'].map((k) => `${k}: ${labels[k][a[k]]}`).join('; ');
+      (document.getElementById('guide-answers') as HTMLInputElement).value = summary;
+      (document.getElementById('guide-suggestion') as HTMLInputElement).value = r.title;
+    }
+    form?.addEventListener('change', () => {
+      const wasHidden = result?.classList.contains('hidden');
+      update();
+      if (wasHidden && !result?.classList.contains('hidden')) result?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Formspree + reCAPTCHA (same behavior as the contact page)
+    const aForm = document.getElementById('assessment-form') as HTMLFormElement | null;
+    if (aForm && aForm.action.includes('formspree')) {
+      aForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = aForm.querySelector('input[name="email"]') as HTMLInputElement;
+        const name = aForm.querySelector('input[name="name"]') as HTMLInputElement;
+        let replyto = aForm.querySelector('input[name="_replyto"]') as HTMLInputElement | null;
+        if (!replyto) {
+          replyto = document.createElement('input');
+          replyto.type = 'hidden';
+          replyto.name = '_replyto';
+          aForm.appendChild(replyto);
+        }
+        replyto.value = email.value;
+        const subject = aForm.querySelector('input[name="_subject"]') as HTMLInputElement;
+        if (name.value) subject.value = `Where to Start Guide: ${name.value}`;
+        const token = aForm.querySelector('#assessment-recaptcha') as HTMLInputElement;
+        const key = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+        if (key) {
+          for (let i = 0; i < 50 && !(window as any).grecaptcha; i++) await new Promise((r) => setTimeout(r, 100));
+          const g = (window as any).grecaptcha;
+          try {
+            if (g) {
+              await new Promise((res) => g.ready(res));
+              token.value = await g.execute(key, { action: 'submit' });
+            }
+          } catch (err) { console.error('reCAPTCHA error:', err); }
+          if (!token.value) { alert('reCAPTCHA validation failed. Please refresh and try again.'); return; }
+        }
+        aForm.submit();
+      });
+    }
+  </script>
+</Layout>

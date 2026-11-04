@@ -16,7 +16,7 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     draft: z.boolean().default(false),
-    category: z.enum(['Stairlifts', 'Ramps', 'Lifts', 'Service', 'Aging in place']),
+    category: z.enum(['Stairlifts', 'Ramps', 'Lifts', 'Service', 'Aging in place', 'Guides']),
     tags: z.array(z.string()).default([]),
     cities: z.array(z.string()).default(['Rochester', 'Buffalo', 'Syracuse']),
     hero: z.string().optional(),

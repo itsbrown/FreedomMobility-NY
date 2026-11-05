@@ -150,9 +150,9 @@ After deploy:
 
 See `netlify.toml` for headers, redirects, and build settings.
 
-## Analytics (Optional)
+## Analytics
 
-Plausible Analytics is recommended for privacy (no cookies, GDPR-friendly).
+Public pages load Plausible and, on `freedommobilityny.com` only, GA4 property `G-GD5R53T6FM`. The Welcome Loop endpoints are fail-closed until the steps in `docs/welcome-loop.md` are done. Do not remove Plausible when changing analytics.
 
 Add this to `src/layouts/Layout.astro` in the `<head>` (replace `yourdomain.com`):
 

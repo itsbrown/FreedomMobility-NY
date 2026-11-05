@@ -13,7 +13,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "tsx --test e2e/*.unit.ts",
+    "test": "tsx --test e2e/*.unit.ts && php e2e/welcome-php-test.php",
     "test:e2e": "npm run build && playwright test"
   },
   "dependencies": {

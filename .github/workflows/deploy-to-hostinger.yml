@@ -58,6 +58,17 @@ jobs:
           cat > .htaccess << 'EOF'
           DirectoryIndex index.html
           Options -Indexes
+
+          # Welcome Loop secrets must not be served if a config file is ever copied here.
+          <FilesMatch "(^welcome-config|\.local\.php$)">
+            Require all denied
+          </FilesMatch>
+          <IfModule mod_headers.c>
+            <FilesMatch "\.php$">
+              Header set Cache-Control "no-store"
+              Header set X-Content-Type-Options "nosniff"
+            </FilesMatch>
+          </IfModule>
           EOF
 
           git config user.name "github-actions[bot]"

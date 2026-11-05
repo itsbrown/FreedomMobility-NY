@@ -8,15 +8,19 @@ import Layout from '../layouts/Layout.astro';
 >
   <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 prose prose-slate">
     <h1>Privacy Policy</h1>
-    <p class="text-sm text-slate-500">Last updated: June 2026</p>
+    <p class="text-sm text-slate-500">Last updated: November 5, 2026</p>
 
     <p>Freedom Mobility NY is committed to protecting your privacy. This policy explains how we collect, use, and safeguard your information when you visit our website or contact us for home accessibility services.</p>
 
     <h2>Information We Collect</h2>
     <ul>
-      <li>Contact information you provide through our form (name, phone, email, message).</li>
-      <li>Basic usage data (pages visited) via standard web analytics if enabled in the future.</li>
+      <li>Contact information you provide through our form (name, phone, email, message). That information is sent to us so we can respond. It is not sent to analytics.</li>
+      <li>Page visits through Plausible (a cookieless count of pages) and, on the public production site, Google Analytics 4. Analytics events can include a page path, a campaign token, a phone or email click, a guide result such as “stairlift”, and a lead event named <code>contact</code> or <code>stairs_guide</code> after a successful form. They do not include your name, email, phone number, message, or guide answers.</li>
+      <li>If the welcome program is turned on, a first-party cookie named <code>fm_vid</code> (HttpOnly, Secure on HTTPS, SameSite=Lax) plus the page path, referring site name, and campaign tokens. That record has no name, email, or IP address. It is used only to choose an approved homepage headline for an email, outreach, or follow-up visit and to compare it with a holdout group. Until that program is configured, the cookie is not set.</li>
     </ul>
+
+    <h2>Personalized welcome</h2>
+    <p>The homepage headline stays as written unless you arrive from an email, outreach, or follow-up campaign and an approved headline exists for that campaign. A holdout group keeps the original headline. You can turn this off with the footer control “Opt out of a personalized welcome”, or by opening any page with <code>?fm_optout=1</code>. A browser Do Not Track signal or Global Privacy Control also turns it off. We do not send automated messages from this website.</p>
 
     <h2>How We Use Your Information</h2>
     <ul>

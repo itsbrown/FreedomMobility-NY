@@ -1,0 +1,13 @@
+DirectoryIndex index.html
+Options -Indexes
+
+# The Hostinger workflow rewrites this file on deploy. Keep the same rules there.
+<FilesMatch "(^welcome-config|\.local\.php$)">
+  Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+  <FilesMatch "\.php$">
+    Header set Cache-Control "no-store"
+    Header set X-Content-Type-Options "nosniff"
+  </FilesMatch>
+</IfModule>

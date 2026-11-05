@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import InternalPinGate from '../components/InternalPinGate.astro';
+import { analyticsBootSource } from '../lib/analytics';
+import { welcomePaintSource } from '../lib/welcome';
 
 export interface Props {
   title?: string;
@@ -162,15 +164,21 @@ const structuredData = {
       </>
     )}
 
-    <!-- Optional: Plausible Analytics (privacy-friendly, no cookies) - P7 -->
-    <!-- Remove or comment out if not using analytics. Update data-domain if needed. -->
+    <!-- Plausible stays. GA4 is a second product and loads only on the public production host. -->
     {!hideFromSearch && (
       <script defer data-domain="freedommobilityny.com" src="https://plausible.io/js/script.js"></script>
+    )}
+    {!hideFromSearch && (
+      <>
+        <style is:inline>{'html.fm-welcome-pending [data-welcome-copy]{visibility:hidden}'}</style>
+        <script is:inline set:html={welcomePaintSource()} />
+        <script is:inline set:html={analyticsBootSource()} />
+      </>
     )}
 
     <title>{title}</title>
   </head>
-  <body class="bg-white text-slate-900 font-sans antialiased overflow-x-hidden">
+  <body class="bg-white text-slate-900 font-sans antialiased overflow-x-hidden" data-fm-analytics={hideFromSearch ? undefined : 'on'}>
     {isInternal ? (
       <>
       <InternalPinGate />
@@ -201,7 +209,7 @@ const structuredData = {
           
           <!-- Compact contact row -->
           <div class="flex items-center gap-x-4 sm:gap-x-5 text-slate-200">
-            <a href={phoneHref} class="flex items-center gap-1.5 font-medium hover:text-white transition-colors">
+            <a href={phoneHref} data-fm-place="header" class="flex items-center gap-1.5 font-medium hover:text-white transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2 3 3 0 013 3v1m0 0v1a2 2 0 01-2 2 2 2 0 01-2-2V8m6 4l4-4m-4 4l-4-4" />
               </svg>
@@ -221,7 +229,7 @@ const structuredData = {
             <span class="hidden lg:inline text-slate-400">Mon–Fri 8AM–6PM</span>
           </div>
 
-          <a href={`mailto:${email}`} class="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors text-xs sm:text-sm">
+          <a href={`mailto:${email}`} data-fm-place="header" class="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors text-xs sm:text-sm">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2.01 2.01 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
@@ -247,13 +255,13 @@ const structuredData = {
           <!-- Desktop Nav -->
           <nav class="hidden xl:flex items-center gap-3 text-[13px] font-medium">
             {navLinks.map(link => (
-              <a href={link.href} class="text-slate-700 hover:text-sky-600 transition-colors whitespace-nowrap px-0.5">{link.label}</a>
+              <a href={link.href} data-fm-place={link.href === '/contact' ? 'nav' : undefined} class="text-slate-700 hover:text-sky-600 transition-colors whitespace-nowrap px-0.5">{link.label}</a>
             ))}
           </nav>
 
           <!-- CTA -->
           <div class="hidden xl:block flex-shrink-0">
-            <a href="/contact" 
+            <a href="/contact" data-fm-place="nav"
                class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2 rounded-lg text-sm font-semibold transition-all active:scale-[0.985]">
               Free Consultation
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -275,9 +283,9 @@ const structuredData = {
       <div id="mobile-menu" class="hidden xl:hidden border-t border-slate-200 bg-white">
         <div class="px-4 py-4 flex flex-col gap-1 text-sm">
           {navLinks.map(link => (
-            <a href={link.href} class="py-2 px-2 text-slate-700 hover:bg-slate-50 hover:text-sky-600 rounded">{link.label}</a>
+            <a href={link.href} data-fm-place={link.href === '/contact' ? 'nav' : undefined} class="py-2 px-2 text-slate-700 hover:bg-slate-50 hover:text-sky-600 rounded">{link.label}</a>
           ))}
-          <a href="/contact" class="mt-3 inline-flex justify-center bg-slate-900 text-white px-5 py-2.5 rounded-lg text-sm font-semibold">
+            <a href="/contact" data-fm-place="nav" class="mt-3 inline-flex justify-center bg-slate-900 text-white px-5 py-2.5 rounded-lg text-sm font-semibold">
             Schedule Free Consultation
           </a>
         </div>
@@ -329,14 +337,15 @@ const structuredData = {
           </div>
           <div>
             <div class="font-semibold text-white mb-3">Get In Touch</div>
-            <a href={phoneHref} class="block text-xl font-semibold text-white hover:text-sky-400 mb-1">{phone}</a>
-            <a href={`mailto:${email}`} class="block hover:text-white mb-3">{email}</a>
+            <a href={phoneHref} data-fm-place="footer" class="block text-xl font-semibold text-white hover:text-sky-400 mb-1">{phone}</a>
+            <a href={`mailto:${email}`} data-fm-place="footer" class="block hover:text-white mb-3">{email}</a>
             <p class="text-sm">Rochester, NY<br />Mon–Fri 8:00 AM – 6:00 PM</p>
           </div>
         </div>
         <div class="mt-10 pt-6 border-t border-slate-800 text-xs text-slate-500 flex flex-col sm:flex-row gap-2 items-center justify-between">
           <div>© {new Date().getFullYear()} Freedom Mobility NY. All rights reserved. Locally owned &amp; operated.</div>
           <div class="flex gap-4">
+            <button type="button" data-fm-welcome-optout class="hover:text-slate-400">Opt out of a personalized welcome</button>
             <a href="/privacy" class="hover:text-slate-400">Privacy</a>
             <a href="/accessibility" class="hover:text-slate-400">Accessibility</a>
           </div>
@@ -346,6 +355,14 @@ const structuredData = {
     )}
 
     <script>
+      import { bootClickTracking } from '../lib/analytics';
+      import { bootWelcome } from '../lib/welcome-client';
+
+      if (document.body?.dataset.fmAnalytics === 'on') {
+        bootClickTracking();
+        bootWelcome();
+      }
+
       // Mobile menu toggle
       const btn = document.getElementById('mobile-menu-btn');
       const menu = document.getElementById('mobile-menu');

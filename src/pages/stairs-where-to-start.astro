@@ -181,6 +181,8 @@ const questions = [
   </section>
 
   <script>
+    import { guideCompleteParams, rememberLead } from '../lib/analytics';
+
     type Answers = Record<string, string>;
     const labels: Record<string, Record<string, string>> = {
       where: { inside: 'Inside', outside: 'Outside', both: 'Inside and outside' },
@@ -250,13 +252,13 @@ const questions = [
     const result = document.getElementById('result');
     const prompt = document.getElementById('result-prompt');
 
-    function update() {
-      if (!form || !result) return;
+    function update(): string | null {
+      if (!form || !result) return null;
       const data = new FormData(form);
       const a: Answers = {};
       ['where', 'shape', 'mobility', 'timing'].forEach((k) => { const v = data.get(k); if (v) a[k] = String(v); });
       const done = Object.keys(a).length === 4;
-      if (!done) return;
+      if (!done) return null;
       const r = recommend(a);
       (document.getElementById('result-title') as HTMLElement).textContent = r.title;
       (document.getElementById('result-body') as HTMLElement).textContent = r.body;
@@ -285,11 +287,21 @@ const questions = [
       const summary = ['where', 'shape', 'mobility', 'timing'].map((k) => `${k}: ${labels[k][a[k]]}`).join('; ');
       (document.getElementById('guide-answers') as HTMLInputElement).value = summary;
       (document.getElementById('guide-suggestion') as HTMLInputElement).value = r.title;
+      return r.key;
     }
+    let guideStarted = false;
     form?.addEventListener('change', () => {
+      if (!guideStarted) {
+        guideStarted = true;
+        window.fmTrack?.('guide_start', { guide: 'stairs-where-to-start' });
+      }
       const wasHidden = result?.classList.contains('hidden');
-      update();
-      if (wasHidden && !result?.classList.contains('hidden')) result?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const resultKey = update();
+      if (wasHidden && resultKey && !result?.classList.contains('hidden')) {
+        const params = guideCompleteParams(resultKey);
+        if (params) window.fmTrack?.('guide_complete', params);
+        result?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
 
     // Formspree + reCAPTCHA (same behavior as the contact page)
@@ -322,6 +334,7 @@ const questions = [
           } catch (err) { console.error('reCAPTCHA error:', err); }
           if (!token.value) { alert('reCAPTCHA validation failed. Please refresh and try again.'); return; }
         }
+        rememberLead('stairs_guide');
         aForm.submit();
       });
     }

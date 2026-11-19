@@ -14,7 +14,7 @@ export const GA_MEASUREMENT_ID = 'G-GD5R53T6FM';
 export const LEAD_STORAGE_KEY = 'fm_lead';
 export const LEAD_TTL_MS = 30 * 60 * 1000;
 
-export const LEAD_FORMS = ['contact', 'stairs_guide'] as const;
+export const LEAD_FORMS = ['contact', 'stairs_guide', 'schedule'] as const;
 export type LeadForm = (typeof LEAD_FORMS)[number];
 
 export const GUIDE_ID = 'stairs-where-to-start';
@@ -124,7 +124,7 @@ export function sanitizeEventParams(params: Record<string, unknown> | null | und
   const channel = source.channel;
   if (channel === 'email' || channel === 'page') out.channel = channel;
   const form = source.form;
-  if (form === 'contact' || form === 'stairs_guide') out.form = form;
+  if (form === 'contact' || form === 'stairs_guide' || form === 'schedule') out.form = form;
   const guide = source.guide;
   if (guide === 'stairs-where-to-start') out.guide = guide;
   const result = source.result;
@@ -156,7 +156,7 @@ export function isAllowedEvent(name: string): boolean {
 }
 
 export function createLeadMarker(form: string, now = Date.now()): string | null {
-  if (form !== 'contact' && form !== 'stairs_guide') return null;
+  if (form !== 'contact' && form !== 'stairs_guide' && form !== 'schedule') return null;
   return JSON.stringify({ form, t: now });
 }
 
@@ -164,7 +164,7 @@ export function readLeadMarker(raw: string | null, now = Date.now()): LeadForm |
   if (!raw || raw.length > 200) return null;
   try {
     const data = JSON.parse(raw) as { form?: unknown; t?: unknown };
-    if (!data || (data.form !== 'contact' && data.form !== 'stairs_guide')) return null;
+    if (!data || (data.form !== 'contact' && data.form !== 'stairs_guide' && data.form !== 'schedule')) return null;
     if (typeof data.t !== 'number' || !Number.isFinite(data.t)) return null;
     if (now - data.t > LEAD_TTL_MS || data.t > now + 60_000) return null;
     return data.form;

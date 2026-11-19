@@ -16,7 +16,7 @@ The Freedom measurement ID is `G-GD5R53T6FM`, taken from the request text. No sc
 - One GA4 page view per full page load, via `gtag('config')` with `send_page_view: true`. History changes update the page dimensions and do not send a second page view. Internal `/admin` and `/tech` pages send neither Plausible nor GA4.
 - Campaign parameters on that page view are sanitized. Values containing `@`, or otherwise outside a short token, are dropped. A `preview-…` token is stored as `preview`.
 - `referrer` sent to GA4 is the external origin, or the same-site origin plus path. Query strings are not included.
-- `generate_lead` fires once on `/success` after a contact or stairs-guide Formspree submit, with `form` set to `contact` or `stairs_guide`. The marker lives in `sessionStorage` for 30 minutes and is removed on read. It does not contain the form fields.
+- `generate_lead` fires once on `/success` after a contact, stairs-guide, or /schedule Formspree submit, with `form` set to `contact`, `stairs_guide`, or `schedule`. The marker lives in `sessionStorage` for 30 minutes and is removed on read. It does not contain the form fields.
 - `phone_click` and `click_contact` fire from link clicks. The phone number and email address are not event parameters.
 - `guide_start` and `guide_complete` fire for the stairs guide. `result` is one of `assessment`, `ramp-or-vpl`, `vpl`, `ramp-or-stairlift`, `stairlift`. The answers are not sent.
 - `personalization_view` is allowed only after the server says personalization is on, `profile.holdout` is a boolean, and the paint timeout has not expired. Parameters are `slot`, `variant_id`, `rule`, and `holdout`. The visitor id and campaign key are not included.

@@ -1,0 +1,295 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+/**
+ * Paste Corey's Google Calendar appointment schedule URLs here.
+ * Leave a value empty to show the Formspree request-form fallback for that visit type.
+ * These are public booking page links, not secrets.
+ */
+const FM_BOOKING = {
+  evaluationUrl: '',
+  installUrl: '',
+};
+
+const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT || 'https://formspree.io/f/xbdvzado';
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || '';
+---
+
+<Layout
+  title="Schedule a Visit | Freedom Mobility NY"
+  description="Book a free in-home evaluation or schedule an install in Rochester, Buffalo, or Syracuse NY. Call (585) 488-0771."
+  breadcrumbs={[
+    { name: 'Home', href: 'https://freedommobilityny.com/' },
+    { name: 'Schedule', href: 'https://freedommobilityny.com/schedule/' },
+  ]}
+>
+  <section class="bg-slate-950 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
+      <nav class="text-sm mb-6 text-slate-400">
+        <a href="/" class="hover:text-white">Home</a>
+        <span class="mx-1">/</span>
+        <span class="text-slate-200">Schedule</span>
+      </nav>
+      <p class="text-sky-400 font-semibold tracking-wider text-sm">SCHEDULE A VISIT</p>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mt-3 mb-5">Book a time that works for you</h1>
+      <p class="text-lg text-slate-300 max-w-2xl">
+        I can come to your home for a free evaluation, or we can set a date for your install. Serving Rochester, Buffalo, and Syracuse.
+      </p>
+      <p class="text-[1.05rem] text-slate-200 mt-5">Not sure where to start? <strong class="text-white font-semibold">Book a free evaluation.</strong></p>
+      <div class="mt-7 flex flex-col sm:flex-row gap-3">
+        <a href="#book" class="inline-flex justify-center bg-white text-slate-950 hover:bg-slate-100 font-semibold px-7 py-3 rounded-xl">Choose a visit</a>
+        <a href="tel:5854880771" class="inline-flex justify-center border border-white/70 hover:bg-white/10 font-semibold px-7 py-3 rounded-xl">Or call (585) 488-0771</a>
+      </div>
+    </div>
+  </section>
+
+  <main id="book" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 scroll-mt-20">
+    <h2 class="text-xl md:text-2xl font-semibold tracking-tight mb-2">What would you like to schedule?</h2>
+    <p class="text-slate-600 mb-6">Pick one, then choose a time. If nothing on the calendar works, call or text and we’ll find a time together.</p>
+
+    <div class="grid sm:grid-cols-2 gap-3 mb-8" role="tablist" aria-label="Visit type">
+      <button type="button" class="fm-choice is-selected text-left" data-type="evaluation" aria-pressed="true" id="choice-evaluation">
+        <div class="text-sky-700 text-xs font-semibold tracking-wide uppercase mb-1.5">About 60 minutes · Free</div>
+        <h2 class="text-lg font-semibold tracking-tight text-slate-900 mb-1">Free in-home evaluation</h2>
+        <p class="text-slate-600 text-[0.95rem] leading-relaxed m-0">I’ll come to your home, look at the stairs, entry, or bathroom, take measurements, and talk through options. No cost, no obligation.</p>
+      </button>
+      <button type="button" class="fm-choice text-left" data-type="install" aria-pressed="false" id="choice-install">
+        <div class="text-sky-700 text-xs font-semibold tracking-wide uppercase mb-1.5">Install visit</div>
+        <h2 class="text-lg font-semibold tracking-tight text-slate-900 mb-1">Install</h2>
+        <p class="text-slate-600 text-[0.95rem] leading-relaxed m-0">Already know what you need? Pick a day for us to install your stairlift, ramp, lift, or other home modification.</p>
+      </button>
+    </div>
+
+    <section id="booking-panel" aria-live="polite">
+      <h3 id="booking-heading" class="text-lg font-semibold tracking-tight mb-3">Choose a time for your free evaluation</h3>
+      <div id="calendar-embed" class="fm-embed-wrap mb-6" hidden></div>
+      <div id="request-form-wrap">
+        <p id="form-intro" class="text-slate-600 mb-5">Send a few details and a time that works, and I’ll follow up to confirm your visit.</p>
+        {recaptchaSiteKey && <script src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}></script>}
+        <form id="schedule-form" action={formspreeEndpoint} method="POST" class="space-y-5">
+          <input type="hidden" name="_subject" value="Schedule request: evaluation" />
+          <input type="hidden" name="_next" value="/success" />
+          <input type="hidden" name="source" value="Website - Schedule page" />
+          <input type="hidden" name="visit_type" id="visit-type-field" value="Free in-home evaluation" />
+          <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" />
+          <div class="hidden" aria-hidden="true">
+            <label for="bot-field">Don’t fill this out if you're human:</label>
+            <input id="bot-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-sm font-medium mb-1.5 text-slate-700" for="name">Full name</label>
+              <input id="name" type="text" name="name" required autocomplete="name" placeholder="Jane Smith" class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5 text-slate-700" for="phone">Phone number</label>
+              <input id="phone" type="tel" name="phone" required autocomplete="tel" placeholder="(585) 555-1234" class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5 text-slate-700" for="email">Email address</label>
+            <input id="email" type="email" name="email" required autocomplete="email" placeholder="you@example.com" class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5 text-slate-700" for="address">Home address, including city</label>
+            <input id="address" type="text" name="address" required autocomplete="street-address" placeholder="123 Main St, Rochester" class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5 text-slate-700" for="need">What do you need help with?</label>
+            <select id="need" name="need" required class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm bg-white">
+              <option value="">Please select…</option>
+              <option>Stairs</option>
+              <option>A ramp or entry</option>
+              <option>Bathroom</option>
+              <option>Not sure</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5 text-slate-700" for="preferred">A few times that work for you</label>
+            <textarea id="preferred" name="preferred_times" rows="3" placeholder="For example: Thursday morning, or Friday after 2" class="w-full border border-slate-300 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 rounded-lg px-4 py-2.5 text-sm"></textarea>
+          </div>
+          <button type="submit" class="w-full sm:w-auto bg-slate-900 hover:bg-black active:bg-slate-950 transition text-white px-10 py-3 rounded-xl font-semibold">
+            Send my request
+          </button>
+          <p class="text-xs text-slate-500">I’ll typically confirm within one business day. Your information is kept confidential.</p>
+        </form>
+      </div>
+    </section>
+
+    <div class="mt-10 border border-slate-200 rounded-2xl p-5 bg-slate-50">
+      <div class="font-semibold text-slate-900">Prefer to call or text?</div>
+      <a href="tel:5854880771" class="block text-2xl font-semibold tracking-tight text-sky-600 hover:text-sky-700">(585) 488-0771</a>
+      <p class="text-sm text-slate-600 mt-1 mb-0">Monday–Friday, 8:00 AM – 6:00 PM. info@freedommobilityny.com</p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .fm-choice {
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+  .fm-choice:hover { border-color: #7dd3fc; }
+  .fm-choice:focus-visible { outline: 2px solid #0284c7; outline-offset: 2px; }
+  .fm-choice.is-selected {
+    border-color: #0ea5e9;
+    background: #f0f9ff;
+    box-shadow: 0 0 0 1px #0ea5e9;
+  }
+  .fm-embed-wrap {
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #fff;
+    min-height: 640px;
+  }
+  .fm-embed-wrap iframe {
+    width: 100%;
+    height: 700px;
+    border: 0;
+    display: block;
+    background: #fff;
+  }
+  @media (max-width: 639px) {
+    .fm-embed-wrap { min-height: 720px; }
+    .fm-embed-wrap iframe { height: 760px; }
+  }
+</style>
+
+<script is:inline define:vars={{ FM_BOOKING, recaptchaSiteKey }}>
+  (function () {
+    var labels = {
+      evaluation: {
+        heading: "Choose a time for your free evaluation",
+        formIntro: "Send a few details and a time that works, and I’ll follow up to confirm your visit.",
+        visitType: "Free in-home evaluation",
+        subject: "Schedule request: evaluation"
+      },
+      install: {
+        heading: "Choose a time for your install",
+        formIntro: "Send a few details and a day that works, and I’ll follow up to confirm your install.",
+        visitType: "Install",
+        subject: "Schedule request: install"
+      }
+    };
+
+    var heading = document.getElementById("booking-heading");
+    var formIntro = document.getElementById("form-intro");
+    var visitField = document.getElementById("visit-type-field");
+    var subjectField = document.querySelector("#schedule-form input[name='_subject']");
+    var embed = document.getElementById("calendar-embed");
+    var formWrap = document.getElementById("request-form-wrap");
+    var choices = document.querySelectorAll(".fm-choice");
+
+    function bookingUrl(type) {
+      var raw = type === "install" ? FM_BOOKING.installUrl : FM_BOOKING.evaluationUrl;
+      return (raw || "").trim();
+    }
+
+    function setType(type, pushQuery) {
+      if (type !== "install") type = "evaluation";
+      var info = labels[type];
+      choices.forEach(function (el) {
+        var on = el.getAttribute("data-type") === type;
+        el.classList.toggle("is-selected", on);
+        el.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      heading.textContent = info.heading;
+      formIntro.textContent = info.formIntro;
+      visitField.value = info.visitType;
+      if (subjectField) subjectField.value = info.subject;
+
+      var url = bookingUrl(type);
+      if (url) {
+        if (!/\bgv=/.test(url)) url += (url.indexOf("?") === -1 ? "?" : "&") + "gv=true";
+        embed.innerHTML = "";
+        var iframe = document.createElement("iframe");
+        iframe.src = url;
+        iframe.title = info.visitType + " booking calendar";
+        iframe.setAttribute("loading", "lazy");
+        embed.appendChild(iframe);
+        embed.hidden = false;
+        formWrap.hidden = true;
+      } else {
+        embed.innerHTML = "";
+        embed.hidden = true;
+        formWrap.hidden = false;
+      }
+
+      if (pushQuery && window.history && history.replaceState) {
+        var params = new URLSearchParams(location.search);
+        params.set("type", type);
+        var qs = params.toString();
+        history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + location.hash);
+      }
+    }
+
+    choices.forEach(function (el) {
+      el.addEventListener("click", function () {
+        setType(el.getAttribute("data-type"), true);
+        document.getElementById("booking-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    var initial = new URLSearchParams(location.search).get("type");
+    setType(initial === "install" ? "install" : "evaluation", false);
+
+    var form = document.getElementById("schedule-form");
+    if (form) {
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var emailField = form.querySelector('input[name="email"]');
+        var nameField = form.querySelector('input[name="name"]');
+        var replyto = form.querySelector('input[name="_replyto"]');
+        if (!replyto && emailField) {
+          replyto = document.createElement("input");
+          replyto.type = "hidden";
+          replyto.name = "_replyto";
+          form.appendChild(replyto);
+        }
+        if (replyto && emailField) replyto.value = emailField.value;
+        var currentType = visitField && visitField.value === labels.install.visitType ? "install" : "evaluation";
+        if (subjectField) {
+          subjectField.value = labels[currentType].subject + (nameField && nameField.value ? " — " + nameField.value.trim() : "");
+        }
+        var recaptchaResponse = document.getElementById("g-recaptcha-response");
+        if (recaptchaResponse && recaptchaSiteKey) {
+          try {
+            if (typeof grecaptcha === "undefined") {
+              await new Promise(function (resolve) {
+                var interval = setInterval(function () {
+                  if (typeof grecaptcha !== "undefined") {
+                    clearInterval(interval);
+                    resolve();
+                  }
+                }, 100);
+                setTimeout(function () { clearInterval(interval); resolve(); }, 5000);
+              });
+            }
+            if (typeof grecaptcha !== "undefined") {
+              await new Promise(function (resolve) { grecaptcha.ready(resolve); });
+              recaptchaResponse.value = await grecaptcha.execute(recaptchaSiteKey, { action: "submit" });
+            }
+          } catch (err) {
+            console.error("reCAPTCHA error:", err);
+          }
+          if (!recaptchaResponse.value) {
+            alert("reCAPTCHA validation failed. Please refresh and try again.");
+            return;
+          }
+        }
+        try {
+          sessionStorage.setItem("fm_lead", JSON.stringify({ form: "schedule", t: Date.now() }));
+        } catch (err) {
+          /* storage unavailable: skip the lead event rather than block the form */
+        }
+        form.submit();
+      });
+    }
+  })();
+</script>

@@ -261,7 +261,7 @@ const structuredData = {
 
           <!-- CTA -->
           <div class="hidden xl:block flex-shrink-0">
-            <a href="/contact" data-fm-place="nav"
+            <a href="/schedule" data-fm-place="nav"
                class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2 rounded-lg text-sm font-semibold transition-all active:scale-[0.985]">
               Free Consultation
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -285,7 +285,7 @@ const structuredData = {
           {navLinks.map(link => (
             <a href={link.href} data-fm-place={link.href === '/contact' ? 'nav' : undefined} class="py-2 px-2 text-slate-700 hover:bg-slate-50 hover:text-sky-600 rounded">{link.label}</a>
           ))}
-            <a href="/contact" data-fm-place="nav" class="mt-3 inline-flex justify-center bg-slate-900 text-white px-5 py-2.5 rounded-lg text-sm font-semibold">
+            <a href="/schedule" data-fm-place="nav" class="mt-3 inline-flex justify-center bg-slate-900 text-white px-5 py-2.5 rounded-lg text-sm font-semibold">
             Schedule Free Consultation
           </a>
         </div>
@@ -332,7 +332,8 @@ const structuredData = {
               <li><a href="/locations" class="hover:text-white">Locations We Serve</a></li>
               <li><a href="/resources" class="hover:text-white">Guides &amp; Resources</a></li>
               <li><a href="/contact" class="hover:text-white">Contact Us</a></li>
-              <li><a href="/contact" class="hover:text-white">Free Consultation</a></li>
+              <li><a href="/schedule" class="hover:text-white">Schedule a Visit</a></li>
+              <li><a href="/schedule?type=evaluation" class="hover:text-white">Free Consultation</a></li>
             </ul>
           </div>
           <div>
